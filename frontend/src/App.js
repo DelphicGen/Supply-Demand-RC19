@@ -1,14 +1,15 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import './tailwind.css'
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
+      <header className="App-header bg-gray-200">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
+        <p className="text-gray-700">
+          Edit <code className="text-indigo-800">src/App.js</code> and save to reload.
         </p>
         <a
           className="App-link"
