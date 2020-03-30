@@ -1,27 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import {Route, Switch, Redirect} from 'react-router-dom'
+
 import './tailwind.css'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header bg-gray-200">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p className="text-gray-700">
-          Edit <code className="text-indigo-800">src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+import LandingPage from './containers/Landing/LandingPage'
+import LoginPage from './containers/Auth/LoginPage'
+import RegisterPage from './containers/Auth/RegisterPage'
+import ResetPass from './containers/Auth/ResetPass'
+
+const App = () => {
+  let routes = (
+    <Switch>
+      <Route path="/" component={LandingPage} exact />
+      <Route path="/login" component={LoginPage} exact />
+      <Route path="/daftar" component={RegisterPage} exact />
+      <Route path="/reset-password" component={ResetPass} exact />
+    </Switch>
+  )
+  return(
+    <div className="bg-gray-200 w-screen h-screen">
+      {routes}
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
