@@ -15,6 +15,7 @@ const App = () => {
       <Route path="/login" component={LoginPage} exact />
       <Route path="/daftar" component={RegisterPage} exact />
       <Route path="/reset-password" component={ResetPass} exact />
+      <Redirect to='/' />
     </Switch>
   )
   return(

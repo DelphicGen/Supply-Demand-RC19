@@ -20,7 +20,7 @@ const LoginPage = () => {
 
     return (
         <form className="flex items-center justify-center h-full flex-col">
-            <h1>LOGIN</h1>
+            <h1>Login</h1>
             <TextInput
                 id="email"
                 type="email"
@@ -36,9 +36,9 @@ const LoginPage = () => {
                 label="Password"
                 validators={[VALIDATOR_MINLENGTH(8), VALIDATOR_REQUIRE()]}
                 onInput={inputHandler}
-                errorText="Mohon masukkan password yang valid, minimal 8 karakter."
+                errorText="Password minimal 8 karakter."
                 width={250} />
-            <a href="#">Lupa password?</a>
+            <Link to="/reset-password">Lupa password?</Link>
 
             <Button
                 width={300}
