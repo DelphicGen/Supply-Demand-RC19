@@ -9,6 +9,7 @@ import RadioInput from '../../components/Form/RadioInput'
 
 const RegisterPage = () => {
     const [role, setRole] = useState()
+    const [roleValid, setRoleValid] = useState(false)
     const [formState, inputHandler] = useForm({
         email: {
             value: '',
@@ -30,6 +31,7 @@ const RegisterPage = () => {
 
     const radioChangeHandler = (event) => {
         setRole(event.target.value)
+        setRoleValid(true)
     }
 
     return (
@@ -100,7 +102,8 @@ const RegisterPage = () => {
 
             <Button
                 width={300}
-                type="submit">DAFTAR</Button>
+                type="submit"
+                disabled={!formState.isValid || !roleValid}>DAFTAR</Button>
             <Link to="/login">Sudah punya akun? Login</Link>
         </form>
     )
