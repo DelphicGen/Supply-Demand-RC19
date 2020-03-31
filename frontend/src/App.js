@@ -22,6 +22,7 @@ const App = () => {
       <Redirect to='/' />
     </Switch>
   )
+
   return(
     <AuthContext.Provider value={{token: token, role: userRole, name: userName, login: login, logout: logout}}>
       <div className="bg-gray-200 w-screen h-screen">
