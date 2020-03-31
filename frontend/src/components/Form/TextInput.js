@@ -26,14 +26,12 @@ const TextInput = props => {
         isTouched: false,
     })
 
-    let isFilled = inputState.value.length > 0
-
     const{id, onInput} = props
     const{value, isValid} = inputState
 
     useEffect(() => {
         onInput(id, value, isValid)
-    }, [id, onInput, isValid, value])
+    }, [onInput, id, value, isValid])
 
     const changeHandler = event => {
         dispatch({type: 'CHANGE', val: event.target.value, validators: props.validators})

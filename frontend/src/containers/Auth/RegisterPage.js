@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import {Link} from 'react-router-dom'
 import {useForm} from '../../hooks/form-hook'
 import {VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE, VALIDATOR_PASSWORD} from '../../util/validator'
@@ -9,6 +9,7 @@ import RadioInput from '../../components/Form/RadioInput'
 
 const RegisterPage = () => {
     const [role, setRole] = useState()
+    const [roleValid, setRoleValid] = useState(false)
     const [formState, inputHandler] = useForm({
         email: {
             value: '',
@@ -28,17 +29,14 @@ const RegisterPage = () => {
         }
     }, false)
 
-    useEffect(() => {
-        console.log(role)
-    }, [role])
-
     const radioChangeHandler = (event) => {
         setRole(event.target.value)
+        setRoleValid(true)
     }
 
     return (
         <form className="flex items-center justify-center h-full flex-col">
-            <h1>DAFTAR</h1>
+            <h1>Daftar</h1>
             <div className="flex flex-col items-center lg:flex-row lg:justify-around w-full lg:px-48 lg:mb-5">
                 <TextInput
                     divClassName="w-4/5 lg:4/12 lg:mr-32"
@@ -55,7 +53,7 @@ const RegisterPage = () => {
                     id="institutionName"
                     type="text"
                     label="Nama Lembaga"
-                    validators={[VALIDATOR_REQUIRE(), VALIDATOR_PASSWORD('kontolanjing')]}
+                    validators={[VALIDATOR_REQUIRE()]}
                     onInput={inputHandler}
                     errorText="Mohon masukkan nama lembaga."
                      />
@@ -67,9 +65,9 @@ const RegisterPage = () => {
                     id="password"
                     type="password"
                     label="Password"
-                    validators={[VALIDATOR_MINLENGTH(8), VALIDATOR_REQUIRE()]}
+                    validators={[VALIDATOR_MINLENGTH(8)]}
                     onInput={inputHandler}
-                    errorText="Mohon masukkan password yang valid, minimal 8 karakter."
+                    errorText="Password minimal 8 karakter."
                      />
 
                 <TextInput
@@ -77,7 +75,7 @@ const RegisterPage = () => {
                     id="confirmPassword"
                     type="password"
                     label="Konfirmasi Password"
-                    validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(8), VALIDATOR_PASSWORD(formState.inputs.password.value)]}
+                    validators={[VALIDATOR_PASSWORD(formState.inputs.password.value)]}
                     onInput={inputHandler}
                     errorText="Password tidak cocok"
                      />
@@ -105,7 +103,7 @@ const RegisterPage = () => {
             <Button
                 width={300}
                 type="submit"
-                disabled={!formState.isValid}>DAFTAR</Button>
+                disabled={!formState.isValid || !roleValid}>DAFTAR</Button>
             <Link to="/login">Sudah punya akun? Login</Link>
         </form>
     )
