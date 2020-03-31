@@ -1,6 +1,8 @@
 import React from 'react'
 import {Route, Switch, Redirect} from 'react-router-dom'
 
+import {AuthContext} from './context/auth-context'
+import {useAuth} from './hooks/auth-hook'
 import './tailwind.css'
 
 import LandingPage from './containers/Landing/LandingPage'
@@ -9,6 +11,8 @@ import RegisterPage from './containers/Auth/RegisterPage'
 import ResetPass from './containers/Auth/ResetPass'
 
 const App = () => {
+  const {token, userRole, userName, login, logout} = useAuth()
+
   let routes = (
     <Switch>
       <Route path="/" component={LandingPage} exact />
@@ -19,9 +23,11 @@ const App = () => {
     </Switch>
   )
   return(
-    <div className="bg-gray-200 w-screen h-screen">
-      {routes}
-    </div>
+    <AuthContext.Provider value={{token: token, role: userRole, name: userName, login: login, logout: logout}}>
+      <div className="bg-gray-200 w-screen h-screen">
+        {routes}
+      </div>
+    </AuthContext.Provider>
   )
 }
 
