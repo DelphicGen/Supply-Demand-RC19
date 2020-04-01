@@ -47,20 +47,19 @@ const RegisterPage = () => {
 
     const registerSubmit = event => {
         event.preventDefault()
-        // sendRequest(
-        //     `${process.env.REACT_APP_BACKEND_URL}/v1/auth/register`,
-        //     'POST',
-        //     JSON.stringify({
-        //         email: formState.inputs.email.value,
-        //         password: formState.inputs.password.value,
-        //         name: formState.inputs.institutionName.value,
-        //         role: role
-        //     }),
-        //     {'Accept': 'application/json', 'Content-Type': 'application/json'}
-        // ).then((responseData) => {
-        //     auth.login(responseData.jwt, responseData.role, responseData.name)
-        // })
-        auth.login('kimmkkm', role, formState.inputs.institutionName.value)
+        sendRequest(
+            `${process.env.REACT_APP_BACKEND_URL}/v1/auth/register`,
+            'POST',
+            JSON.stringify({
+                email: formState.inputs.email.value,
+                password: formState.inputs.password.value,
+                name: formState.inputs.institutionName.value,
+                role: role
+            }),
+            {'Accept': 'application/json', 'Content-Type': 'application/json'}
+        ).then((responseData) => {
+            auth.login(responseData.jwt, responseData.role, responseData.name)
+        })
     }
 
     return (

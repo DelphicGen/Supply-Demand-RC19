@@ -1,5 +1,5 @@
 import React from 'react'
-import SideBar from '../../../components/Dashboard/SideBar'
+import SideBar from '../../../components/Dashboard/Sidebar'
 
 const InfoDemand = () => {
     return (

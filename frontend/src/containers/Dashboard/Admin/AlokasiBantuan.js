@@ -1,8 +1,10 @@
 import React from 'react'
+import Sidebar from '../../../components/Dashboard/Sidebar'
+import {links} from '../../../components/Dashboard/adminLink'
 
 const AlokasiBantuan = () => {
     return(
-        <h1>alokasi bantuan</h1>
+        <Sidebar role="" name="ADMIN" links={links} />
     )
 }
 
