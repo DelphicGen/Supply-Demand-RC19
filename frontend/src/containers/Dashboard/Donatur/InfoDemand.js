@@ -1,10 +1,10 @@
 import React from 'react'
-import SideBar from './components/Dashboard/SideBar'
+import SideBar from '../../../components/Dashboard/SideBar'
 
 const InfoDemand = () => {
     return (
         <div>
-            
+            infodemand
         </div>
     )
 }

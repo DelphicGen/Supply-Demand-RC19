@@ -14,7 +14,7 @@ const Button = props => {
     }
     return(
         <button
-            className={`mt-10 px-2 py-3 flex items-center justify-center focus:outline-none shadow-xl text-gray-200 text-lg font-bold tracking-widest ${props.disabled ? 'cursor-not-allowed bg-blue-500 opacity-50 text-white' : 'bg-blue-800  hover:bg-blue-900 focus:bg-purple-900'}`}
+            className={`mt-10 px-2 py-3 bg-blue-800 flex items-center justify-center focus:outline-none shadow-xl text-gray-200 text-lg font-bold tracking-widest ${props.disabled ? 'cursor-not-allowed opacity-50 text-white' : ' hover:bg-blue-900 focus:bg-purple-900'}`}
             style={{width: props.width}} 
             onClick={props.onClick}
             type={props.type}

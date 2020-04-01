@@ -1,7 +1,6 @@
 import React from 'react'
-import '../../tailwind.css'
 
-const LandingPage = props => {
+const LandingPage = () => {
     return(
         <h1 className="text-center">Landing Page</h1>
     )
