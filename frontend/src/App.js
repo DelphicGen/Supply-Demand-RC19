@@ -24,11 +24,7 @@ const InputBantuan = React.lazy(() => import('./containers/Dashboard/Donatur/Inp
 const UpdateDonasi = React.lazy(() => import('./containers/Dashboard/Donatur/UpdateDonasi'))
 
 const App = () => {
-  const {token, userRole, userName, login, logout} = useAuth()
-
-  useEffect(() => {
-    console.log(token)
-  }, [token])
+  const {token, userRole, userName, contactPerson, contactNumber, login, logout} = useAuth()
 
   let routes = (
     <Switch>
@@ -50,7 +46,7 @@ const App = () => {
   )
 
   return(
-    <AuthContext.Provider value={{token: token, role: userRole, name: userName, login: login, logout: logout}}>
+    <AuthContext.Provider value={{isLogin: !!token, token: token, role: userRole, name: userName, contactPerson: contactPerson, contactNumber: contactNumber, login: login, logout: logout}}>
       <BrowserRouter>
         <div className="bg-gray-200 w-screen h-screen">
           <Suspense fallback={<LoadingSpinner />}>{routes}</Suspense>
