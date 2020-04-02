@@ -36,7 +36,7 @@ const LoginPage = () => {
             }),
             {'Accept': 'application/json', 'Content-Type': 'application/json'}
         ).then((responseData) => {
-            auth.login(responseData.jwt, responseData.role, responseData.name)
+            auth.login(responseData.jwt, responseData.user.role, responseData.user.name, responseData.user['contact_person'], responseData.user['contact_number'])
         })
     }
 
