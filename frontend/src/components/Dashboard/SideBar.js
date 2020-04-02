@@ -1,5 +1,6 @@
 import React from 'react'
-import { Favorite, Create, CardGiftcard } from '@material-ui/icons';
+import { NavLink } from 'react-router-dom'
+import { Favorite, Create, CardGiftcard, ExitToApp } from '@material-ui/icons';
 
 const SideBar = () => {
     return (
@@ -11,22 +12,23 @@ const SideBar = () => {
             <div className="mx-auto lg:pr-2 md:mt-20">
                <ul className="list-reset flex flex-row md:flex-col text-center md:text-left">
                   <li className="mr-3 flex-1 lg:pl-5 md:pl-3 duration-300 rounded-r-md hover:bg-blue-900">
-                     <a href="#" className="block py-1 md:py-3 align-middle text-gray-800 no-underline">
-                     <Favorite className="text-white" fontSize="small" /><span className="lg:pl-3 md:pl-1 pb-1 md:pb-0 text-xs md:text-sm lg:text-base text-gray-400 block md:inline-block hover:text-white font-semibold">Info Demand</span>
-                     </a>
+                     <NavLink to="/dashboard/donatur/info-demand" activeStyle={{fontWeight: "bold", color: "white"}} className="block py-1 md:py-3 align-middle text-gray-800 no-underline">
+                        <Favorite className="text-white" fontSize="small" /><span className="lg:pl-3 md:pl-1 pb-1 md:pb-0 text-xs md:text-sm lg:text-base text-gray-400 block md:inline-block hover:text-white font-semibold">Info Demand</span>
+                     </NavLink>
                   </li>
                   <li className="mr-3 flex-1 lg:pl-5 md:pl-3 duration-300 rounded-r-md hover:bg-blue-900">
-                     <a href="#" className="block py-1 md:py-3 align-middle text-gray-800 no-underline hover:text-pink-500">
-                     <Create className="text-white" fontSize="small" /><span className="lg:pl-3 md:pl-1 pb-1 md:pb-0 text-xs md:text-sm lg:text-base text-gray-400 block md:inline-block font-semibold">Input Bantuan</span>
-                     </a>
+                     <NavLink to="/dashboard/donatur/info-demand" activeStyle={{fontWeight: "bold", color: "white"}} className="block py-1 md:py-3 align-middle text-gray-800 no-underline">
+                        <Create className="text-white" fontSize="small" /><span className="lg:pl-3 md:pl-1 pb-1 md:pb-0 text-xs md:text-sm lg:text-base text-gray-400 block md:inline-block font-semibold">Input Bantuan</span>
+                     </NavLink>
                   </li>
                   <li className="mr-3 flex-1 lg:pl-5 md:pl-3 duration-300 rounded-r-md hover:bg-blue-900">
-                     <a href="#" className="block py-1 md:py-3 align-middle text-white no-underline hover:text-white">
-                     <CardGiftcard className="text-white" fontSize="small" /><span className="lg:pl-3 md:pl-1 pb-1 md:pb-0 text-xs md:text-sm lg:text-base text-white md:font-bold block md:inline-block font-semibold">Donasi Saya</span>
-                     </a>
+                     <NavLink to="/dashboard/donatur/info-demand" activeStyle={{fontWeight: "bold", color: "white"}} className="block py-1 md:py-3 align-middle text-gray-800 no-underline">
+                        <CardGiftcard className="text-white" fontSize="small" /><span className="lg:pl-3 md:pl-1 pb-1 md:pb-0 text-xs md:text-sm lg:text-base text-white md:font-bold block md:inline-block font-semibold">Donasi Saya</span>
+                     </NavLink>
                   </li>
                </ul>
             </div>
+            <p className="hidden md:block text-left ml-5 md:mt-48"><ExitToApp  className="text-white" fontSize="small" /><span className="lg:pl-3 md:pl-1 pb-1 md:pb-0 text-xs md:text-sm lg:text-base text-gray-400 md:font-bold block md:inline-block font-semibold">Logout</span></p>
          </div>
     )
 }

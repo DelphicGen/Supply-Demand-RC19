@@ -7,6 +7,7 @@ import LandingPage from './containers/Landing/LandingPage'
 import LoginPage from './containers/Auth/LoginPage'
 import RegisterPage from './containers/Auth/RegisterPage'
 import ResetPass from './containers/Auth/ResetPass'
+import SideBar from './components/Dashboard/SideBar'
 
 const App = () => {
   let routes = (
@@ -21,6 +22,7 @@ const App = () => {
 
   return(
       <div className="bg-gray-200 h-screen">
+        <SideBar />
         {routes}
   >>>>>>> 791241b4baf71a512b9641db4576dda0c1a87cd6
       </div>

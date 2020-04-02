@@ -3,9 +3,9 @@ import SideBar from './components/Dashboard/SideBar'
 
 const InfoDemand = () => {
     return (
-        <div>
+        <React.Fragment>
             
-        </div>
+        </React.Fragment>
     )
 }
 
