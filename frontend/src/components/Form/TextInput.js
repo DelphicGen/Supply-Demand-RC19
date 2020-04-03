@@ -53,7 +53,7 @@ const TextInput = props => {
                 placeholder={props.placeholder}
                 onChange={changeHandler}
                 onBlur={touchHandler} />
-            {!inputState.isValid && inputState.isTouched && <p className="text-xs text-red-800 font-medium tracking-wider mt-1">{props.errorText} </p>}
+            {!inputState.isValid && inputState.isTouched && <p className="text-xs text-red-800 font-medium tracking-wider mb-3">{props.errorText} </p>}
         </div>
     )
 }

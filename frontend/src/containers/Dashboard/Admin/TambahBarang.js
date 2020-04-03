@@ -1,37 +1,96 @@
-import React, {useEffect, useState} from 'react'
-import {AddCircle} from '@material-ui/icons'
+import React, {useEffect, useState, useContext} from 'react'
+import {AddCircle, Delete} from '@material-ui/icons'
 import {links} from '../../../components/Dashboard/adminLink'
+import {AuthContext} from '../../../context/auth-context'
 import {useForm} from '../../../hooks/form-hook'
+import {useHttpClient} from '../../../hooks/http-hook'
 import {VALIDATOR_REQUIRE} from '../../../util/validator'
 
 import Sidebar from '../../../components/Dashboard/SideBar'
+import LoadingSpinner from '../../../components/UI/LoadingSpinner'
 import Title from '../../../components/Dashboard/Title'
 import WhiteButton from '../../../components/UI/WhiteButton'
 import TextInput from '../../../components/Form/TextInput'
+import Table from '../../../components/Dashboard/Table'
 
 const TambahBarang = () => {
+    const columns = [
+        {
+            Header: 'No',
+            accessor: 'id'
+        },
+        {
+            Header: 'Nama Barang',
+            accessor: 'item'
+        },
+        {
+            Header: '',
+            accessor: 'delete'
+        }
+    ]  
     const [items, setItems] = useState([])
-    const [formState, inputHandler, setFormData] = useForm({
+    const [formState, inputHandler] = useForm({
         itemName: {
             value: '',
             isValid: false
         }
     }, false)
+    const {isLoading, error, sendRequest} = useHttpClient()
+    const auth = useContext(AuthContext)
 
     useEffect(() => {
-        console.log(formState.inputs.itemName)
-    }, [formState])
+       const fetchItems = () => {
+           sendRequest(
+            `${process.env.REACT_APP_BACKEND_URL}/v1/items`,
+            'GET',
+            null,
+            {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
+           ).then(responseData => {
+               setItems(responseData)
+           })
+       }
+       fetchItems()
+    }, [auth.token, sendRequest])
+
+    const deleteItem = id => {
+        sendRequest(
+            `${process.env.REACT_APP_BACKEND_URL}/v1/items/${id}`,
+            'DELETE',
+            null,
+            {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
+        ).then(() => setItems(prevItem => prevItem.filter(item => item.id !== id)))
+        // setItems(prevItem => prevItem.filter(item => item.id !== id))
+    }
 
     const addItem = event => {
         event.preventDefault()
-        setItems(prevItem => prevItem.concat(formState.inputs.itemName.value))
-        setFormData({
-            ...formState.inputs,
-            itemName: {
-                value: '',
-                isValid: false
-            }
-        }, false)
+        sendRequest(
+            `${process.env.REACT_APP_BACKEND_URL}/v1/items`,
+            'POST',
+            JSON.stringify({
+                name: formState.inputs.itemName.value
+            }),
+            {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
+        ).then(responseData => {
+            setItems(prevItem => prevItem.concat({
+                id: responseData.id,
+                name: responseData.name,
+                delete: (
+                    <WhiteButton width={120} onClick={() => deleteItem(responseData.id)}>
+                        <Delete className="text-blue-800 mr-2" fontSize="inherit" /><span className="text-sm pt-1">HAPUS</span>
+                    </WhiteButton>
+                )
+            }))
+        })
+        // setItems(prevItem => prevItem.concat({
+        //     id: prevItem.length + 1, 
+        //     item: formState.inputs.itemName.value, 
+        //     delete: (
+        //         <WhiteButton width={120} onClick={() => deleteItem(prevItem.length + 1)}>
+        //             <Delete className="text-blue-800 mr-2" fontSize="inherit" /><span className="text-sm pt-1">HAPUS</span>
+        //         </WhiteButton>
+        //     )
+        // }))
     }
 
     return(
@@ -47,13 +106,14 @@ const TambahBarang = () => {
                         label="Nama Barang"
                         validators={[VALIDATOR_REQUIRE()]}
                         onInput={inputHandler}
-                        value={formState.inputs.itemName.value}
                         errorText="Mohon masukkan nama barang."
                         width={300} />
                     <WhiteButton width={125} type="submit" className="md:mt-3">
                         <AddCircle className="text-blue-800 mr-2" fontSize="inherit" /> <span className="text-sm pt-1">TAMBAH</span>
                     </WhiteButton>
                 </form>
+                <Table columns={ columns } data={ items } />
+                <LoadingSpinner />
             </div>
         </div>
     )

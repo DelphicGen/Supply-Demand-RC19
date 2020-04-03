@@ -131,7 +131,7 @@ const RegisterPage = () => {
             <Button
                 width={300}
                 type="submit"
-                disabled={!formState.isValid || !roleValid}>{isLoading ? <LoadingSpinner /> : 'DAFTAR'}</Button>
+                disabled={!formState.isValid || !roleValid}>{isLoading ? <LoadingSpinner color="white" style={{transform: 'translateY(-3px)'}} /> : 'DAFTAR'}</Button>
 
             {error && <ErrorText>{error}</ErrorText>}
             <Link to="/login">Sudah punya akun? Login</Link>
