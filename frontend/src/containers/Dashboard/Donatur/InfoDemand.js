@@ -1,11 +1,12 @@
-import React, {useState, useMemo} from 'react'
+import React, {useState, useMemo, useContext} from 'react'
 import Sidebar from '../../../components/Dashboard/SideBar'
 import Table from '../../../components/Dashboard/Table'
 import { links } from '../../../components/Dashboard/donaturLink'
+import {AuthContext} from '../../../context/auth-context'
 
 const InfoDemand = () => {
-    const [name, setName] = useState('BPD DIY')
-    // const [data, setData] = useState()
+    const auth = useContext(AuthContext)
+    const [name, setName] = useState(auth.name)
     const columns = useMemo(
         () => [
             {
@@ -22,7 +23,7 @@ const InfoDemand = () => {
             }
         ]       
     )
-    const data = React.useMemo(
+    const data = useMemo(
         () => [
             {
                 no: '1',
@@ -41,10 +42,9 @@ const InfoDemand = () => {
             }
         ]
       )
-    
 
     return (
-        <div className="flex items-center">
+        <div className="flex items-center md:pt-0 pt-10">
             <Sidebar role="Donatur" name={name} links={links} />
             <Table columns={ columns } data={ data } />
         </div>
