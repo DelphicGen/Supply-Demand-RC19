@@ -5,6 +5,8 @@ import {useHttpClient} from '../../hooks/http-hook'
 import {useForm} from '../../hooks/form-hook'
 import {VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE, VALIDATOR_PASSWORD} from '../../util/validator'
 
+import VirusSVG from '../../components/UI/VirusSVG'
+import AuthTitle from '../../components/UI/AuthTitle'
 import TextInput from '../../components/Form/TextInput'
 import Button from '../../components/UI/Button'
 import RadioInput from '../../components/Form/RadioInput'
@@ -64,7 +66,10 @@ const RegisterPage = () => {
 
     return (
         <form onSubmit={registerSubmit} className="flex items-center justify-center h-full flex-col">
-            <h1>Daftar</h1>
+            <div className="flex flex-row items-center mb-3">
+                <VirusSVG />
+                <AuthTitle>Daftar</AuthTitle>
+            </div>
             <div className="flex flex-col items-center lg:flex-row lg:justify-around w-full lg:px-48 lg:mb-5">
                 <TextInput
                     divClassName="w-4/5 lg:4/12 lg:mr-32"
@@ -110,7 +115,7 @@ const RegisterPage = () => {
             </div>
 
             <div className="flex flex-col w-4/5 lg:w-auto">
-                <h2>Daftar sebagai</h2>
+                <h2 className="text-gray-700 tracking-wide font-medium text-sm md:text-base mt-3">Daftar sebagai</h2>
                 <div className="flex flex-row">
                     <RadioInput
                         changed={radioChangeHandler}
@@ -134,7 +139,7 @@ const RegisterPage = () => {
                 disabled={!formState.isValid || !roleValid}>{isLoading ? <LoadingSpinner color="white" style={{transform: 'translateY(-3px)'}} /> : 'DAFTAR'}</Button>
 
             {error && <ErrorText>{error}</ErrorText>}
-            <Link to="/login">Sudah punya akun? Login</Link>
+            <Link to="/login" className="block mt-3 text-center text-xs md:text-sm font-semibold text-gray-700 tracking-wider hover:text-gray-600">Sudah punya akun? <span className="hover:underline">Login</span></Link>
         </form>
     )
 }

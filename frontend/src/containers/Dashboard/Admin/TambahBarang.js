@@ -109,11 +109,15 @@ const TambahBarang = () => {
                         errorText="Mohon masukkan nama barang."
                         width={300} />
                     <WhiteButton width={125} type="submit" className="md:mt-3">
-                        <AddCircle className="text-blue-800 mr-2" fontSize="inherit" /> <span className="text-sm pt-1">TAMBAH</span>
+                        {!isLoading ? 
+                            <React.Fragment>
+                                <AddCircle className="text-blue-800 mr-2" fontSize="inherit" /> <span className="text-sm pt-1">TAMBAH</span>
+                            </React.Fragment> : 
+                            <LoadingSpinner style={{transform: 'translateY(-3px)'}} />
+                        }
                     </WhiteButton>
                 </form>
                 <Table columns={ columns } data={ items } />
-                <LoadingSpinner />
             </div>
         </div>
     )
