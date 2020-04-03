@@ -44,10 +44,10 @@ const InfoDemand = () => {
     
 
     return (
-        <React.Fragment>
-            {/* <Sidebar role="Donatur" name={name} links={links} /> */}
+        <div className="flex items-center">
+            <Sidebar role="Donatur" name={name} links={links} />
             <Table columns={ columns } data={ data } />
-        </React.Fragment>
+        </div>
     )
 }
 
