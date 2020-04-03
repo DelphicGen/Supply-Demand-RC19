@@ -1,5 +1,6 @@
 import React from 'react'
 import { useTable, usePagination } from 'react-table'
+import {useMediaQuery} from './Hooks';
 
 const Table = ({ columns, data }) => {
     const {
@@ -22,6 +23,8 @@ const Table = ({ columns, data }) => {
           data,
           initialState: { pageIndex: 0 }
         },usePagination)
+    
+    const mediaQuery = useMediaQuery('(max-width: 1260px)');
 
     return (
         <div className="flex-auto">
@@ -36,12 +39,12 @@ const Table = ({ columns, data }) => {
                                     headerGroup.headers.map(column => {
                                         if(column.Header === 'No'){
                                             return (
-                                                <th {...column.getHeaderProps()} className="w-1/12 text-left pl-3 py-4">{column.render('Header')}</th>
+                                                <th {...column.getHeaderProps()} className="w-1/12 text-left px-3 py-4">{column.render('Header')}</th>
                                             )
                                         }
                                         else{
                                             return (
-                                                <th {...column.getHeaderProps()} className="w-1/2 text-left pl-3">{column.render('Header')}</th>
+                                                <th {...column.getHeaderProps()} className="w-1/2 text-left px-3">{column.render('Header')}</th>
                                             )
                                         }
                                     })
@@ -68,7 +71,7 @@ const Table = ({ columns, data }) => {
                 </div>
 
                 <div className="pagination mt-4">
-                    <span className="text-xl">
+                    <span style={styles.container(mediaQuery)} className="text-xl">
                         Baris per halaman
                         <select
                         className="px-4 mx-4 bg-gray-400 text-blue-800"
@@ -85,10 +88,10 @@ const Table = ({ columns, data }) => {
                         </select>
                     </span>
 
-                    <button onClick={() => gotoPage(0)} disabled={!canPreviousPage} className="font-semibold text-xl rounded-l-md bg-gray-400 px-2 text-blue-800 h-8">
+                    <button onClick={() => gotoPage(0)} disabled={!canPreviousPage} className="font-semibold text-base text-xl rounded-l-md bg-gray-400 px-2 text-blue-800 h-8">
                     {'<<'}
                     </button>{' '}
-                    <button onClick={() => previousPage()} disabled={!canPreviousPage} className="font-semibold text-xl bg-gray-400 px-2 text-blue-800 h-8">
+                    <button onClick={() => previousPage()} disabled={!canPreviousPage} className="font-semibold text-base text-xl bg-gray-400 px-2 text-blue-800 h-8">
                     {'<'}
                     </button>
                     <span className="bg-white text-xl px-8 h-8 inline-block">
@@ -101,7 +104,7 @@ const Table = ({ columns, data }) => {
                     {'>>'}
                     </button>
 
-                    <span className="text-xl mx-4">
+                    <span style={styles.container(mediaQuery)} className="text-xl mx-4">
                     Go to page:{' '}
                     <input
                         className="inline-block h-8 pl-2"
@@ -120,5 +123,13 @@ const Table = ({ columns, data }) => {
         </div>
     )
 }
+
+const styles = {
+    container: mediaQuery => ({
+        margin: mediaQuery && '0',
+        display: mediaQuery ? 'inline-block' : 'inline',
+        width: mediaQuery ? '100%' : '10%'
+    })
+};
 
 export default Table
