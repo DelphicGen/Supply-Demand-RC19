@@ -1,4 +1,4 @@
-import React, {Suspense, useEffect} from 'react'
+import React, {Suspense} from 'react'
 import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom'
 
 import {AuthContext} from './context/auth-context'
@@ -48,7 +48,7 @@ const App = () => {
   return(
     <AuthContext.Provider value={{isLogin: !!token, token: token, role: userRole, name: userName, contactPerson: contactPerson, contactNumber: contactNumber, login: login, logout: logout}}>
       <BrowserRouter>
-        <div className="bg-gray-200 w-screen h-screen">
+        <div className="bg-gray-100 w-screen h-screen">
           <Suspense fallback={<LoadingSpinner />}>{routes}</Suspense>
         </div>
       </BrowserRouter>

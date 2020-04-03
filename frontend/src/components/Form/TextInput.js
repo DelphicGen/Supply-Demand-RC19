@@ -43,16 +43,17 @@ const TextInput = props => {
 
     return (
         <div className={`flex flex-col ${props.divClassName}`}>
-            <label htmlFor={props.id}>{props.label}</label>
+            <label htmlFor={props.id} className="text-gray-700 tracking-widest font-medium text-sm md:text-base my-1">{props.label}</label>
             <input
-                className="mb-3 w-full"
+                className={`mb-3 w-full bg-gray-400 text-gray-700 p-2 rounded-md focus:outline-none ${props.className}`}
                 style={{width: props.width, maxWidth: props.maxWidth}} 
                 id={props.id}
                 type={props.type}
+                value={inputState.value}
                 placeholder={props.placeholder}
                 onChange={changeHandler}
                 onBlur={touchHandler} />
-            {!inputState.isValid && inputState.isTouched && <p>{props.errorText} </p>}
+            {!inputState.isValid && inputState.isTouched && <p className="text-xs text-red-800 font-medium tracking-wider mt-1">{props.errorText} </p>}
         </div>
     )
 }
