@@ -10912,6 +10912,18 @@ video {
   transition-duration: 1000ms;
 }
 
+.empty-content {
+  content: '';
+}
+
+.before\:empty-content::before {
+  content: '';
+}
+
+.after\:empty-content::after {
+  content: '';
+}
+
 @media (min-width: 640px) {
   .sm\:sr-only {
     position: absolute;

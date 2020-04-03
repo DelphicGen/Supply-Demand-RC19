@@ -65,7 +65,7 @@ const LoginPage = () => {
             <Button
                 width={300}
                 type="submit"
-                disabled={!formState.isValid}>{isLoading ? <LoadingSpinner /> : 'LOGIN'} </Button>
+                disabled={!formState.isValid}>{isLoading ? <LoadingSpinner color="white" style={{transform: 'translateY(-3px)'}} /> : 'LOGIN'} </Button>
                 
             {error && <ErrorText>{error}</ErrorText>}
             <Link to="/daftar">Belum punya akun? Daftar</Link>
