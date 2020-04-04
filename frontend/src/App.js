@@ -48,7 +48,7 @@ const App = () => {
   return(
     <AuthContext.Provider value={{isLogin: !!token, token: token, role: userRole, name: userName, contactPerson: contactPerson, contactNumber: contactNumber, login: login, logout: logout}}>
       <BrowserRouter>
-        <div className="bg-gray-100 w-screen h-screen">
+        <div className="bg-gray-100 w-full h-screen">
           <Suspense fallback={<LoadingSpinner style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }} />}>{routes}</Suspense>
         </div>
       </BrowserRouter>

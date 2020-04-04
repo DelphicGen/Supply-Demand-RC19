@@ -71,7 +71,7 @@ const Table = ({ columns, data }) => {
                 </div>
 
                 <div className="pagination mt-4">
-                    <span style={styles.container(mediaQuery)} className="text-xl">
+                    <span style={styles.container(mediaQuery)} className="xl:text-xl text-lg">
                         Baris per halaman
                         <select
                         className="px-4 mx-4 bg-gray-400 text-blue-800"
@@ -88,23 +88,23 @@ const Table = ({ columns, data }) => {
                         </select>
                     </span>
 
-                    <button onClick={() => gotoPage(0)} disabled={!canPreviousPage} className="font-semibold text-base text-xl rounded-l-md bg-gray-400 px-2 text-blue-800 h-8">
+                    <button onClick={() => gotoPage(0)} disabled={!canPreviousPage} className="font-semibold text-base xl:text-xl text-lg rounded-l-md bg-gray-400 px-2 text-blue-800 h-8">
                     {'<<'}
                     </button>{' '}
-                    <button onClick={() => previousPage()} disabled={!canPreviousPage} className="font-semibold text-base text-xl bg-gray-400 px-2 text-blue-800 h-8">
+                    <button onClick={() => previousPage()} disabled={!canPreviousPage} className="font-semibold text-base xl:text-xl text-lg bg-gray-400 px-2 text-blue-800 h-8">
                     {'<'}
                     </button>
-                    <span className="bg-white text-xl px-8 h-8 inline-block">
+                    <span className="bg-white xl:text-xl text-lg px-8 h-8 inline-block">
                         {pageIndex + 1} dari {pageOptions.length}
                     </span>
-                    <button onClick={() => nextPage()} disabled={!canNextPage} className="font-semibold text-xl bg-gray-400 px-2 text-blue-800 h-8">
+                    <button onClick={() => nextPage()} disabled={!canNextPage} className="font-semibold xl:text-xl text-lg bg-gray-400 px-2 text-blue-800 h-8">
                     {'>'}
                     </button>{' '}
-                    <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage} className="font-semibold text-xl rounded-r-md bg-gray-400 px-2 text-blue-800 h-8">
+                    <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage} className="font-semibold xl:text-xl text-lg rounded-r-md bg-gray-400 px-2 text-blue-800 h-8">
                     {'>>'}
                     </button>
 
-                    <span style={styles.container(mediaQuery)} className="text-xl mx-4">
+                    <span style={styles.container(mediaQuery)} className="xl:text-xl text-lg mx-4">
                     Go to page:{' '}
                     <input
                         className="inline-block h-8 pl-2"
