@@ -1,11 +1,11 @@
 import React, {useMemo} from 'react'
-import {Link} from 'react-router-dom'
-import Table from '../../components/Dashboard/Table'
 import logo from '../../images/LandingPage.png'
-import {useMediaQuery} from '../../components/Dashboard/Hooks';
+
+import Button from '../../components/UI/Button'
+import WhiteButton from '../../components/UI/WhiteButton'
+import Table from '../../components/Dashboard/Table'
 
 const LandingPage = () => {
-    const mediaQuery = useMediaQuery('(max-width: 419px)');
     const columns = useMemo(
         () => [
             {
@@ -50,25 +50,8 @@ const LandingPage = () => {
                     <p className="text-blue-800 md:mt-0 mt-10 font-bold md:text-4xl text-3xl lg:text-left text-center">Website Kebutuhan Bantuan Barang</p>
                     <p className="text-red-600 font-bold md:text-5xl text-4xl lg:text-left text-center">Covid-19</p>
                     <div className="mt-10 lg:text-left text-center">
-                        <Link to="/daftar">
-                            <button
-                                className="p-2 bg-blue-800 rounded-md focus:outline-none shadow-xl text-gray-200 mr-10 text-lg font-bold tracking-widest transform hover:scale-95 hover:shadow-none duration-300"
-                                style={styles.container(mediaQuery)}
-                                type="submit"
-                            >
-                                LOGIN
-                            </button>
-                        </Link>
-                        <Link to="/daftar">
-                            <button
-                                className="p-2 bg-white rounded-md focus:outline-none shadow-xl text-blue-800 text-lg font-bold tracking-widest transform hover:scale-95 hover:shadow-none duration-300"
-                                // style={{width: 150, maxHeight: 41}}
-                                style={styles.container(mediaQuery)}
-                                type="submit"
-                            >
-                                REGISTER
-                            </button>
-                        </Link>
+                        <Button to="/login" exact>LOGIN</Button>
+                        <WhiteButton to="/daftar" exact>REGISTER</WhiteButton>
                     </div>
                 </div>
             </div>
@@ -79,13 +62,5 @@ const LandingPage = () => {
         </React.Fragment>
     )
 }
-
-const styles = {
-    container: mediaQuery => ({
-        marginRight: mediaQuery && '10px',
-        width: mediaQuery ? 120 : 150,
-        maxHeight: 41
-    })
-};
 
 export default LandingPage

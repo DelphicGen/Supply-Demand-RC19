@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTable, usePagination } from 'react-table'
-import {useMediaQuery} from './Hooks';
+import {useMediaQuery} from '../../hooks/medquery-hook';
 
 const Table = ({ columns, data }) => {
     const {

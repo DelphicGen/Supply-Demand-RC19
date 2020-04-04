@@ -2,7 +2,7 @@ import React, {useContext} from 'react'
 import { ExitToApp } from '@material-ui/icons';
 import Link from './Link'
 import {AuthContext} from '../../context/auth-context'
-import {useMediaQuery} from './Hooks';
+import {useMediaQuery} from '../../hooks/medquery-hook';
 
 const Sidebar = props => {
    const auth = useContext(AuthContext)
