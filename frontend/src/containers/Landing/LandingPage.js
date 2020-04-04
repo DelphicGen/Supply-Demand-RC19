@@ -43,7 +43,7 @@ const LandingPage = () => {
     )
 
     return(
-        <div className="pb-20">
+        <React.Fragment>
             <div className="flex items-center justify-center py-10 lg:flex-row flex-col">
                 <img style={{height: '280px', width: '280px'}} src={logo} alt="doctor-with-mask" />
                 <div className="md:pl-10 px-10">
@@ -73,7 +73,10 @@ const LandingPage = () => {
                 </div>
             </div>
             <Table columns={ columns } data={ data } />
-        </div>
+            <div className="bg-blue-800 text-white py-10 mt-20">
+                <h5 className="text-xl text-center">Icon by JustIcon</h5>
+            </div>
+        </React.Fragment>
     )
 }
 
