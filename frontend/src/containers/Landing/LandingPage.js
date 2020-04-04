@@ -1,12 +1,14 @@
-import React, {useMemo, useContext} from 'react'
+import React, {useState, useMemo, useContext} from 'react'
 import {AuthContext} from '../../context/auth-context'
 import logo from '../../images/LandingPage.png'
 
 import Button from '../../components/UI/Button'
+import RadioInput2 from '../../components/Form/RadioInput2'
 import WhiteButton from '../../components/UI/WhiteButton'
 import Table from '../../components/Dashboard/Table'
 
 const LandingPage = () => {
+    const [table, setTable]= useState('kebutuhan')
     const columns = useMemo(
         () => [
             {
@@ -42,6 +44,29 @@ const LandingPage = () => {
             }
         ]
     )
+    const data2 = useMemo(
+        () => [
+            {
+                no: '4',
+                namabarang: 'Barang4',
+                kuantitas: '4'
+            },
+            {
+                no: '5',
+                namabarang: 'Barang5',
+                kuantitas: '5'
+            },
+            {
+                no: '6',
+                namabarang: 'Barang6',
+                kuantitas: '6'
+            }
+        ]
+    )
+
+    const radioChangeHandler = event => {
+        setTable(event.target.value)
+    }
 
     const auth = useContext(AuthContext)
 
@@ -71,7 +96,25 @@ const LandingPage = () => {
                     </div>
                 </div>
             </div>
-            <Table columns={ columns } data={ data } />
+
+            <p className="text-blue-800 md:mt-0 mt-4 font-bold md:text-4xl text-3xl text-center underline">Data Kebutuhan dan Stok</p>
+            <div className="flex flex-row items-center justify-center mb-10">
+                <RadioInput2
+                    changed={radioChangeHandler}
+                    id="kebutuhan"
+                    isSelected={table === 'kebutuhan'}
+                    label="Data Kebutuhan"
+                    value="kebutuhan" />
+
+                <RadioInput2
+                    changed={radioChangeHandler}
+                    id="stok"
+                    isSelected={table === 'stok'}
+                    label="Data Stok"
+                    value="stok" />
+            </div>
+
+            <Table columns={ columns } data={ table === 'kebutuhan' ? data : data2 } />
             <div className="bg-blue-800 text-white py-10 mt-20">
                 <h5 className="text-xl text-center">Icon by JustIcon</h5>
             </div>
