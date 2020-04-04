@@ -1,4 +1,5 @@
-import React, {useMemo} from 'react'
+import React, {useMemo, useContext} from 'react'
+import {AuthContext} from '../../context/auth-context'
 import logo from '../../images/LandingPage.png'
 
 import Button from '../../components/UI/Button'
@@ -42,16 +43,31 @@ const LandingPage = () => {
         ]
     )
 
+    const auth = useContext(AuthContext)
+
+    let dashboardLink = '/dashboard/alokasi-bantuan'
+
+    if(auth.role === 'donator'){
+        dashboardLink = '/dashboard/donasi-saya'
+    } else if(auth.role === 'applicant'){
+        dashboardLink = '/dashboard/riwayat-permohonan'
+    }
+
     return(
         <React.Fragment>
             <div className="flex items-center justify-center py-10 lg:flex-row flex-col">
                 <img style={{height: '280px', width: '280px'}} src={logo} alt="doctor-with-mask" />
                 <div className="md:pl-10 px-10">
-                    <p className="text-blue-800 md:mt-0 mt-10 font-bold md:text-4xl text-3xl lg:text-left text-center">Website Kebutuhan Bantuan Barang</p>
+                    <p className="text-blue-800 md:mt-0 mt-4 font-bold md:text-4xl text-3xl lg:text-left text-center">Website Kebutuhan Bantuan Barang</p>
                     <p className="text-red-600 font-bold md:text-5xl text-4xl lg:text-left text-center">Covid-19</p>
-                    <div className="mt-10 lg:text-left text-center">
-                        <Button to="/login" exact>LOGIN</Button>
-                        <WhiteButton to="/daftar" exact>REGISTER</WhiteButton>
+                    <div className="mt-4 lg:text-left text-center">
+                        {!auth.isLogin ?
+                            <React.Fragment>
+                                <Button to="/login">LOGIN</Button>
+                                <WhiteButton to="/daftar">REGISTER</WhiteButton>
+                            </React.Fragment> 
+                            : <Button to={dashboardLink}>DASHBOARD</Button>
+                        }
                     </div>
                 </div>
             </div>

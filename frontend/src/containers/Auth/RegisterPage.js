@@ -13,7 +13,7 @@ import RadioInput from '../../components/Form/RadioInput'
 import ErrorText from '../../components/UI/ErrorText'
 import LoadingSpinner from '../../components/UI/LoadingSpinner'
 
-const RegisterPage = () => {
+const RegisterPage = (props) => {
     const [role, setRole] = useState()
     const [roleValid, setRoleValid] = useState(false)
     const [formState, inputHandler] = useForm({
@@ -61,6 +61,7 @@ const RegisterPage = () => {
             {'Accept': 'application/json', 'Content-Type': 'application/json'}
         ).then((responseData) => {
             auth.login(responseData.jwt, responseData.role, responseData.name)
+            props.history.push('/')
         })
     }
 
@@ -114,7 +115,7 @@ const RegisterPage = () => {
                      />
             </div>
 
-            <div className="flex flex-col w-4/5 lg:w-auto">
+            <div className="flex flex-col w-4/5 lg:w-full lg:px-48">
                 <h2 className="text-gray-700 tracking-wide font-medium text-sm md:text-base mt-3">Daftar sebagai</h2>
                 <div className="flex flex-row">
                     <RadioInput

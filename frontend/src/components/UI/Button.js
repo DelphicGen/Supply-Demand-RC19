@@ -13,20 +13,18 @@ const Button = props => {
     }
     if(props.to){
         return (
-            <Link to={props.to} exact={props.exact}>
-                <button
-                    className="p-2 bg-blue-800 rounded-md focus:outline-none shadow-xl text-gray-200 mr-10 text-lg font-bold tracking-widest transform hover:scale-95 hover:shadow-none duration-300"
-                    style={styles.container(mediaQuery)}
-                    type="submit"
-                >
-                    {props.children}
-                </button>
+            <Link 
+                to={props.to} 
+                className="p-2 md:p-3 bg-blue-800 rounded-md focus:outline-none shadow-xl text-gray-200 mr-10 text-lg font-bold tracking-widest transform hover:scale-95 hover:shadow-none duration-300"
+                style={styles.container(mediaQuery)} 
+            >
+                {props.children}
             </Link>
         )
     }
     return(
         <button
-            className={`mt-10 p-2 bg-blue-800 rounded-md flex items-center justify-center focus:outline-none shadow-xl text-gray-200 text-lg font-bold tracking-widest duration-300 ${props.disabled ? 'cursor-not-allowed opacity-50 text-white' : ' hover:bg-blue-900 focus:bg-purple-900'}`}
+            className={`mt-10 p-2 bg-blue-800 rounded-md flex items-center justify-center focus:outline-none shadow-xl text-gray-200 text-lg font-bold tracking-widest duration-300 ${props.disabled ? 'cursor-not-allowed opacity-50 text-white' : 'hover:bg-indigo-900 focus:bg-purple-900'}`}
             style={{width: props.width, maxHeight: 41}} 
             onClick={props.onClick}
             type={props.type}

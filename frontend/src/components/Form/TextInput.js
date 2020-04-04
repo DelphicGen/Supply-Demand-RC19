@@ -45,7 +45,7 @@ const TextInput = props => {
         <div className={`flex flex-col ${props.divClassName}`}>
             <label htmlFor={props.id} className="text-gray-700 tracking-wide font-medium text-sm md:text-base my-1">{props.label}</label>
             <input
-                className={`mb-3 w-full bg-gray-400 text-gray-700 p-2 rounded-md focus:outline-none ${props.className}`}
+                className={`mb-3 w-full bg-gray-400 text-blue-700 p-2 rounded-md focus:outline-none ${props.className}`}
                 style={{width: props.width, maxWidth: props.maxWidth}} 
                 id={props.id}
                 type={props.type}

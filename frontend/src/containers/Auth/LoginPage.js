@@ -12,7 +12,7 @@ import ErrorText from '../../components/UI/ErrorText'
 import Button from '../../components/UI/Button'
 import LoadingSpinner from '../../components/UI/LoadingSpinner'
 
-const LoginPage = () => {
+const LoginPage = (props) => {
     const [formState, inputHandler] = useForm({
         email: {
             value: '',
@@ -39,6 +39,7 @@ const LoginPage = () => {
             {'Accept': 'application/json', 'Content-Type': 'application/json'}
         ).then((responseData) => {
             auth.login(responseData.jwt, responseData.user.role, responseData.user.name, responseData.user['contact_person'], responseData.user['contact_number'])
+            props.history.push('/')
         })
     }
 

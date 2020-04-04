@@ -1,8 +1,7 @@
-import React, {Suspense} from 'react'
+import React, {Suspense, useContext} from 'react'
 import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom'
 
 import {AuthContext} from './context/auth-context'
-import {useAuth} from './hooks/auth-hook'
 import './tailwind.css'
 
 import LoadingSpinner from './components/UI/LoadingSpinner'
@@ -24,7 +23,7 @@ const InputBantuan = React.lazy(() => import('./containers/Dashboard/Donatur/Inp
 const UpdateDonasi = React.lazy(() => import('./containers/Dashboard/Donatur/UpdateDonasi'))
 
 const App = () => {
-  const {token, userRole, userName, contactPerson, contactNumber, login, logout} = useAuth()
+  const auth = useContext(AuthContext)
 
   let routes = (
     <Switch>
@@ -32,27 +31,50 @@ const App = () => {
       <Route path="/login" component={LoginPage} exact />
       <Route path="/daftar" component={RegisterPage} exact />
       <Route path="/reset-password" component={ResetPass} exact />
-      <Route path="/dashboard/donasi-saya" component={DonasiSaya} exact />
-      <Route path="/dashboard/info-demand" component={InfoDemand} exact />
-      <Route path="/dashboard/input-bantuan" component={InputBantuan} exact />
-      <Route path="/dashboard/donasi-saya/update" component={UpdateDonasi} exact />
-      <Route path="/dashboard/input-kebutuhan" component={InputKebutuhan} exact />
-      <Route path="/dashboard/riwayat-permohonan" component={RiwayatPermohonan} exact />
-      <Route path="/dashboard/riwayat-permohonan/update" component={UpdateRiwayat} exact />
-      <Route path="/dashboard/alokasi-bantuan" component={AlokasiBantuan} exact />
-      <Route path="/dashboard/tambah-barang" component={TambahBarang} exact />
       <Redirect to='/' />
     </Switch>
   )
 
+  if(auth.role === 'donator'){
+    routes = (
+      <Switch>
+        <Route path="/" component={LandingPage} exact />
+        <Route path="/dashboard/donasi-saya" component={DonasiSaya} exact />
+        <Route path="/dashboard/info-demand" component={InfoDemand} exact />
+        <Route path="/dashboard/input-bantuan" component={InputBantuan} exact />
+        <Route path="/dashboard/donasi-saya/update" component={UpdateDonasi} exact />
+        <Redirect to='/' />
+      </Switch>
+    )
+  }
+  else if(auth.role === 'applicant'){
+    routes = (
+      <Switch>
+        <Route path="/" component={LandingPage} exact />
+        <Route path="/dashboard/input-kebutuhan" component={InputKebutuhan} exact />
+        <Route path="/dashboard/riwayat-permohonan" component={RiwayatPermohonan} exact />
+        <Route path="/dashboard/riwayat-permohonan/update" component={UpdateRiwayat} exact />
+        <Redirect to='/' />
+      </Switch>
+    )
+  }
+  else if(auth.role === 'admin'){
+    routes = (
+      <Switch>
+        <Route path="/" component={LandingPage} exact />
+        <Route path="/dashboard/alokasi-bantuan" component={AlokasiBantuan} exact />
+        <Route path="/dashboard/tambah-barang" component={TambahBarang} exact />
+        <Redirect to='/' />
+      </Switch>
+    )
+  }
+
   return(
-    <AuthContext.Provider value={{isLogin: !!token, token: token, role: userRole, name: userName, contactPerson: contactPerson, contactNumber: contactNumber, login: login, logout: logout}}>
       <BrowserRouter>
         <div className="bg-gray-100 w-full h-screen">
           <Suspense fallback={<LoadingSpinner style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }} />}>{routes}</Suspense>
         </div>
       </BrowserRouter>
-    </AuthContext.Provider>
   )
 }
 

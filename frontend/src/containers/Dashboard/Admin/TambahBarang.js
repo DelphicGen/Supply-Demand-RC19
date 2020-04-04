@@ -8,6 +8,7 @@ import {VALIDATOR_REQUIRE} from '../../../util/validator'
 
 import Sidebar from '../../../components/Dashboard/SideBar'
 import LoadingSpinner from '../../../components/UI/LoadingSpinner'
+import ErrorText from '../../../components/UI/ErrorText'
 import Title from '../../../components/Dashboard/Title'
 import WhiteButton from '../../../components/UI/WhiteButton'
 import TextInput from '../../../components/Form/TextInput'
@@ -96,6 +97,7 @@ const TambahBarang = () => {
     return(
         <div className="flex flex-row">
             <Sidebar role="" name="ADMIN" links={links} />
+
             <div className="p-8 md:p-16">
                 <Title>Tambahkan Jenis Barang</Title>
                 <form onSubmit={addItem} className="md:flex md:flex-row md:items-center">
@@ -118,7 +120,9 @@ const TambahBarang = () => {
                     </WhiteButton>
                 </form>
                 <Table columns={ columns } data={ items } />
+                {error && <ErrorText>{error}</ErrorText>}
             </div>
+
         </div>
     )
 }
