@@ -18,27 +18,14 @@ import Button from '../../../components/UI/Button'
 const AlokasiBantuan = () => {
 
   const [pageSize, setPageSize] = useState()
-    const columns = [
-        {
-            Header: 'No',
-            accessor: 'id'
-        },
-        {
-            Header: 'Nama Barang',
-            accessor: 'item'
-        },
-        {
-            Header: '',
-            accessor: 'delete'
-        }
-    ]  
-    const [items, setItems] = useState([])
-    const [formState, inputHandler] = useForm({
-        itemName: {
-            value: '',
-            isValid: false
-        }
-    }, false)
+    
+  const [items, setItems] = useState([])
+  const [formState, inputHandler] = useForm({
+      itemName: {
+          value: '',
+          isValid: false
+      }
+  }, false)
     const {isLoading, error, sendRequest} = useHttpClient()
     const auth = useContext(AuthContext)
 
@@ -55,6 +42,7 @@ const AlokasiBantuan = () => {
        }
        fetchItems()
     }, [auth.token, sendRequest])
+
 
     const deleteItem = id => {
         sendRequest(
@@ -110,7 +98,7 @@ const AlokasiBantuan = () => {
                 
                 <form onSubmit={addItem} className="md:flex md:flex-row md:items-center mt-4">
                 <div className="flex flex-col lg:flex-row w-full lg:mb-5">
-                    <TextInput
+                    {/* <TextInput
                         divClassName="w-2/5 lg:4/12 lg:mr-3"
                         id="itemName"
                         type="text"
@@ -118,7 +106,23 @@ const AlokasiBantuan = () => {
                         validators={[VALIDATOR_REQUIRE()]}
                         onInput={inputHandler}
                         errorText="Mohon masukkan nama barang."
-                     />
+                     /> */}
+
+                     <select
+                        className=" bg-gray-400 
+                        mb-3 bg-gray-400 text-blue-700 p-2 rounded-md w-2/5 text-center"
+                        style={{height:40}}
+                        value={pageSize}
+                        onChange={e => {
+                            setPageSize(Number(e.target.value))
+                        }}
+                        >
+                        {[10, 20, 30, 40, 50].map(pageSize => (
+                            <option key={pageSize} value={pageSize}>
+                            {pageSize}
+                            </option>
+                        ))}
+                        </select>
 
                     <TextInput
                     divClassName="w-2/5 lg:4/12 "
