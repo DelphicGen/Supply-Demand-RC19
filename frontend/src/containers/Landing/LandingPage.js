@@ -3,7 +3,7 @@ import {AuthContext} from '../../context/auth-context'
 import logo from '../../images/LandingPage.png'
 
 import Button from '../../components/UI/Button'
-import RadioInput2 from '../../components/Form/RadioInput2'
+import RadioTextInput from '../../components/Form/RadioTextInput'
 import WhiteButton from '../../components/UI/WhiteButton'
 import Table from '../../components/Dashboard/Table'
 
@@ -97,16 +97,19 @@ const LandingPage = () => {
                 </div>
             </div>
 
-            <p className="text-blue-800 md:mt-0 mt-4 font-bold md:text-4xl text-3xl text-center underline">Data Kebutuhan dan Stok</p>
-            <div className="flex flex-row items-center justify-center mb-10">
-                <RadioInput2
+            <p className="text-blue-800 md:mt-0 mt-4 font-bold text-xl md:text-3xl lg:text-4xl text-center">Data Kebutuhan dan Stok</p>
+            <div className="flex flex-row justify-center">
+                <div className="mt-1 w-2/3 max-w-sm lg:max-w-xl opacity-50 bg-gray-500" style={{height: 2}}></div>
+            </div>
+            <div className="flex flex-row items-center justify-center mt-5 mb-8">
+                <RadioTextInput
                     changed={radioChangeHandler}
                     id="kebutuhan"
                     isSelected={table === 'kebutuhan'}
                     label="Data Kebutuhan"
                     value="kebutuhan" />
 
-                <RadioInput2
+                <RadioTextInput
                     changed={radioChangeHandler}
                     id="stok"
                     isSelected={table === 'stok'}

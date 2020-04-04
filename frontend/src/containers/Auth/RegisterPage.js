@@ -61,7 +61,7 @@ const RegisterPage = (props) => {
             {'Accept': 'application/json', 'Content-Type': 'application/json'}
         ).then((responseData) => {
             auth.login(responseData.jwt, responseData.role, responseData.name)
-            let redirectLink = '/dashboard/alokasi-bantuan'
+            let redirectLink = '/dashboard/tambah-barang'
 
             if(responseData.user.role === 'donator'){
                 redirectLink = '/dashboard/donasi-saya'
