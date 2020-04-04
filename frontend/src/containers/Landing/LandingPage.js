@@ -89,7 +89,7 @@ const LandingPage = () => {
                         {!auth.isLogin ?
                             <React.Fragment>
                                 <Button to="/login">LOGIN</Button>
-                                <WhiteButton to="/daftar">REGISTER</WhiteButton>
+                                <WhiteButton to="/daftar">DAFTAR</WhiteButton>
                             </React.Fragment> 
                             : <Button to={dashboardLink}>DASHBOARD</Button>
                         }

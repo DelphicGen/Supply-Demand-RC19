@@ -31,6 +31,18 @@ const App = () => {
       <Route path="/login" component={LoginPage} exact />
       <Route path="/daftar" component={RegisterPage} exact />
       <Route path="/reset-password" component={ResetPass} exact />
+
+      <Route path="/dashboard/donasi-saya" component={DonasiSaya} exact />
+      <Route path="/dashboard/info-demand" component={InfoDemand} exact />
+      <Route path="/dashboard/input-bantuan" component={InputBantuan} exact />
+      <Route path="/dashboard/donasi-saya/update" component={UpdateDonasi} exact />
+
+      <Route path="/dashboard/input-kebutuhan" component={InputKebutuhan} exact />
+      <Route path="/dashboard/riwayat-permohonan" component={RiwayatPermohonan} exact />
+      <Route path="/dashboard/riwayat-permohonan/update" component={UpdateRiwayat} exact />
+
+      <Route path="/dashboard/alokasi-bantuan" component={AlokasiBantuan} exact />
+      <Route path="/dashboard/tambah-barang" component={TambahBarang} exact />
       <Redirect to='/' />
     </Switch>
   )

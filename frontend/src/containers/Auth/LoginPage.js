@@ -39,7 +39,16 @@ const LoginPage = (props) => {
             {'Accept': 'application/json', 'Content-Type': 'application/json'}
         ).then((responseData) => {
             auth.login(responseData.jwt, responseData.user.role, responseData.user.name, responseData.user['contact_person'], responseData.user['contact_number'])
-            props.history.push('/')
+            
+            let redirectLink = '/dashboard/alokasi-bantuan'
+
+            if(responseData.user.role === 'donator'){
+                redirectLink = '/dashboard/donasi-saya'
+            } else if(responseData.user.role === 'applicant'){
+                redirectLink = '/dashboard/riwayat-permohonan'
+            }
+
+            props.history.push(redirectLink)
         })
     }
 
