@@ -2,7 +2,7 @@ import React from 'react'
 import { useTable, usePagination } from 'react-table'
 import {useMediaQuery} from '../../hooks/medquery-hook';
 
-const Table = ({ columns, data }) => {
+const Table = ({ columns, data, title }) => {
     const {
         getTableProps,
         getTableBodyProps,
@@ -28,6 +28,7 @@ const Table = ({ columns, data }) => {
 
     return (
         <div className="flex-auto">
+            <h1 className="md:text-3xl text-2xl font-bold md:mb-20 md:ml-10 mb-5 ml-5">{title}</h1>
             <div className="w-10/12 mx-auto">
                 <div className="w-full overflow-y-scroll" style={{maxHeight: '400px'}}>
                     <table {...getTableProps()} className="w-full">
@@ -71,9 +72,9 @@ const Table = ({ columns, data }) => {
                 </div>
 
                 <div className="pagination mt-4">
-                    <span style={styles.container(mediaQuery)} className="xl:text-xl text-lg">
-                        Baris per halaman
-                        <select
+                    <span style={styles.container(mediaQuery)} className="xl:text-lg text-base">
+                        10 Baris per halaman
+                        {/* <select
                         className="px-4 mx-4 bg-gray-400 text-blue-800"
                         value={pageSize}
                         onChange={e => {
@@ -85,26 +86,26 @@ const Table = ({ columns, data }) => {
                             {pageSize}
                             </option>
                         ))}
-                        </select>
+                        </select> */}
                     </span>
 
-                    <button onClick={() => gotoPage(0)} disabled={!canPreviousPage} className="font-semibold text-base xl:text-xl text-lg rounded-l-md bg-gray-400 px-2 text-blue-800 h-8">
+                    <button onClick={() => gotoPage(0)} disabled={!canPreviousPage} className="font-semibold xl:text-lg text-base rounded-l-md bg-gray-400 px-2 text-blue-800 h-8">
                     {'<<'}
                     </button>{' '}
-                    <button onClick={() => previousPage()} disabled={!canPreviousPage} className="font-semibold text-base xl:text-xl text-lg bg-gray-400 px-2 text-blue-800 h-8">
+                    <button onClick={() => previousPage()} disabled={!canPreviousPage} className="font-semibold xl:text-lg text-base bg-gray-400 px-2 text-blue-800 h-8">
                     {'<'}
                     </button>
-                    <span className="bg-white xl:text-xl text-lg px-8 h-8 inline-block">
+                    <span className="bg-white xl:text-lg text-base px-8 h-8 inline-block">
                         {pageIndex + 1} dari {pageOptions.length}
                     </span>
-                    <button onClick={() => nextPage()} disabled={!canNextPage} className="font-semibold xl:text-xl text-lg bg-gray-400 px-2 text-blue-800 h-8">
+                    <button onClick={() => nextPage()} disabled={!canNextPage} className="font-semibold xl:text-lg text-base bg-gray-400 px-2 text-blue-800 h-8">
                     {'>'}
                     </button>{' '}
-                    <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage} className="font-semibold xl:text-xl text-lg rounded-r-md bg-gray-400 px-2 text-blue-800 h-8">
+                    <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage} className="font-semibold xl:text-lg text-base rounded-r-md bg-gray-400 px-2 text-blue-800 h-8">
                     {'>>'}
                     </button>
 
-                    <span style={styles.container(mediaQuery)} className="xl:text-xl text-lg mx-4">
+                    <span style={styles.container(mediaQuery)} className="xl:text-lg text-base mx-4">
                     Go to page:{' '}
                     <input
                         className="inline-block h-8 pl-2"
@@ -117,6 +118,14 @@ const Table = ({ columns, data }) => {
                         style={{ width: '100px' }}
                     />
                     </span>{' '}
+                    
+                    {/* <button onClick={() => previousPage()} disabled={!canPreviousPage} className="font-semibold xl:text-lg text-base bg-gray-400 px-2 text-blue-800 h-8">
+                    {'<'}
+                    </button>
+                    <PageList count={pageOptions.length} />    
+                    <button onClick={() => nextPage()} disabled={!canNextPage} className="font-semibold xl:text-xl text-lg bg-gray-400 px-2 text-blue-800 h-8">
+                    {'>'}
+                    </button> */}
 
                 </div>
             </div>
