@@ -14,6 +14,8 @@ import Title from '../../../components/Dashboard/Title'
 import WhiteButton from '../../../components/UI/WhiteButton'
 import TextInput from '../../../components/Form/TextInput'
 import Button from '../../../components/UI/Button'
+import DatePicker from '../../../components/UI/DatePicker2'
+import Select from '../../../components/UI/Select'
 
 const AlokasiBantuan = () => {
 
@@ -108,23 +110,14 @@ const AlokasiBantuan = () => {
                         errorText="Mohon masukkan nama barang."
                      /> */}
 
-                     <select
-                        className=" bg-gray-400 
-                        mb-3 bg-gray-400 text-blue-700 p-2 rounded-md w-2/5 text-center"
-                        style={{height:40}}
-                        value={pageSize}
-                        onChange={e => {
-                            setPageSize(Number(e.target.value))
-                        }}
-                        >
-                        {[10, 20, 30, 40, 50].map(pageSize => (
-                            <option key={pageSize} value={pageSize}>
-                            {pageSize}
-                            </option>
-                        ))}
-                        </select>
+                     <Select 
+                     label="Lembaga Penerima"
+                     divClassName="mr-3 w-2/5"
+                    
+                     
+                      />
 
-                    <TextInput
+                    {/* <TextInput
                     divClassName="w-2/5 lg:4/12 "
                     id="itemName"
                     type="text"
@@ -132,7 +125,12 @@ const AlokasiBantuan = () => {
                     validators={[VALIDATOR_REQUIRE()]}
                     onInput={inputHandler}
                     errorText="Mohon masukkan nama barang."
-                   />
+                   /> */}
+
+                  <DatePicker 
+                  label="Tanggal Penyerahan" 
+                  divClassName="w-2/5"
+                  />
 
                   
 
@@ -144,18 +142,11 @@ const AlokasiBantuan = () => {
                 
 
                 <div className="flex flex-col lg:flex-row w-full lg:mb-5">
-                  <TextInput
-                    divClassName="w-2/5 lg:4/12 lg:mr-3"
-                    id="itemName"
-                    type="text"
-                    label="Jenis Barang"
-                    validators={[VALIDATOR_REQUIRE()]}
-                    onInput={inputHandler}
-                    errorText="Mohon masukkan nama barang."
-                  />
+                     <Select 
+                      label="Jenis Barang"
+                      divClassName="mr-3 w-2/5"/>
 
-               
-
+              
                     <TextInput
                     divClassName="w-1/5 lg:4/12 lg:mr-3"
                     id="itemName"
@@ -166,33 +157,12 @@ const AlokasiBantuan = () => {
                     errorText="Mohon masukkan nama barang."
                     />
 
-                    <TextInput
-                    divClassName="w-1/5 lg:4/12 lg:mr-3 lg:mt-6"
-                    id="itemName"
-                    type="text"
-                    
-                    validators={[VALIDATOR_REQUIRE()]}
-                    onInput={inputHandler}
-                    errorText="Mohon masukkan nama barang."
-                   />
+                    <Select 
+                      placeholde={`as`}
+                      divClassName="w-1/5 lg:4/12 lg:mr-3 lg:mt-6"/>
 
-                   <select
-                        className=" bg-gray-400 
-                        mb-3 bg-gray-400 text-blue-700 p-2 rounded-md w-20 text-center"
-                        style={{height:40}}
-                        value={pageSize}
-                        onChange={e => {
-                            setPageSize(Number(e.target.value))
-                        }}
-                        >
-                        {[10, 20, 30, 40, 50].map(pageSize => (
-                            <option key={pageSize} value={pageSize}>
-                            {pageSize}
-                            </option>
-                        ))}
-                        </select>
 
-                
+                          
                 
                 </div>
 
