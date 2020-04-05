@@ -60,6 +60,66 @@ const LandingPage = () => {
                 no: '6',
                 namabarang: 'Barang6',
                 kuantitas: '6'
+            },
+            {
+                no: '4',
+                namabarang: 'Barang4',
+                kuantitas: '4'
+            },
+            {
+                no: '5',
+                namabarang: 'Barang5',
+                kuantitas: '5'
+            },
+            {
+                no: '6',
+                namabarang: 'Barang6',
+                kuantitas: '6'
+            },
+            {
+                no: '4',
+                namabarang: 'Barang4',
+                kuantitas: '4'
+            },
+            {
+                no: '5',
+                namabarang: 'Barang5',
+                kuantitas: '5'
+            },
+            {
+                no: '6',
+                namabarang: 'Barang6',
+                kuantitas: '6'
+            },
+            {
+                no: '4',
+                namabarang: 'Barang4',
+                kuantitas: '4'
+            },
+            {
+                no: '5',
+                namabarang: 'Barang5',
+                kuantitas: '5'
+            },
+            {
+                no: '6',
+                namabarang: 'Barang6',
+                kuantitas: '6'
+            },
+            {
+                no: '4',
+                namabarang: 'Barang4',
+                kuantitas: '4'
+            },
+            {
+                no: '5',
+                namabarang: 'Barang5',
+                kuantitas: '5'
+            },
+            {
+                no: '6',
+                namabarang: 'Barang6',
+                kuantitas: '6'
             }
         ]
     )
