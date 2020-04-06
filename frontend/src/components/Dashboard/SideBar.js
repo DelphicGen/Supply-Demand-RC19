@@ -1,4 +1,5 @@
 import React, {useContext} from 'react'
+import {withRouter} from 'react-router-dom'
 import { ExitToApp } from '@material-ui/icons';
 import Link from './Link'
 import {AuthContext} from '../../context/auth-context'
@@ -6,7 +7,12 @@ import {useMediaQuery} from '../../hooks/medquery-hook';
 
 const Sidebar = props => {
    const auth = useContext(AuthContext)
-   const mediaQuery = useMediaQuery('(min-width: 768px)');
+   const mediaQuery = useMediaQuery('(min-width: 768px)')
+
+   const logoutHandler = () => {
+      auth.logout()
+      props.history.push('/')
+   }
 
    return (
       <div style={styles.container(mediaQuery)} className="w-full xl:w-1/5 bg-blue-800 rounded-t-lg md:rounded-t-none md:rounded-r-lg  text-center fixed md:sticky md:static bottom-0 md:pt-10 md:top-0 md:left-0 h-16 md:h-screen md:relative">
@@ -23,7 +29,7 @@ const Sidebar = props => {
                }
             </ul>
          </div>
-         <p className="hidden md:block text-left ml-5 absolute cursor-pointer" style={{bottom: '10%'}} onClick={auth.logout}><ExitToApp  className="text-white" fontSize="small" /><span className="lg:pl-3 md:pl-1 pb-1 md:pb-0 text-xs md:text-sm lg:text-base text-gray-400 md:font-bold block md:inline-block font-semibold">Logout</span></p>
+         <p className="hidden md:block text-left ml-5 absolute cursor-pointer" style={{bottom: '10%'}} onClick={logoutHandler}><ExitToApp  className="text-white" fontSize="small" /><span className="lg:pl-3 md:pl-1 pb-1 md:pb-0 text-xs md:text-sm lg:text-base text-gray-400 md:font-bold block md:inline-block font-semibold">Logout</span></p>
       </div>
    )
 }
@@ -34,4 +40,4 @@ const styles = {
    })
 };
 
-export default Sidebar
+export default withRouter(Sidebar)

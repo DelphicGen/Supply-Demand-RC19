@@ -1,4 +1,4 @@
-import React, {useState, useMemo, useContext} from 'react'
+import React, {useState, useContext} from 'react'
 import {AuthContext} from '../../context/auth-context'
 import logo from '../../images/LandingPage.png'
 
@@ -9,8 +9,7 @@ import Table from '../../components/Dashboard/Table'
 
 const LandingPage = () => {
     const [table, setTable]= useState('kebutuhan')
-    const columns = useMemo(
-        () => [
+    const columns = [
             {
                 Header: 'No',
                 accessor: 'no'
@@ -23,10 +22,8 @@ const LandingPage = () => {
                 Header: 'Kuantitas',
                 accessor: 'kuantitas'
             }
-        ]       
-    )
-    const data = useMemo(
-        () => [
+        ]
+    const data = [
             {
                 no: '1',
                 namabarang: 'Barang1',
@@ -43,9 +40,7 @@ const LandingPage = () => {
                 kuantitas: '3'
             }
         ]
-    )
-    const data2 = useMemo(
-        () => [
+    const data2 = [
             {
                 no: '4',
                 namabarang: 'Barang4',
@@ -122,7 +117,6 @@ const LandingPage = () => {
                 kuantitas: '6'
             }
         ]
-    )
 
     const radioChangeHandler = event => {
         setTable(event.target.value)
@@ -134,7 +128,7 @@ const LandingPage = () => {
 
     if(auth.role === 'donator'){
         dashboardLink = '/dashboard/donasi-saya'
-    } else if(auth.role === 'applicant'){
+    } else if(auth.role === 'APPLICANT'){
         dashboardLink = '/dashboard/riwayat-permohonan'
     }
 

@@ -17,12 +17,8 @@ import Table from '../../../components/Dashboard/Table'
 const TambahBarang = () => {
     const columns = [
         {
-            Header: 'No',
-            accessor: 'id'
-        },
-        {
             Header: 'Nama Barang',
-            accessor: 'item'
+            accessor: 'name'
         },
         {
             Header: '',
@@ -40,6 +36,10 @@ const TambahBarang = () => {
     const auth = useContext(AuthContext)
 
     useEffect(() => {
+        console.log(items)
+    }, [items])
+
+    useEffect(() => {
        const fetchItems = () => {
            sendRequest(
             `${process.env.REACT_APP_BACKEND_URL}/v1/items`,
@@ -47,20 +47,31 @@ const TambahBarang = () => {
             null,
             {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
            ).then(responseData => {
-               setItems(responseData)
+               if(responseData){
+                responseData.forEach(data => data.delete = (
+                    <WhiteButton width={120} onClick={() => deleteItem(data.id)}>
+                        <Delete className="text-blue-800 mr-2" fontSize="inherit" /><span className="text-sm pt-1">HAPUS</span>
+                    </WhiteButton>
+                ))
+                setItems(responseData)
+               }
            })
        }
-       fetchItems()
+
+       if(auth.token){
+            fetchItems()
+       }
     }, [auth.token, sendRequest])
 
     const deleteItem = id => {
-        sendRequest(
-            `${process.env.REACT_APP_BACKEND_URL}/v1/items/${id}`,
-            'DELETE',
-            null,
-            {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
-        ).then(() => setItems(prevItem => prevItem.filter(item => item.id !== id)))
-        // setItems(prevItem => prevItem.filter(item => item.id !== id))
+        return fetch(`${process.env.REACT_APP_BACKEND_URL}/v1/items/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json', 
+                'Content-Type': 'application/json', 
+                'Authorization': `Bearer ${auth.token}`
+            }
+        }).then(() => setItems(prevItem => prevItem.filter(item => item.id !== id)))
     }
 
     const addItem = event => {
@@ -83,15 +94,6 @@ const TambahBarang = () => {
                 )
             }))
         })
-        // setItems(prevItem => prevItem.concat({
-        //     id: prevItem.length + 1, 
-        //     item: formState.inputs.itemName.value, 
-        //     delete: (
-        //         <WhiteButton width={120} onClick={() => deleteItem(prevItem.length + 1)}>
-        //             <Delete className="text-blue-800 mr-2" fontSize="inherit" /><span className="text-sm pt-1">HAPUS</span>
-        //         </WhiteButton>
-        //     )
-        // }))
     }
 
     return(
@@ -119,7 +121,7 @@ const TambahBarang = () => {
                         }
                     </WhiteButton>
                 </form>
-                <Table columns={ columns } data={ items } />
+                {items.length > 0 && <Table columns={ columns } data={ items } />}
                 {error && <ErrorText>{error}</ErrorText>}
             </div>
 

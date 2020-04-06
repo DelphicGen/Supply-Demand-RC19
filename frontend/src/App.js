@@ -83,7 +83,7 @@ const App = () => {
 
   return(
       <BrowserRouter>
-        <div className="bg-gray-100 w-full h-full">
+        <div className="bg-gray-100 w-full h-full min-h-screen">
           <Suspense fallback={<LoadingSpinner style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }} />}>{routes}</Suspense>
         </div>
       </BrowserRouter>

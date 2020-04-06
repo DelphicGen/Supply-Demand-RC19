@@ -60,12 +60,13 @@ const RegisterPage = (props) => {
             }),
             {'Accept': 'application/json', 'Content-Type': 'application/json'}
         ).then((responseData) => {
-            auth.login(responseData.jwt, responseData.role, responseData.name)
+            console.log(responseData)
+            auth.login(responseData.jwt, responseData.user.role, responseData.user.name)
             let redirectLink = '/dashboard/tambah-barang'
 
             if(responseData.user.role === 'donator'){
                 redirectLink = '/dashboard/donasi-saya'
-            } else if(responseData.user.role === 'applicant'){
+            } else if(responseData.user.role === 'APPLICANT'){
                 redirectLink = '/dashboard/riwayat-permohonan'
             }
 
@@ -74,7 +75,7 @@ const RegisterPage = (props) => {
     }
 
     return (
-        <form onSubmit={registerSubmit} className="flex items-center justify-center h-full flex-col">
+        <form onSubmit={registerSubmit} className="flex items-center justify-center h-screen flex-col">
             <div className="flex flex-row items-center mb-3">
                 <VirusSVG />
                 <AuthTitle>Daftar</AuthTitle>
@@ -105,7 +106,7 @@ const RegisterPage = (props) => {
                 <TextInput
                     divClassName="w-4/5 lg:4/12 lg:mr-32"
                     id="password"
-                    type="password"
+                    isPassword={true}
                     label="Password"
                     validators={[VALIDATOR_MINLENGTH(8)]}
                     onInput={inputHandler}
@@ -115,7 +116,7 @@ const RegisterPage = (props) => {
                 <TextInput
                     divClassName="w-4/5 lg:4/12"
                     id="confirmPassword"
-                    type="password"
+                    isPassword={true}
                     label="Konfirmasi Password"
                     validators={[VALIDATOR_PASSWORD(formState.inputs.password.value)]}
                     onInput={inputHandler}

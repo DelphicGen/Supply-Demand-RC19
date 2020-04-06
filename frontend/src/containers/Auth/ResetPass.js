@@ -16,7 +16,7 @@ const ResetPass = () => {
     }, false)
 
     return (
-        <form className="flex items-center justify-center h-full flex-col">
+        <form className="flex items-center justify-center h-screen flex-col">
             <div className="flex flex-row items-center mb-3">
                 <VirusSVG />
                 <AuthTitle>Reset Password</AuthTitle>

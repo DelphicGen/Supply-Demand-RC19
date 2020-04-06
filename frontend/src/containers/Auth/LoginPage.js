@@ -44,7 +44,7 @@ const LoginPage = (props) => {
 
             if(responseData.user.role === 'donator'){
                 redirectLink = '/dashboard/donasi-saya'
-            } else if(responseData.user.role === 'applicant'){
+            } else if(responseData.user.role === 'APPLICANT'){
                 redirectLink = '/dashboard/riwayat-permohonan'
             }
 
@@ -53,7 +53,7 @@ const LoginPage = (props) => {
     }
 
     return (
-        <form className="flex items-center justify-center h-full flex-col" onSubmit={loginSubmit}>
+        <form className="flex items-center justify-center h-screen flex-col" onSubmit={loginSubmit}>
             <div className="flex flex-row items-center mb-3">
                 <VirusSVG />
                 <AuthTitle>Login</AuthTitle>
@@ -71,7 +71,7 @@ const LoginPage = (props) => {
 
                 <TextInput
                     id="password"
-                    type="password"
+                    isPassword={true}
                     label="Password"
                     validators={[VALIDATOR_MINLENGTH(8), VALIDATOR_REQUIRE()]}
                     onInput={inputHandler}
