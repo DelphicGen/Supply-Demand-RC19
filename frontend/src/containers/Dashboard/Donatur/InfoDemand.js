@@ -26,137 +26,110 @@ const InfoDemand = () => {
     const data = useMemo(
         () => [
             {
-                no: '1',
                 namabarang: 'Barang1',
                 kuantitas: '1'
             },
             {
-                no: '2',
                 namabarang: 'Barang2',
                 kuantitas: '2'
             },
             {
-                no: '3',
                 namabarang: 'Barang3',
                 kuantitas: '3'
             },
             {
-                no: '1',
                 namabarang: 'Barang1',
                 kuantitas: '1'
             },
             {
-                no: '2',
                 namabarang: 'Barang2',
                 kuantitas: '2'
             },
             {
-                no: '3',
                 namabarang: 'Barang3',
                 kuantitas: '3'
             },
             {
-                no: '1',
                 namabarang: 'Barang1',
                 kuantitas: '1'
             },
             {
-                no: '2',
                 namabarang: 'Barang2',
                 kuantitas: '2'
             },
             {
-                no: '3',
                 namabarang: 'Barang3',
                 kuantitas: '3'
             },
             {
-                no: '1',
                 namabarang: 'Barang1',
                 kuantitas: '1'
             },
             {
-                no: '2',
                 namabarang: 'Barang2',
                 kuantitas: '2'
             },
             {
-                no: '3',
                 namabarang: 'Barang3',
                 kuantitas: '3'
             },
             {
-                no: '1',
                 namabarang: 'Barang1',
                 kuantitas: '1'
             },
             {
-                no: '2',
                 namabarang: 'Barang2',
                 kuantitas: '2'
             },
             {
-                no: '3',
                 namabarang: 'Barang3',
                 kuantitas: '3'
             },
             {
-                no: '1',
                 namabarang: 'Barang1',
                 kuantitas: '1'
             },
             {
-                no: '2',
                 namabarang: 'Barang2',
                 kuantitas: '2'
             },
             {
-                no: '3',
                 namabarang: 'Barang3',
                 kuantitas: '3'
             },
             {
-                no: '1',
                 namabarang: 'Barang1',
                 kuantitas: '1'
             },
             {
-                no: '2',
                 namabarang: 'Barang2',
                 kuantitas: '2'
             },
             {
-                no: '3',
                 namabarang: 'Barang3',
                 kuantitas: '3'
             },
             {
-                no: '1',
                 namabarang: 'Barang1',
                 kuantitas: '1'
             },
             {
-                no: '2',
                 namabarang: 'Barang2',
                 kuantitas: '2'
             },
             {
-                no: '3',
                 namabarang: 'Barang3',
                 kuantitas: '3'
             },
             {
-                no: '1',
                 namabarang: 'Barang1',
                 kuantitas: '1'
             },
             {
-                no: '2',
                 namabarang: 'Barang2',
                 kuantitas: '2'
             },
             {
-                no: '3',
                 namabarang: 'Barang3',
                 kuantitas: '3'
             }
@@ -166,7 +139,7 @@ const InfoDemand = () => {
     return (
         <div className="flex items-center md:pt-0 pt-10 md:pb-0 pb-24">
             <Sidebar role="Donatur" name={name} links={links} />
-            <Table columns={ columns } data={ data } />
+            <Table columns={ columns } data={ data } title='Info Demand' />
         </div>
     )
 }

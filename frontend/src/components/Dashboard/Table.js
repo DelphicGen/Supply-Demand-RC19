@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTable, usePagination } from 'react-table'
 import {useMediaQuery} from '../../hooks/medquery-hook';
+import './Table.module.css'
 
 const Table = ({ columns, data, title }) => {
     const {
@@ -28,9 +29,9 @@ const Table = ({ columns, data, title }) => {
 
     return (
         <div className="flex-auto">
-            <h1 className="md:text-3xl text-2xl font-bold md:mb-20 md:ml-10 mb-5 ml-5">{title}</h1>
-            <div className="w-10/12 mx-auto">
-                <div className="w-full overflow-y-scroll" style={{maxHeight: '400px'}}>
+            <h1 className="md:text-3xl text-2xl font-bold md:my-10 md:ml-10 mt-0 mb-5 ml-5">{title}</h1>
+            <div className="w-10/12 mx-auto overflow-y-hidden h-full">
+                <div className="w-full overflow-y-auto h-full" style={{height: '400px'}}>
                     <table {...getTableProps()} className="w-full">
                         <thead>
                         {
@@ -61,7 +62,12 @@ const Table = ({ columns, data, title }) => {
                             <tr {...row.getRowProps()} className="border-b-2">
                                 {
                                     row.cells.map(cell => {
-                                        return <td {...cell.getCellProps()} className='pl-4 py-4'>{cell.render('Cell')}</td>
+                                        if(cell.column.Header === 'No'){
+                                            return <td {...cell.getCellProps()} className='pl-4 py-4'>{i+1}</td>        
+                                        }
+                                        else{
+                                            return <td {...cell.getCellProps()} className='pl-4 py-4'>{cell.render('Cell')}</td>
+                                        }
                                     })
                                 }
                             </tr>
