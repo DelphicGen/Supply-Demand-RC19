@@ -3,7 +3,7 @@ import { useTable, usePagination } from 'react-table'
 import {useMediaQuery} from '../../hooks/medquery-hook';
 import './Table.module.css'
 
-const Table = ({ columns, data, title }) => {
+const Table = ({ columns, data, title, isLandingPage }) => {
     const {
         getTableProps,
         getTableBodyProps,
@@ -30,8 +30,8 @@ const Table = ({ columns, data, title }) => {
     return (
         <div className="flex-auto">
             <h1 className="md:text-3xl text-2xl font-bold md:my-10 md:ml-10 mt-0 mb-5 ml-5">{title}</h1>
-            <div className="w-10/12 mx-auto overflow-y-hidden h-full">
-                <div className="w-full overflow-y-auto h-full" style={{height: '400px'}}>
+            <div className={`w-10/12 mx-auto overflow-y-hidden h-full ${isLandingPage && 'lg:pb-32'}`}>
+                <div className="w-full overflow-y-auto h-full">
                     <table {...getTableProps()} className="w-full">
                         <thead>
                         {

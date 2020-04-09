@@ -59,7 +59,7 @@ const TextInput = props => {
                     onChange={changeHandler}
                     onBlur={touchHandler} />
                 <RemoveRedEye 
-                    className={`${hidden ? 'text-gray-700' : 'text-blue-700'} absolute`} 
+                    className={`${hidden ? 'text-gray-700' : 'text-blue-700'} absolute cursor-pointer`} 
                     fontSize="default"
                     style={{right: 10, top: 8}}
                     onClick={() => setHidden(prev => !prev)} />

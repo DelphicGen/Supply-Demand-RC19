@@ -171,9 +171,9 @@ const LandingPage = () => {
                     value="stok" />
             </div>
 
-            <Table columns={ columns } data={ table === 'kebutuhan' ? data : data2 } />
-            <div className="bg-blue-800 text-white py-10 mt-20">
-                <h5 className="text-xl text-center">Icon by JustIcon</h5>
+            <Table columns={ columns } data={ table === 'kebutuhan' ? data : data2 } isLandingPage={true} />
+            <div className="bg-blue-800 text-white py-10 mt-20 lg:absolute lg:w-full lg:bottom-0">
+                <h5 className="text-sm text-center">Icon by JustIcon</h5>
             </div>
         </React.Fragment>
     )
