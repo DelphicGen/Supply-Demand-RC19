@@ -27,7 +27,7 @@ const Sidebar = props => {
                      <Link key={link.info} link={link.link} icon={link.icon} info={link.info}></Link>
                   ))
                }
-               <Link className="block md:hidden" key="Logout" link="/" icon={<ExitToApp  className="text-white" fontSize="small" />} info="Logout"></Link>
+               <Link key="Logout" link="/" icon={<ExitToApp  className="text-white" fontSize="small" />} info="Logout"></Link>
             </ul>
          </div>
          <p className="hidden md:block text-left ml-5 absolute cursor-pointer" style={{bottom: '10%'}} onClick={logoutHandler}><ExitToApp  className="text-white" fontSize="small" /><span className="lg:pl-3 md:pl-1 pb-1 md:pb-0 text-xs md:text-sm lg:text-base text-gray-400 md:font-bold block md:inline-block font-semibold">Logout</span></p>
