@@ -30,7 +30,7 @@ const Table = ({ columns, data, title, isLandingPage }) => {
     return (
         <div className="flex-auto">
             <h1 className="md:text-3xl text-2xl font-bold md:my-10 md:ml-10 mt-0 mb-5 ml-5">{title}</h1>
-            <div className={`w-10/12 mx-auto overflow-y-hidden h-full ${isLandingPage && 'lg:pb-32'}`}>
+            <div className={`w-10/12 md:ml-10 ml-5 overflow-y-hidden h-full ${isLandingPage && 'lg:pb-32 mx-auto'}`}>
                 <div className="w-full overflow-y-auto h-full">
                     <table {...getTableProps()} className="w-full">
                         <thead>
