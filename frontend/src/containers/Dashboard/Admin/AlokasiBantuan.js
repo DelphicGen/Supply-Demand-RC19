@@ -6,7 +6,6 @@ import {useForm} from '../../../hooks/form-hook'
 import {useHttpClient} from '../../../hooks/http-hook'
 import {VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE, VALIDATOR_PASSWORD}from '../../../util/validator'
 
-
 import Sidebar from '../../../components/Dashboard/SideBar'
 import LoadingSpinner from '../../../components/UI/LoadingSpinner'
 import ErrorText from '../../../components/UI/ErrorText'

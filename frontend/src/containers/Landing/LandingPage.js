@@ -1,7 +1,8 @@
-import React, {useState, useContext} from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import {AuthContext} from '../../context/auth-context'
-import logo from '../../images/LandingPage.png'
+import {useHttpClient} from '../../hooks/http-hook'
 
+import logo from '../../images/LandingPage.png'
 import Button from '../../components/UI/Button'
 import RadioTextInput from '../../components/Form/RadioTextInput'
 import WhiteButton from '../../components/UI/WhiteButton'
@@ -117,6 +118,7 @@ const LandingPage = () => {
                 kuantitas: '6'
             }
         ]
+    const {isLoading, error, sendRequest} = useHttpClient()
 
     const radioChangeHandler = event => {
         setTable(event.target.value)
@@ -131,6 +133,17 @@ const LandingPage = () => {
     } else if(auth.role === 'APPLICANT'){
         dashboardLink = '/dashboard/riwayat-permohonan'
     }
+
+    useEffect(() => {
+        sendRequest(
+            `${process.env.REACT_APP_BACKEND_URL}/v1/items`,
+            'GET',
+            null,
+            {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
+        ).then(responseData => {
+            console.log(responseData)
+        })
+    }, [])
 
     return(
         <React.Fragment>

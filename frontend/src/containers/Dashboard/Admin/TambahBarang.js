@@ -17,6 +17,10 @@ import Table from '../../../components/Dashboard/Table'
 const TambahBarang = () => {
     const columns = [
         {
+            Header: 'No',
+            accessor: 'no'
+        },
+        {
             Header: 'Nama Barang',
             accessor: 'name'
         },
