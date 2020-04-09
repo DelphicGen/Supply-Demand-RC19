@@ -4,7 +4,7 @@ import './Link.css'
 import {useMediaQuery} from '../../hooks/medquery-hook';
 
 const Link = props => {
-    const mediaQuery = useMediaQuery('(max-width: 767px)');
+    const mediaQuery = useMediaQuery('(max-width: 650px)');
 
     return (
         <li className={`md:mr-3 flex-1 duration-300 hover:bg-blue-900 rounded-lg md:rounded-l-none md:rounded-r-lg ${props.info === 'Logout' ? 'md:hidden' : 'block'}`}>
