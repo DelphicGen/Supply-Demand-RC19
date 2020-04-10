@@ -1,4 +1,5 @@
 import React, {useEffect, useState, useContext} from 'react'
+import ImageUploader from "react-images-upload";
 import {AddCircle, Delete} from '@material-ui/icons'
 import {links} from '../../../components/Dashboard/adminLink'
 import {AuthContext} from '../../../context/auth-context'
@@ -16,10 +17,11 @@ import Button from '../../../components/UI/Button'
 import DatePicker from '../../../components/UI/DatePicker2'
 import Select from '../../../components/UI/Select'
 
-const AlokasiBantuan = () => {
+const AlokasiBantuan = (props) => {
 
-  const [pageSize, setPageSize] = useState()
-    
+  const [pictures, setPictures] = useState([]);
+  const [file, setFile] = useState('')
+  const [imagePreviewUrl, setImagePreviewUrl] = useState('')
   const [items, setItems] = useState([])
   const [formState, inputHandler] = useForm({
       itemName: {
@@ -27,81 +29,157 @@ const AlokasiBantuan = () => {
           isValid: false
       }
   }, false)
-    const {isLoading, error, sendRequest} = useHttpClient()
-    const auth = useContext(AuthContext)
-
-    useEffect(() => {
-       const fetchItems = () => {
-           sendRequest(
-            `${process.env.REACT_APP_BACKEND_URL}/v1/requests`,
-            'GET',
-            null,
-            {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
-           ).then(responseData => {
-               console.log(responseData)
-           })
-       }
-       fetchItems()
-    }, [auth.token, sendRequest])
+  const {isLoading, error, sendRequest} = useHttpClient()
+  const auth = useContext(AuthContext)
 
 
-    const deleteItem = id => {
-        sendRequest(
-            `${process.env.REACT_APP_BACKEND_URL}/v1/items/${id}`,
-            'DELETE',
-            null,
-            {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
-        ).then(() => setItems(prevItem => prevItem.filter(item => item.id !== id)))
-        // setItems(prevItem => prevItem.filter(item => item.id !== id))
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  }
+
+  const handleImageChange = (e) =>  {
+    e.preventDefault();
+
+    let reader = new FileReader();
+    let file = e.target.files[0];
+
+    reader.onloadend = () => {
+
+      setFile(file)
+      setImagePreviewUrl(reader.result)
     }
 
-    const addItem = event => {
-        event.preventDefault()
+    reader.readAsDataURL(file)
+  }
+
+ 
+  useEffect(() => {
+    
+    const fetchItems = () => {
         sendRequest(
-            `${process.env.REACT_APP_BACKEND_URL}/v1/items`,
-            'POST',
-            JSON.stringify({
-                name: formState.inputs.itemName.value
-            }),
-            {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
+          `${process.env.REACT_APP_BACKEND_URL}/v1/items`,
+          'GET',
+          null,
+          {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
         ).then(responseData => {
-            setItems(prevItem => prevItem.concat({
-                id: responseData.id,
-                name: responseData.name,
-                delete: (
-                    <WhiteButton width={120} onClick={() => deleteItem(responseData.id)}>
-                        <Delete className="text-blue-800 mr-2" fontSize="inherit" /><span className="text-sm pt-1">HAPUS</span>
-                    </WhiteButton>
-                )
-            }))
+            setItems(responseData)
         })
     }
+    fetchItems()
+  }, [auth.token, sendRequest])
+
+  const onDrop = picture => {
+    setPictures([...pictures, picture]);
+  };
+
+  const deleteItem = id => {
+      sendRequest(
+          `${process.env.REACT_APP_BACKEND_URL}/v1/items/${id}`,
+          'DELETE',
+          null,
+          {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
+      ).then(() => setItems(prevItem => prevItem.filter(item => item.id !== id)))
+      // setItems(prevItem => prevItem.filter(item => item.id !== id))
+    }
+    
+   
+
+  const addItem = event => {
+      event.preventDefault()
+      sendRequest(
+          `${process.env.REACT_APP_BACKEND_URL}/v1/allocations`,
+          'POST',
+          JSON.stringify({
+              name: formState.inputs.itemName.value
+          }),
+          {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
+      ).then(responseData => {
+          setItems(prevItem => prevItem.concat({
+              id: responseData.id,
+              name: responseData.name,
+              delete: (
+                  <WhiteButton width={120} onClick={() => deleteItem(responseData.id)}>
+                      <Delete className="text-blue-800 mr-2" fontSize="inherit" /><span className="text-sm pt-1">HAPUS</span>
+                  </WhiteButton>
+              )
+          }))
+      })
+      // setItems(prevItem => prevItem.concat({
+      //     id: prevItem.length + 1, 
+      //     item: formState.inputs.itemName.value, 
+      //     delete: (
+      //         <WhiteButton width={120} onClick={() => deleteItem(prevItem.length + 1)}>
+      //             <Delete className="text-blue-800 mr-2" fontSize="inherit" /><span className="text-sm pt-1">HAPUS</span>
+      //         </WhiteButton>
+      //     )
+      // }))
+    }
+
+    let $imagePreview = null;
+    if (imagePreviewUrl) {
+      $imagePreview = (<img style={{width: 400, maxHeight: 300}}  src={imagePreviewUrl} />);
+    }
+
+    
 
     return(
+
+      
+     
         <div className="flex flex-row h-full w-full">
+
+            {/* sidebar */}
+
             <Sidebar role="" name="ADMIN" links={links} />
+
             <div className="flex w-full flex-col p-8 md:p-16">
                 <Title>Alokasikan Bantuan</Title>
+
                 
-                <form onSubmit={addItem} className="md:flex md:flex-row md:items-center mt-4">
+                <form onSubmit={addItem} className="">
+            
                 <div className="flex flex-col lg:flex-row w-full lg:mb-5">
-                    <Select 
+                    {/* <TextInput
+                        divClassName="w-2/5 lg:4/12 lg:mr-3"
+                        id="itemName"
+                        type="text"
                         label="Lembaga Penerima"
-                        divClassName="mr-3 w-2/5"
-                    />
+                        validators={[VALIDATOR_REQUIRE()]}
+                        onInput={inputHandler}
+                        errorText="Mohon masukkan nama barang."
+                     /> */}
+
+                     <Select 
+                     label="Lembaga Penerima"
+                     divClassName="mr-3 w-2/5"
+                  
+                      />
+
+                    {/* <TextInput
+                    divClassName="w-2/5 lg:4/12 "
+                    id="itemName"
+                    type="text"
+                    label="Tanggal Penyerahan"
+                    validators={[VALIDATOR_REQUIRE()]}
+                    onInput={inputHandler}
+                    errorText="Mohon masukkan nama barang."
+                   /> */}
 
                   <DatePicker 
                   label="Tanggal Penyerahan" 
                   divClassName="w-2/5"
                   />
-                </div>
 
-                </form>
+                </div>
                 
+                
+                
+
                 <div className="flex flex-col lg:flex-row w-full lg:mb-5">
-                    <Select 
+                     <Select 
                       label="Jenis Barang"
                       divClassName="mr-3 w-2/5"/>
+
               
                     <TextInput
                     divClassName="w-1/5 lg:4/12 lg:mr-3"
@@ -110,7 +188,7 @@ const AlokasiBantuan = () => {
                     label="Kuantitas"
                     validators={[VALIDATOR_REQUIRE()]}
                     onInput={inputHandler}
-                    errorText="Mohon masukkan nama barang."
+                    errorText="Mohon masukkan kuantitas barang."
                     />
 
                     <Select 
@@ -133,11 +211,25 @@ const AlokasiBantuan = () => {
                     onInput={inputHandler}
                     errorText="Mohon masukkan nama barang."
                   />
+
+
+                  <div>
+                    <form onSubmit={handleSubmit}>
+                      <input type="file" onChange={handleImageChange} />
+                      {/* <button type="submit" onClick={handleSubmit}>Upload Image</button> */}
+                    </form>
+                    {$imagePreview}
+                  </div>
+
+
+
+
+                  {/* white loading button */}
                   <div>
                   <WhiteButton width={125} type="submit" className="md:mt-3">
                         {!isLoading ? 
                             <React.Fragment>
-                                <AddCircle className="text-blue-800 mr-2" fontSize="inherit" /> <span className="text-sm pt-1">UPLOAD</span>
+                                <AddCircle className="text-blue-800 mr-2" fontSize="inherit" /> <span className="text-sm pt-1">Upload</span>
                             </React.Fragment> : 
                             <LoadingSpinner style={{transform: 'translateY(-3px)'}} />
                         }
@@ -147,6 +239,7 @@ const AlokasiBantuan = () => {
 
                   <Button
                     width={200}
+                  
                     type="submit"
                       >{isLoading ? <LoadingSpinner color="white" style={{transform: 'translateY(-3px)'}} /> : 'SUBMIT'} </Button>
 
@@ -154,12 +247,16 @@ const AlokasiBantuan = () => {
 
                 </div>
 
-
+                </form>
                 {/* Text-error */}
                 {error && <ErrorText>{error}</ErrorText>}
             </div>
 
+            
+
         </div>
+
+        
     )
 }
 
