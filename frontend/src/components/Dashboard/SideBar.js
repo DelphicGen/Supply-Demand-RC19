@@ -17,8 +17,8 @@ const Sidebar = props => {
    return (
       <div style={styles.container(mediaQuery)} className="w-full xl:w-1/5 bg-blue-800 rounded-t-lg md:rounded-t-none md:rounded-r-lg  text-center fixed md:sticky md:static bottom-0 md:pt-10 md:top-0 md:left-0 h-16 md:h-screen md:relative">
          <div className="hidden md:block md:text-left lg:pl-5 md:pl-3">
-               <h5 className="text-white lg:text-base font-semibold text-xs">{`Dashboard ${props.role}`} </h5>
-               <h2 className="text-white lg:text-4xl font-semibold text-2xl">{props.name}</h2>
+            <h5 className="text-white lg:text-base font-semibold text-xs">{`Dashboard ${props.role}`} </h5>
+            <h2 className="text-white lg:text-2xl font-semibold text-lg">{props.name}</h2>
          </div>
          <div className="mx-auto lg:pr-2 md:mt-20">
             <ul className="list-reset flex flex-row md:flex-col text-center md:text-left">

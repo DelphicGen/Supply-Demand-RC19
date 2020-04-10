@@ -1,12 +1,9 @@
 
 import React, {useState} from 'react'
 
-
-
 const Select = props  => {
 
 const [pageSize, setPageSize] = useState();
-
 
   return (
     <div className={`flex flex-col ${props.divClassName}`}>
@@ -18,7 +15,7 @@ const [pageSize, setPageSize] = useState();
         onChange={e => {
             setPageSize(Number(e.target.value))
         }}
-        >
+      >
         {[10, 20, 30, 40, 50].map(pageSize => (
             <option key={pageSize} value={pageSize}>
             {pageSize}

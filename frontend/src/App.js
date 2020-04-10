@@ -91,3 +91,11 @@ const App = () => {
 }
 
 export default App
+
+// admin user buat test
+// email: admin@admin.com
+// pass: admin-supply-demand-covid19
+
+// donatur buat test
+// email: donatur@donatur.com
+// pass: donatur-supply-demand-covid19

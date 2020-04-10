@@ -109,12 +109,12 @@ const AlokasiBantuan = () => {
                         errorText="Mohon masukkan nama barang."
                      /> */}
 
-                     <Select 
-                     label="Lembaga Penerima"
-                     divClassName="mr-3 w-2/5"
+                    <Select 
+                        label="Lembaga Penerima"
+                        divClassName="mr-3 w-2/5"
                     
                      
-                      />
+                    />
 
                     {/* <TextInput
                     divClassName="w-2/5 lg:4/12 "
@@ -145,24 +145,19 @@ const AlokasiBantuan = () => {
                       label="Jenis Barang"
                       divClassName="mr-3 w-2/5"/>
 
-              
                     <TextInput
-                    divClassName="w-1/5 lg:4/12 lg:mr-3"
-                    id="itemName"
-                    type="text"
-                    label="Kuantitas"
-                    validators={[VALIDATOR_REQUIRE()]}
-                    onInput={inputHandler}
-                    errorText="Mohon masukkan nama barang."
+                        divClassName="w-1/5 lg:4/12 lg:mr-3"
+                        id="itemName"
+                        type="text"
+                        label="Kuantitas"
+                        validators={[VALIDATOR_REQUIRE()]}
+                        onInput={inputHandler}
+                        errorText="Mohon masukkan nama barang."
                     />
 
                     <Select 
-                      placeholde={`as`}
-                      divClassName="w-1/5 lg:4/12 lg:mr-3 lg:mt-6"/>
-
-
-                          
-                
+                        placeholder={`as`}
+                        divClassName="w-1/5 lg:4/12 lg:mr-3 lg:mt-6"/>
                 </div>
 
 
