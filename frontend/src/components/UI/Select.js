@@ -1,12 +1,7 @@
-
 import React, {useState} from 'react'
 
-
-
 const Select = props  => {
-
 const [pageSize, setPageSize] = useState();
-
 
   return (
     <div className={`flex flex-col ${props.divClassName}`}>
@@ -29,11 +24,4 @@ const [pageSize, setPageSize] = useState();
   );
 };
 
-
 export default Select 
-
-
-
-
-
-

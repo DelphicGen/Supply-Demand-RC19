@@ -33,12 +33,12 @@ const AlokasiBantuan = () => {
     useEffect(() => {
        const fetchItems = () => {
            sendRequest(
-            `${process.env.REACT_APP_BACKEND_URL}/v1/items`,
+            `${process.env.REACT_APP_BACKEND_URL}/v1/requests`,
             'GET',
             null,
             {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
            ).then(responseData => {
-               setItems(responseData)
+               console.log(responseData)
            })
        }
        fetchItems()
@@ -75,76 +75,33 @@ const AlokasiBantuan = () => {
                 )
             }))
         })
-        // setItems(prevItem => prevItem.concat({
-        //     id: prevItem.length + 1, 
-        //     item: formState.inputs.itemName.value, 
-        //     delete: (
-        //         <WhiteButton width={120} onClick={() => deleteItem(prevItem.length + 1)}>
-        //             <Delete className="text-blue-800 mr-2" fontSize="inherit" /><span className="text-sm pt-1">HAPUS</span>
-        //         </WhiteButton>
-        //     )
-        // }))
     }
 
     return(
         <div className="flex flex-row h-full w-full">
-
-            {/* sidebar */}
-
             <Sidebar role="" name="ADMIN" links={links} />
-
             <div className="flex w-full flex-col p-8 md:p-16">
                 <Title>Alokasikan Bantuan</Title>
-
                 
                 <form onSubmit={addItem} className="md:flex md:flex-row md:items-center mt-4">
                 <div className="flex flex-col lg:flex-row w-full lg:mb-5">
-                    {/* <TextInput
-                        divClassName="w-2/5 lg:4/12 lg:mr-3"
-                        id="itemName"
-                        type="text"
+                    <Select 
                         label="Lembaga Penerima"
-                        validators={[VALIDATOR_REQUIRE()]}
-                        onInput={inputHandler}
-                        errorText="Mohon masukkan nama barang."
-                     /> */}
-
-                     <Select 
-                     label="Lembaga Penerima"
-                     divClassName="mr-3 w-2/5"
-                    
-                     
-                      />
-
-                    {/* <TextInput
-                    divClassName="w-2/5 lg:4/12 "
-                    id="itemName"
-                    type="text"
-                    label="Tanggal Penyerahan"
-                    validators={[VALIDATOR_REQUIRE()]}
-                    onInput={inputHandler}
-                    errorText="Mohon masukkan nama barang."
-                   /> */}
+                        divClassName="mr-3 w-2/5"
+                    />
 
                   <DatePicker 
                   label="Tanggal Penyerahan" 
                   divClassName="w-2/5"
                   />
-
-                  
-
-                    
-
                 </div>
 
                 </form>
                 
-
                 <div className="flex flex-col lg:flex-row w-full lg:mb-5">
-                     <Select 
+                    <Select 
                       label="Jenis Barang"
                       divClassName="mr-3 w-2/5"/>
-
               
                     <TextInput
                     divClassName="w-1/5 lg:4/12 lg:mr-3"
@@ -180,7 +137,7 @@ const AlokasiBantuan = () => {
                   <WhiteButton width={125} type="submit" className="md:mt-3">
                         {!isLoading ? 
                             <React.Fragment>
-                                <AddCircle className="text-blue-800 mr-2" fontSize="inherit" /> <span className="text-sm pt-1">Upload</span>
+                                <AddCircle className="text-blue-800 mr-2" fontSize="inherit" /> <span className="text-sm pt-1">UPLOAD</span>
                             </React.Fragment> : 
                             <LoadingSpinner style={{transform: 'translateY(-3px)'}} />
                         }
@@ -190,7 +147,6 @@ const AlokasiBantuan = () => {
 
                   <Button
                     width={200}
-                  
                     type="submit"
                       >{isLoading ? <LoadingSpinner color="white" style={{transform: 'translateY(-3px)'}} /> : 'SUBMIT'} </Button>
 
