@@ -64,9 +64,9 @@ const RegisterPage = (props) => {
             auth.login(responseData.jwt, responseData.user.role, responseData.user.name)
             let redirectLink = '/dashboard/tambah-barang'
 
-            if(responseData.user.role === 'donator'){
+            if(responseData.user.role === 'DONATOR'){
                 redirectLink = '/dashboard/donasi-saya'
-            } else if(responseData.user.role === 'applicant'){
+            } else if(responseData.user.role === 'APPLICANT'){
                 redirectLink = '/dashboard/riwayat-permohonan'
             }
 
@@ -130,16 +130,16 @@ const RegisterPage = (props) => {
                     <RadioInput
                         changed={radioChangeHandler}
                         id="donator"
-                        isSelected={role === 'donator'}
+                        isSelected={role === 'DONATOR'}
                         label="Donatur"
-                        value="donator" />
+                        value="DONATOR" />
 
                     <RadioInput
                         changed={radioChangeHandler}
                         id="applicant"
-                        isSelected={role === 'applicant'}
+                        isSelected={role === 'APPLICANT'}
                         label="Pemohon Bantuan"
-                        value="applicant" />
+                        value="APPLICANT" />
                 </div>
             </div>
 

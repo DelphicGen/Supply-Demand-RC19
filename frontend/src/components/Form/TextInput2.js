@@ -65,6 +65,7 @@ const TextInput = props => {
                 <Select3
                     divClassName="mx-2 w-1/2 inline-block"
                     list={props.list}
+                    changeUnit={props.changeUnit}
                 />
                 
             </div>

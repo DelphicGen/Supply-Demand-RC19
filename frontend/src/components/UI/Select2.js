@@ -13,8 +13,7 @@ const Select2 = props  => {
             style={{width: props.width, maxWidth: props.maxWidth, height: 40}} 
             value={props.list}
             onChange={e => {
-                console.log(e.target)
-                props.changeItem(e.target.name, e.target.value)
+                props.changeItem(e.target.value)
             }}
             >
             {props.list.map(item => (

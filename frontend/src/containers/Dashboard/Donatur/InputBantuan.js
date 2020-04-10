@@ -53,11 +53,11 @@ const InputBantuan = () => {
             {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
         ).then(responseData => {
             console.log(responseData)
-            // setUnitList(responseData)
-            // setDonasi({
-            //     ...donasi,
-            //     unit_id: responseData[0].id
-            // })
+            setUnitList(responseData)
+            setDonasi(prevDonasi => ({
+                ...prevDonasi,
+                unit_id: responseData[0].id
+            }))
         })
 
         sendRequest(
@@ -68,10 +68,10 @@ const InputBantuan = () => {
         ).then(responseData => {
             console.log(responseData)
             setItemList(responseData)
-            setDonasi({
-                ...donasi,
+            setDonasi(prevDonasi => ({
+                ...prevDonasi,
                 item_id: responseData[0].id
-            })
+            }))
 
         })
     }, [auth.token, sendRequest])
@@ -90,22 +90,27 @@ const InputBantuan = () => {
         })
     }
 
+    useEffect(() => {
+        console.log(donasi)
+        console.log(formState)
+    }, [donasi])
+
     const submitHandler = () => {
         sendRequest(
             `${process.env.REACT_APP_BACKEND_URL}/v1/donations`,
             'POST',
             JSON.stringify({
-                item_id: donasi.item_id,
-                unit_id: donasi.unit_id,
-                quantity: formState.inputs.itemName.value
+                donationItems: [
+                    {
+                        item_id: donasi.item_id,
+                        unit_id: donasi.unit_id,
+                        quantity: formState.inputs.quantity.value
+                    }
+                ]
             }),
             {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
         ).then(responseData => {
-            setDonasi({
-                ...donasi,
-                // unit_id: responseData[0].id,
-                item_id: responseData[0].id
-            })
+            console.log(responseData)
             inputHandler("quantity", '', false)
         })
     }

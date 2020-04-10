@@ -99,3 +99,6 @@ export default App
 // donatur buat test
 // email: donatur@donatur.com
 // pass: donatur-supply-demand-covid19
+
+// email: donatur2@donatur.com
+// pass: donatur-supply-demand-covid19
