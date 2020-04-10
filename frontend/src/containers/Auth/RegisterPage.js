@@ -66,7 +66,7 @@ const RegisterPage = (props) => {
 
             if(responseData.user.role === 'donator'){
                 redirectLink = '/dashboard/donasi-saya'
-            } else if(responseData.user.role === 'APPLICANT'){
+            } else if(responseData.user.role === 'applicant'){
                 redirectLink = '/dashboard/riwayat-permohonan'
             }
 

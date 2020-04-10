@@ -130,7 +130,7 @@ const LandingPage = () => {
 
     if(auth.role === 'donator'){
         dashboardLink = '/dashboard/donasi-saya'
-    } else if(auth.role === 'APPLICANT'){
+    } else if(auth.role === 'applicant'){
         dashboardLink = '/dashboard/riwayat-permohonan'
     }
 

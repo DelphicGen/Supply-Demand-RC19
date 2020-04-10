@@ -25,12 +25,9 @@ const useStyles = makeStyles({
         borderBottom: "none"
       }
     }
-});
-
+})
 
 const MaterialUIPickers = ( ) =>  {
-
-
   // The first commit of Material-UI
   const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
 
@@ -39,7 +36,6 @@ const MaterialUIPickers = ( ) =>  {
   };
 
   const classes = useStyles();
-
 
   return (
   

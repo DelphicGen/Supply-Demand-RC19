@@ -7,6 +7,7 @@ import {useHttpClient} from '../../../hooks/http-hook'
 import {VALIDATOR_REQUIRE} from '../../../util/validator'
 
 import Sidebar from '../../../components/Dashboard/SideBar'
+import RadioInput from '../../../components/Form/RadioInput'
 import LoadingSpinner from '../../../components/UI/LoadingSpinner'
 import ErrorText from '../../../components/UI/ErrorText'
 import Title from '../../../components/Dashboard/Title'
@@ -29,19 +30,35 @@ const TambahBarang = () => {
             accessor: 'delete'
         }
     ]  
+    const unitColumns = [
+        {
+            Header: 'No',
+            accessor: 'no'
+        },
+        {
+            Header: 'Satuan',
+            accessor: 'name'
+        },
+        {
+            Header: '',
+            accessor: 'delete'
+        }
+    ]
     const [items, setItems] = useState([])
+    const [units, setUnits] = useState([])
+	const [table, setTable] = useState('item')
     const [formState, inputHandler] = useForm({
         itemName: {
+            value: '',
+            isValid: false
+        },
+        unit: {
             value: '',
             isValid: false
         }
     }, false)
     const {isLoading, error, sendRequest} = useHttpClient()
     const auth = useContext(AuthContext)
-
-    useEffect(() => {
-        console.log(items)
-    }, [items])
 
     useEffect(() => {
        const fetchItems = () => {
@@ -67,6 +84,30 @@ const TambahBarang = () => {
        }
     }, [auth.token, sendRequest])
 
+    useEffect(() => {
+        const fetchUnits = () => {
+            sendRequest(
+             `${process.env.REACT_APP_BACKEND_URL}/v1/units`,
+             'GET',
+             null,
+             {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
+            ).then(responseData => {
+                if(responseData){
+                 responseData.forEach(data => data.delete = (
+                     <WhiteButton width={120} onClick={() => deleteUnit(data.id)}>
+                         <Delete className="text-blue-800 mr-2" fontSize="inherit" /><span className="text-sm pt-1">HAPUS</span>
+                     </WhiteButton>
+                 ))
+                 setUnits(responseData)
+                }
+            })
+        }
+ 
+        if(auth.token){
+             fetchUnits()
+        }
+     }, [auth.token, sendRequest])
+
     const deleteItem = id => {
         return fetch(`${process.env.REACT_APP_BACKEND_URL}/v1/items/${id}`, {
             method: 'DELETE',
@@ -76,6 +117,17 @@ const TambahBarang = () => {
                 'Authorization': `Bearer ${auth.token}`
             }
         }).then(() => setItems(prevItem => prevItem.filter(item => item.id !== id)))
+    }
+
+    const deleteUnit = id => {
+        return fetch(`${process.env.REACT_APP_BACKEND_URL}/v1/items/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json', 
+                'Content-Type': 'application/json', 
+                'Authorization': `Bearer ${auth.token}`
+            }
+        }).then(() => setUnits(prevUnit => prevUnit.filter(unit => unit.id !== id)))
     }
 
     const addItem = event => {
@@ -92,7 +144,7 @@ const TambahBarang = () => {
                 id: responseData.id,
                 name: responseData.name,
                 delete: (
-                    <WhiteButton width={120} onClick={() => deleteItem(responseData.id)}>
+                    <WhiteButton width={120} onClick={() => deleteUnit(responseData.id)}>
                         <Delete className="text-blue-800 mr-2" fontSize="inherit" /><span className="text-sm pt-1">HAPUS</span>
                     </WhiteButton>
                 )
@@ -100,13 +152,39 @@ const TambahBarang = () => {
         })
     }
 
+    const addUnit = event => {
+        event.preventDefault()
+        sendRequest(
+            `${process.env.REACT_APP_BACKEND_URL}/v1/units`,
+            'POST',
+            JSON.stringify({
+                name: formState.inputs.unit.value
+            }),
+            {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
+        ).then(responseData => {
+            setUnits(prevUnit => prevUnit.concat({
+                id: responseData.id,
+                name: responseData.name,
+                delete: (
+                    <WhiteButton width={120} onClick={() => deleteUnit(responseData.id)}>
+                        <Delete className="text-blue-800 mr-2" fontSize="inherit" /><span className="text-sm pt-1">HAPUS</span>
+                    </WhiteButton>
+                )
+            }))
+        })
+    }
+	
+	const radioChangeHandler = (event) => {
+        setTable(event.target.value)
+    }
+
     return(
         <div className="flex flex-row">
             <Sidebar role="" name="ADMIN" links={links} />
 
             <div className="p-8 md:p-16">
-                <Title>Tambahkan Jenis Barang</Title>
-                <form onSubmit={addItem} className="md:flex md:flex-row md:items-center">
+                <Title>Tambahkan Jenis Barang atau Satuan</Title>
+                {table === 'item' && <form onSubmit={addItem} className="md:flex md:flex-row md:items-center">
                     <TextInput
                         className="md:mr-3"
                         id="itemName"
@@ -125,7 +203,46 @@ const TambahBarang = () => {
                         }
                     </WhiteButton>
                 </form>
-                {items.length > 0 && <Table columns={ columns } data={ items } />}
+				}
+
+                {table === 'unit' && <form onSubmit={addUnit} className="md:flex md:flex-row md:items-center">
+                    <TextInput
+                        className="md:mr-3"
+                        id="unit"
+                        type="text"
+                        label="Satuan (Liter, Box, Botol, dll)"
+                        validators={[VALIDATOR_REQUIRE()]}
+                        onInput={inputHandler}
+                        errorText="Mohon masukkan satuan."
+                        width={300} />
+                    <WhiteButton width={125} type="submit" className="md:mt-3">
+                        {!isLoading ? 
+                            <React.Fragment>
+                                <AddCircle className="text-blue-800 mr-2" fontSize="inherit" /> <span className="text-sm pt-1">TAMBAH</span>
+                            </React.Fragment> : 
+                            <LoadingSpinner style={{transform: 'translateY(-3px)'}} />
+                        }
+                    </WhiteButton>
+                </form>
+				}
+				
+				<div className="flex flex-row">
+                    <RadioInput
+                        changed={radioChangeHandler}
+                        id="item"
+                        isSelected={table === 'item'}
+                        label="Barang"
+                        value="item" />
+
+                    <RadioInput
+                        changed={radioChangeHandler}
+                        id="unit"
+                        isSelected={table === 'unit'}
+                        label="Satuan"
+                        value="unit" />
+                </div>
+
+                {(items.length > 0 || units.length > 0) && <Table columns={ table === 'item' ? columns : unitColumns } data={ table === 'item' ? items : units } />}
                 {error && <ErrorText>{error}</ErrorText>}
             </div>
 

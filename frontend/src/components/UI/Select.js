@@ -1,8 +1,6 @@
-
 import React, {useState} from 'react'
 
 const Select = props  => {
-
 const [pageSize, setPageSize] = useState();
 
   return (
@@ -26,11 +24,4 @@ const [pageSize, setPageSize] = useState();
   );
 };
 
-
 export default Select 
-
-
-
-
-
-

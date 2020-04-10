@@ -41,10 +41,10 @@ const LoginPage = (props) => {
             auth.login(responseData.jwt, responseData.user.role, responseData.user.name, responseData.user['contact_person'], responseData.user['contact_number'])
             
             let redirectLink = '/dashboard/tambah-barang'
-
+            
             if(responseData.user.role === 'donator'){
                 redirectLink = '/dashboard/donasi-saya'
-            } else if(responseData.user.role === 'APPLICANT'){
+            } else if(responseData.user.role === 'applicant'){
                 redirectLink = '/dashboard/riwayat-permohonan'
             }
 
