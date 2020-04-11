@@ -158,12 +158,12 @@ const InputBantuan = () => {
                             </div> */}
                             <Select2
                                 label="Jenis Barang"
-                                divClassName="mr-3 lg:w-4/12 w-full mt-2 lg:mt-0    "
+                                divClassName="mr-3 lg:w-6/12 w-full mt-2 lg:mt-0    "
                                 list={ itemList }
                                 changeItem={ changeItem }
                             />
                             <TextInput2
-                                divClassName="lg:w-4/12 w-full lg:4/12 lg:mr-3"
+                                divClassName="lg:w-6/12 w-full lg:4/12 lg:mr-3"
                                 id="quantity"
                                 type="text"
                                 label="Kuantitas"

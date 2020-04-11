@@ -17,107 +17,44 @@ const LandingPage = () => {
             },
             {
                 Header: 'Nama Barang',
-                accessor: 'namabarang'
+                accessor: 'item'
             },
             {
                 Header: 'Kuantitas',
-                accessor: 'kuantitas'
+                accessor: 'quantity'
             }
         ]
-    const data = [
-            {
-                no: '1',
-                namabarang: 'Barang1',
-                kuantitas: '1'
-            },
-            {
-                no: '2',
-                namabarang: 'Barang2',
-                kuantitas: '2'
-            },
-            {
-                no: '3',
-                namabarang: 'Barang3',
-                kuantitas: '3'
-            }
-        ]
-    const data2 = [
-            {
-                no: '4',
-                namabarang: 'Barang4',
-                kuantitas: '4'
-            },
-            {
-                no: '5',
-                namabarang: 'Barang5',
-                kuantitas: '5'
-            },
-            {
-                no: '6',
-                namabarang: 'Barang6',
-                kuantitas: '6'
-            },
-            {
-                no: '4',
-                namabarang: 'Barang4',
-                kuantitas: '4'
-            },
-            {
-                no: '5',
-                namabarang: 'Barang5',
-                kuantitas: '5'
-            },
-            {
-                no: '6',
-                namabarang: 'Barang6',
-                kuantitas: '6'
-            },
-            {
-                no: '4',
-                namabarang: 'Barang4',
-                kuantitas: '4'
-            },
-            {
-                no: '5',
-                namabarang: 'Barang5',
-                kuantitas: '5'
-            },
-            {
-                no: '6',
-                namabarang: 'Barang6',
-                kuantitas: '6'
-            },
-            {
-                no: '4',
-                namabarang: 'Barang4',
-                kuantitas: '4'
-            },
-            {
-                no: '5',
-                namabarang: 'Barang5',
-                kuantitas: '5'
-            },
-            {
-                no: '6',
-                namabarang: 'Barang6',
-                kuantitas: '6'
-            },
-            {
-                no: '4',
-                namabarang: 'Barang4',
-                kuantitas: '4'
-            },
-            {
-                no: '5',
-                namabarang: 'Barang5',
-                kuantitas: '5'
-            },
-            {
-                no: '6',
-                namabarang: 'Barang6',
-                kuantitas: '6'
-            }
-        ]
+    // const dataDemand = [
+    //         {
+    //             item: 'Barang1',
+    //             quantity: '1'
+    //         },
+    //         {
+    //             item: 'Barang2',
+    //             quantity: '2'
+    //         },
+    //         {
+    //             item: 'Barang3',
+    //             quantity: '3'
+    //         }
+    // ]
+
+    const [dataDemand, setDataDemand] = useState([])
+    const [dataStock, setDataStock] = useState([])
+    // const data2 = [
+    //         {
+    //             namabarang: 'Barang4',
+    //             kuantitas: '4'
+    //         },
+    //         {
+    //             namabarang: 'Barang5',
+    //             kuantitas: '5'
+    //         },
+    //         {
+    //             namabarang: 'Barang6',
+    //             kuantitas: '6'
+    //         }
+    //     ]
     const {isLoading, error, sendRequest} = useHttpClient()
 
     const radioChangeHandler = event => {
@@ -128,20 +65,33 @@ const LandingPage = () => {
 
     let dashboardLink = '/dashboard/alokasi-bantuan'
 
-    if(auth.role === 'donator'){
+    if(auth.role === 'DONATOR'){
         dashboardLink = '/dashboard/donasi-saya'
-    } else if(auth.role === 'applicant'){
+    } else if(auth.role === 'APPLICANT'){
         dashboardLink = '/dashboard/riwayat-permohonan'
     }
 
     useEffect(() => {
         sendRequest(
-            `${process.env.REACT_APP_BACKEND_URL}/v1/items`,
+            `${process.env.REACT_APP_BACKEND_URL}/v1/requests`,
             'GET',
             null,
-            {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
+            {'Accept': 'application/json', 'Content-Type': 'application/json'}
         ).then(responseData => {
             console.log(responseData)
+            // setDataDemand(responseData.data.requestItems)
+        })
+
+        sendRequest(
+            `${process.env.REACT_APP_BACKEND_URL}/v1/stocks`,
+            'GET',
+            null,
+            {'Accept': 'application/json', 'Content-Type': 'application/json'}
+        ).then(responseData => {
+            console.log(responseData)
+            if(responseData){
+                // setDataStock(responseData.data)
+            }
         })
     }, [])
 
@@ -184,7 +134,7 @@ const LandingPage = () => {
                     value="stok" />
             </div>
 
-            <Table columns={ columns } data={ table === 'kebutuhan' ? data : data2 } isLandingPage={true} />
+            <Table columns={ columns } data={ table === 'kebutuhan' ? dataDemand : dataStock } isLandingPage={true} />
             <div className="bg-blue-800 text-white py-10 mt-20 lg:absolute lg:w-full lg:bottom-0">
                 <h5 className="text-sm text-center">Icon by JustIcon</h5>
             </div>

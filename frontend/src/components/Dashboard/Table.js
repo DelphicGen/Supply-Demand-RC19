@@ -29,8 +29,8 @@ const Table = ({ columns, data, title, isLandingPage }) => {
 
     return (
         <div className="flex-auto">
-            <h1 className={`md:text-3xl text-2xl font-bold md:my-10 ${isLandingPage ? 'md:ml-10' : 'md:ml-0'} mt-0 mb-5 ml-5`}>{title}</h1>
-            <div className={`w-10/12 ml-5 ${isLandingPage ? 'md:ml-10' : 'md:ml-0'} overflow-y-hidden h-full ${isLandingPage && 'lg:pb-32 mx-auto'}`}>
+            {/* <h1 className={`md:text-3xl text-2xl font-bold md:my-10 ${isLandingPage ? 'md:ml-10' : 'md:ml-0'} mt-0 mb-5 ml-5`}>{title}</h1> */}
+            <div className={`w-10/12 overflow-y-hidden h-full ${isLandingPage && 'lg:pb-32 mx-auto'}`}>
                 <div className="w-full overflow-y-auto h-full">
                     <table {...getTableProps()} className="w-full">
                         <thead>
@@ -46,7 +46,7 @@ const Table = ({ columns, data, title, isLandingPage }) => {
                                         }
                                         else{
                                             return (
-                                                <th {...column.getHeaderProps()} className="w-1/2 text-left px-3">{column.render('Header')}</th>
+                                                <th {...column.getHeaderProps()} className=" text-left px-3">{column.render('Header')}</th>
                                             )
                                         }
                                     })

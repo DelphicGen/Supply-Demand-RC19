@@ -11,7 +11,7 @@ const Select2 = props  => {
             <select
             className={`w-full bg-gray-400 mb-3 bg-gray-400 text-blue-700 p-2 rounded-md w-20 text-center`} 
             style={{width: props.width, maxWidth: props.maxWidth, height: 40}} 
-            value={props.list}
+            value=''
             onChange={e => {
                 props.changeItem(e.target.value)
             }}
