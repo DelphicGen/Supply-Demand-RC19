@@ -20,7 +20,7 @@ const inputReducer = (state, action) => {
     }
 }
 
-const TextInput = props => {
+const TextInput2 = props => {
     const [inputState, dispatch] = useReducer(inputReducer, {
         value: props.value || '', 
         isValid: props.valid || false, 
@@ -35,6 +35,10 @@ const TextInput = props => {
     useEffect(() => {
         onInput(id, value, isValid)
     }, [onInput, id, value, isValid])
+
+    useEffect(() => {
+        console.log(inputState)
+    }, [inputState])
 
     const changeHandler = event => {
         dispatch({type: 'CHANGE', val: event.target.value, validators: props.validators})
@@ -66,6 +70,7 @@ const TextInput = props => {
                     divClassName="mx-2 w-1/2 inline-block"
                     list={props.list}
                     changeUnit={props.changeUnit}
+                    selectedIndex={ props.selectedIndex }
                 />
                 
             </div>
@@ -73,4 +78,4 @@ const TextInput = props => {
     )
 }
 
-export default TextInput
+export default TextInput2
