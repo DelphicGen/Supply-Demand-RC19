@@ -107,7 +107,7 @@ const DonasiSaya = () => {
 
                         data.update = (
                             <WhiteButton width={120} onClick={() => update(data)} donasi={true} >
-                                <AddCircle className="text-blue-800 mr-2" style={styles.container(mediaQuery)} /><span style={styles2.container(mediaQuery)}>UPDATE</span>
+                                <AddCircle className="text-blue-800 mr-2 text-sm" style={styles.container(mediaQuery)} /><span style={styles2.container(mediaQuery)} className="text-sm">UPDATE</span>
                             </WhiteButton>
                         )
                     })
