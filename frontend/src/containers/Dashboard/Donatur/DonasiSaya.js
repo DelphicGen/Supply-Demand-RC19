@@ -17,7 +17,7 @@ const DonasiSaya = () => {
     const [name, setName] = useState(auth.name)
     const {isLoading, error, sendRequest} = useHttpClient()
     const history = useHistory()
-    const mediaQuery = useMediaQuery('(max-width: 600px)');
+    const mediaQuery = useMediaQuery('(max-width: 600px)')
 
     const columns = useMemo(
         () => [

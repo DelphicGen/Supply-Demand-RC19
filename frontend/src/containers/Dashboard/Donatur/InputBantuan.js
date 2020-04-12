@@ -19,7 +19,7 @@ import Select2 from '../../../components/UI/Select2'
 const InputBantuan = () => {
     const auth = useContext(AuthContext)
     const [name, setName] = useState(auth.name)
-    const mediaQuery = useMediaQuery('(min-width: 768px)')
+    // const mediaQuery = useMediaQuery('(min-width: 768px)')
     const {isLoading, error, sendRequest} = useHttpClient()
     const [formState, inputHandler] = useForm({
         quantity: {
@@ -28,15 +28,20 @@ const InputBantuan = () => {
         }
     }, false)
 
-    const [donatur, setDonatur] = useState({
-        name: '',
-        nomor: ''
-    })
+    const [success, setSuccess] = useState('Success, your donation has been saved !')
+    const [fail, setFail] = useState('Fail, please try again !')
+    const [check, setCheck] = useState(false)
+    const [submit, setSubmit] = useState(false)
+
+    // const [donatur, setDonatur] = useState({
+    //     name: '',
+    //     nomor: ''
+    // })
 
     const [donasi, setDonasi] = useState(
         {
             item_id: '',
-            unit_id: '',
+            unit_id: ''
             // quantity: ''
             // sasaran: ''
         }
@@ -111,17 +116,35 @@ const InputBantuan = () => {
             {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
         ).then(responseData => {
             console.log(responseData)
-            inputHandler("quantity", '', false)
+            if(responseData.id.length > 0){
+                inputHandler("quantity", '', false)
+                setSubmit(true)
+                setCheck(true)
+                flashMessage()
+            }
+            else{
+                setSubmit(true)
+                setCheck(false)
+                flashMessage()
+            }
         })
+    }
+
+    const flashMessage = () => {
+        window.setTimeout(() => {
+            setSubmit(false)
+        }, 2000);
     }
 
     return(
         <React.Fragment>
-            
-         <div className="p-8 py-4 block md:hidden md:text-left lg:pl-5 md:pl-3 inline-block bg-blue-700 rounded-r-lg">
-            <h5 className="font-semibold text-md text-white">{`Dashboard Donatur`} </h5>
-            <h2 className="font-semibold text-lg text-white">{name}</h2>
-         </div>
+            <div className={`absolute right-0 p-2 rounded-bl-lg ${submit ? 'inline-block' : 'hidden'} ${check ? 'bg-green-400 text-green-700' : 'bg-red-400 text-red-700'}`}>
+                <strong>{check ? success : fail}</strong>
+            </div>
+            <div className="p-8 py-4 block md:hidden md:text-left lg:pl-5 md:pl-3 inline-block bg-blue-700 rounded-r-lg">
+                <h5 className="font-semibold text-md text-white">{`Dashboard Donatur`} </h5>
+                <h2 className="font-semibold text-lg text-white">{name}</h2>
+            </div>
             <div className="flex flex-row h-full w-full">
                 <Sidebar role="Donatur" name={name} links={links} />
 
@@ -218,10 +241,10 @@ const InputBantuan = () => {
     )
 }
 
-const styles = {
-    container: mediaQuery => ({
-      marginTop: mediaQuery && '35px'
-    })
- };
+// const styles = {
+//     container: mediaQuery => ({
+//       marginTop: mediaQuery && '35px'
+//     })
+//  };
 
 export default InputBantuan
