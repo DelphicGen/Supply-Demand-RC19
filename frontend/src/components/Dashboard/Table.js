@@ -3,7 +3,7 @@ import { useTable, usePagination } from 'react-table'
 import {useMediaQuery} from '../../hooks/medquery-hook';
 import './Table.module.css'
 
-const Table = ({ columns, data, title, isLandingPage }) => {
+const Table = ({ columns, data, title, isLandingPage, donasi }) => {
     const {
         getTableProps,
         getTableBodyProps,
@@ -26,13 +26,14 @@ const Table = ({ columns, data, title, isLandingPage }) => {
         },usePagination)
     
     const mediaQuery = useMediaQuery('(max-width: 1260px)');
+    const mediaQuery2 = useMediaQuery('(max-width: 768px)');
 
     return (
         <div className="flex-auto">
             {/* <h1 className={`md:text-3xl text-2xl font-bold md:my-10 ${isLandingPage ? 'md:ml-10' : 'md:ml-0'} mt-0 mb-5 ml-5`}>{title}</h1> */}
-            <div className={`w-10/12 overflow-y-hidden h-full ${isLandingPage && 'lg:pb-32 mx-auto'}`}>
+            <div className={`${donasi ? 'w-full' : 'w-10/12'} overflow-y-hidden h-full ${isLandingPage && 'lg:pb-32 mx-auto'}`}>
                 <div className="w-full overflow-y-auto h-full">
-                    <table {...getTableProps()} className="w-full">
+                    <table {...getTableProps()} className={`${donasi && 'md:text-base text-sm'} w-full`}>
                         <thead>
                         {
                             headerGroups.map(headerGroup => (
@@ -41,12 +42,12 @@ const Table = ({ columns, data, title, isLandingPage }) => {
                                     headerGroup.headers.map(column => {
                                         if(column.Header === 'No'){
                                             return (
-                                                <th {...column.getHeaderProps()} className="w-1/12 text-left px-3 py-4">{column.render('Header')}</th>
+                                                <th {...column.getHeaderProps()} className={`${donasi ? 'w-1/12 pl-1 pr-0' : 'px-3'} text-left px-3 py-4`}>{column.render('Header')}</th>
                                             )
                                         }
                                         else{
                                             return (
-                                                <th {...column.getHeaderProps()} className=" text-left px-3">{column.render('Header')}</th>
+                                                <th {...column.getHeaderProps()} className={`${donasi ? 'w-1/12 pl-1 pr-0' : 'px-3'} text-left`}>{column.render('Header')}</th>
                                             )
                                         }
                                     })
@@ -63,7 +64,10 @@ const Table = ({ columns, data, title, isLandingPage }) => {
                                 {
                                     row.cells.map(cell => {
                                         if(cell.column.Header === 'No'){
-                                            return <td {...cell.getCellProps()} className='pl-4 py-3 text-sm font-medium'>{i+1}</td>        
+                                            return <td {...cell.getCellProps()} className={`pl-4 py-3 text-sm font-medium`}>{i+1}</td>        
+                                        }
+                                        else if(cell.column.Header === 'Update'){
+                                            return <td {...cell.getCellProps()} className={`pl-4 py-3`} style={styles2.container(mediaQuery2)}>{cell.render('Cell')}</td>    
                                         }
                                         else{
                                             return <td {...cell.getCellProps()} className='pl-4 py-3 text-sm font-medium' style={{textTransform: 'capitalize'}}>{cell.render('Cell')}</td>
@@ -144,6 +148,12 @@ const styles = {
         margin: mediaQuery && '0',
         display: mediaQuery ? 'inline-block' : 'inline',
         width: mediaQuery ? '100%' : '10%'
+    })
+};
+
+const styles2 = {
+    container: mediaQuery => ({
+        paddingLeft: mediaQuery && '0'
     })
 };
 

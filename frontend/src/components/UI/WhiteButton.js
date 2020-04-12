@@ -11,6 +11,14 @@ const Button = props => {
             maxHeight: 41
         })
     }
+    const mediaQuery2 = useMediaQuery('(max-width: 600px)')
+    const styles2 = {
+        container: mediaQuery => ({
+            width: mediaQuery ? '75' : props.width,
+            maxHeight: 41,
+            paddingLeft: mediaQuery && '0'
+        })
+    };
 
     if(props.to){
         return (
@@ -25,7 +33,7 @@ const Button = props => {
     return(
         <button
             className={`p-2 bg-white rounded-md border border-solid border-blue-800 flex items-center justify-center focus:outline-none shadow-xl text-blue-800 text-lg font-bold tracking-widest hover:bg-gray-100 active:bg-gray-200 focus:bg-gray-200 ${props.className}`}
-            style={{width: props.width, maxHeight: 41}} 
+            style={styles2.container(mediaQuery2)}
             onClick={props.onClick}
             type={props.type}
         >

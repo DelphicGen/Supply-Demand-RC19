@@ -116,98 +116,105 @@ const InputBantuan = () => {
     }
 
     return(
-        <div className="flex flex-row h-full w-full">
-            <Sidebar role="Donatur" name={name} links={links} />
+        <React.Fragment>
+            
+         <div className="p-8 py-4 block md:hidden md:text-left lg:pl-5 md:pl-3 inline-block bg-blue-700 rounded-r-lg">
+            <h5 className="font-semibold text-md text-white">{`Dashboard Donatur`} </h5>
+            <h2 className="font-semibold text-lg text-white">{name}</h2>
+         </div>
+            <div className="flex flex-row h-full w-full">
+                <Sidebar role="Donatur" name={name} links={links} />
 
-            <div>
-                {/* Kata Mas Gavin bagian ini tidak usah */}
-                {/* <div className="flex w-full flex-col pl-8 md:p-16">
-                    <Title>Informasi Donatur</Title>
-                    <form className="md:flex md:flex-row md:items-center mt-4">
-                        <div className="flex flex-col lg:flex-row w-full lg:mb-5">
-                            <TextInput
-                                divClassName="w-2/5 lg:4/12 lg:mr-3"
-                                id="namaKontak"
-                                type="text"
-                                label="Nama Kontak"
-                                validators={[VALIDATOR_REQUIRE()]}
-                                onInput={inputHandler}
-                                errorText="Mohon masukkan nama barang."
-                            />
+                <div>
+                    {/* Kata Mas Gavin bagian ini tidak usah */}
+                    {/* <div className="flex w-full flex-col pl-8 md:p-16">
+                        <Title>Informasi Donatur</Title>
+                        <form className="md:flex md:flex-row md:items-center mt-4">
+                            <div className="flex flex-col lg:flex-row w-full lg:mb-5">
+                                <TextInput
+                                    divClassName="w-2/5 lg:4/12 lg:mr-3"
+                                    id="namaKontak"
+                                    type="text"
+                                    label="Nama Kontak"
+                                    validators={[VALIDATOR_REQUIRE()]}
+                                    onInput={inputHandler}
+                                    errorText="Mohon masukkan nama barang."
+                                />
 
-                            <TextInput
-                                divClassName="w-2/5 lg:4/12 "
-                                id="nomorKontak"
-                                type="text"
-                                label="Nomor Kontak"
-                                validators={[VALIDATOR_REQUIRE()]}
-                                onInput={inputHandler}
-                                errorText="Mohon masukkan nama barang."
-                            />
+                                <TextInput
+                                    divClassName="w-2/5 lg:4/12 "
+                                    id="nomorKontak"
+                                    type="text"
+                                    label="Nomor Kontak"
+                                    validators={[VALIDATOR_REQUIRE()]}
+                                    onInput={inputHandler}
+                                    errorText="Mohon masukkan nama barang."
+                                />
 
-                        </div>
-                    </form>
-                </div> */}
+                            </div>
+                        </form>
+                    </div> */}
 
-                <div className="flex w-full flex-col p-8 md:p-16">
-                    <Title>Informasi Barang</Title>
-                    <form className="md:flex md:flex-row md:items-center mt-4">
-                        <div className="flex flex-col lg:flex-row w-full lg:mb-5 lg:border-none lg:shadow-none border-gray-700 rounded-md shadow-md lg:p-0 p-4 relative">
-                            {/* <div className="lg:hidden inline-block ml-auto mr-0 absolute right-0">
-                                <Delete className="text-gray-500" />
-                            </div> */}
-                            <Select2
-                                label="Jenis Barang"
-                                divClassName="mr-3 lg:w-6/12 w-full mt-2 lg:mt-0    "
-                                list={ itemList }
-                                changeItem={ changeItem }
-                            />
-                            <TextInput2
-                                divClassName="lg:w-6/12 w-full lg:4/12 lg:mr-3"
-                                id="quantity"
-                                type="text"
-                                label="Kuantitas"
-                                validators={[VALIDATOR_REQUIRE()]}
-                                onInput={inputHandler}
-                                changeUnit={ changeUnit }
-                                errorText="Mohon masukkan kuantitas barang."
-                                list={unitList}
-                            />
+                    <div className="flex w-full flex-col p-8 md:p-16">
+                        <Title>Informasi Barang</Title>
+                        <form className="md:flex md:flex-row md:items-center mt-4">
+                            <div className="flex flex-col lg:flex-row w-full lg:mb-5 lg:border-none lg:shadow-none border-gray-700 rounded-md shadow-md lg:p-0 p-4 relative">
+                                {/* <div className="lg:hidden inline-block ml-auto mr-0 absolute right-0">
+                                    <Delete className="text-gray-500" />
+                                </div> */}
+                                <Select2
+                                    label="Jenis Barang"
+                                    divClassName="mr-3 lg:w-6/12 w-full mt-2 lg:mt-0    "
+                                    list={ itemList }
+                                    changeItem={ changeItem }
+                                />
+                                <TextInput2
+                                    divClassName="lg:w-6/12 w-full lg:4/12 lg:mr-3"
+                                    id="quantity"
+                                    type="text"
+                                    label="Kuantitas"
+                                    validators={[VALIDATOR_REQUIRE()]}
+                                    onInput={inputHandler}
+                                    changeUnit={ changeUnit }
+                                    errorText="Mohon masukkan kuantitas barang."
+                                    list={unitList}
+                                />
 
-                            {/* <TextInput
-                                divClassName="w-4/12 lg:4/12 "
-                                id="sasaran"
-                                type="text"
-                                label="Sasaran"
-                                validators={[VALIDATOR_REQUIRE()]}
-                                onInput={inputHandler}
-                                errorText="Mohon masukkan sasaran donasi."
-                            /> */}
-                            {/* <div className="lg:inline-block hidden">
-                                <Delete style={styles.container(mediaQuery)} className="text-gray-500" fontSize="large" />
-                            </div> */}
-                        </div>
-                    </form>
+                                {/* <TextInput
+                                    divClassName="w-4/12 lg:4/12 "
+                                    id="sasaran"
+                                    type="text"
+                                    label="Sasaran"
+                                    validators={[VALIDATOR_REQUIRE()]}
+                                    onInput={inputHandler}
+                                    errorText="Mohon masukkan sasaran donasi."
+                                /> */}
+                                {/* <div className="lg:inline-block hidden">
+                                    <Delete style={styles.container(mediaQuery)} className="text-gray-500" fontSize="large" />
+                                </div> */}
+                            </div>
+                        </form>
+                    </div>
+
+                    {/* <WhiteButton width={125} type="submit" className="md:mt-1 md:ml-16 ml-8">
+                        <AddCircle className="text-blue-800 mr-2" fontSize="inherit" /> <span className="text-sm pt-1">Tambah</span>
+                    </WhiteButton> */}
+
+                    <div className="md:ml-16 ml-8">
+                        <Button
+                            width={200}
+                            type="submit"
+                            onClick={submitHandler}
+                            disabled={!formState.isValid}>
+                        >
+                            {
+                                isLoading ? <LoadingSpinner color="white" style={{transform: 'translateY(-3px)'}} /> : 'SUBMIT'
+                            } 
+                        </Button>
+                    </div>
                 </div>
-
-                {/* <WhiteButton width={125} type="submit" className="md:mt-1 md:ml-16 ml-8">
-                    <AddCircle className="text-blue-800 mr-2" fontSize="inherit" /> <span className="text-sm pt-1">Tambah</span>
-                </WhiteButton> */}
-
-                <div className="md:ml-16 ml-8">
-                    <Button
-                        width={200}
-                        type="submit"
-                        onClick={submitHandler}
-                        disabled={!formState.isValid}>
-                    >
-                        {
-                            isLoading ? <LoadingSpinner color="white" style={{transform: 'translateY(-3px)'}} /> : 'SUBMIT'
-                        } 
-                    </Button>
-                </div>
-            </div>
-        </div>  
+            </div>  
+        </React.Fragment>
     )
 }
 

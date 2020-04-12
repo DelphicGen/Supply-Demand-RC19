@@ -66,13 +66,19 @@ const InfoDemand = () => {
       }, [auth.token, sendRequest])
 
     return (
-        <div className="flex items-center md:pt-0 pt-10 md:pb-0 pb-24">
-            <Sidebar role="Donatur" name={name} links={links} />
-            <div className="flex w-full flex-col p-8 md:p-16">
-                <Title>Info Demand</Title>
-                <Table columns={ columns } data={ dataDemand } />
+        <React.Fragment>
+            <div className="p-8 py-4 block md:hidden md:text-left lg:pl-5 md:pl-3 inline-block bg-blue-700 rounded-r-lg">
+                <h5 className="font-semibold text-md text-white">{`Dashboard Donatur`} </h5>
+                <h2 className="font-semibold text-lg text-white">{name}</h2>
             </div>
-        </div>
+            <div className="flex items-center md:pt-0 pt-10 md:pb-0 pb-24">
+                <Sidebar role="Donatur" name={name} links={links} />
+                <div className="flex w-full flex-col p-8 md:p-16">
+                    <Title>Info Demand</Title>
+                    <Table columns={ columns } data={ dataDemand } />
+                </div>
+            </div>
+        </React.Fragment>
     )
 }
 

@@ -4,7 +4,7 @@ import {AuthContext} from '../../../context/auth-context'
 import {useHttpClient} from '../../../hooks/http-hook'
 import {AddCircle} from '@material-ui/icons'
 import { useHistory } from 'react-router-dom'
-// import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom'
+import {useMediaQuery} from '../../../hooks/medquery-hook';
 
 import Sidebar from '../../../components/Dashboard/SideBar'
 import Table from '../../../components/Dashboard/Table'
@@ -17,6 +17,7 @@ const DonasiSaya = () => {
     const [name, setName] = useState(auth.name)
     const {isLoading, error, sendRequest} = useHttpClient()
     const history = useHistory()
+    const mediaQuery = useMediaQuery('(max-width: 600px)');
 
     const columns = useMemo(
         () => [
@@ -105,8 +106,8 @@ const DonasiSaya = () => {
                     temp.forEach((data) => {
 
                         data.update = (
-                            <WhiteButton width={120} onClick={() => update(data)} >
-                                <AddCircle className="text-blue-800 mr-2" fontSize="inherit" /><span className="text-sm pt-1">UPDATE</span>
+                            <WhiteButton width={120} onClick={() => update(data)} donasi={true} >
+                                <AddCircle className="text-blue-800 mr-2" style={styles.container(mediaQuery)} /><span style={styles2.container(mediaQuery)}>UPDATE</span>
                             </WhiteButton>
                         )
                     })
@@ -143,14 +144,32 @@ const DonasiSaya = () => {
     }
 
     return(
-        <div className={`items-center md:pt-0 pt-10 md:pb-0 pb-24 flex`}>
-            <Sidebar role="Donatur" name={name} links={links} />
-            <div className="flex w-full flex-col p-8 md:p-16">
-                <Title>Donasi Saya</Title>
-                <Table columns={ columns } data={ dataTable } />
+        <React.Fragment>
+            <div className="p-8 py-4 block md:hidden md:text-left lg:pl-5 md:pl-3 inline-block bg-blue-700 rounded-r-lg">
+                <h5 className="font-semibold text-md text-white">{`Dashboard Donatur`} </h5>
+                <h2 className="font-semibold text-lg text-white">{name}</h2>
             </div>
-        </div>
+            <div className={`items-center md:pt-0 pt-10 md:pb-0 pb-24 flex`}>
+                <Sidebar role="Donatur" name={name} links={links} />
+                <div className="flex w-full flex-col py-8 md:p-16" style={{paddingLeft: '5px', paddingRight: '5px'}}>
+                    <Title>Donasi Saya</Title>
+                    <Table columns={ columns } data={ dataTable } donasi={true} />
+                </div>
+            </div>
+        </React.Fragment>
     )
 }
+
+const styles = {
+    container: mediaQuery => ({
+        fontSize: mediaQuery ? '15' : '25'
+    })
+};
+
+const styles2 = {
+    container: mediaQuery => ({
+        fontSize: mediaQuery && '10px'
+    })
+};
 
 export default DonasiSaya
