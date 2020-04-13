@@ -18,7 +18,7 @@ import DatePicker from '../../../components/UI/DatePicker2'
 import Select from '../../../components/UI/Select'
 
 const AlokasiBantuan = (props) => {
-
+  const [test, setTest] = useState([])
   const [pictures, setPictures] = useState([]);
   const [file, setFile] = useState('')
   const [imagePreviewUrl, setImagePreviewUrl] = useState('')
@@ -62,7 +62,7 @@ const AlokasiBantuan = (props) => {
           null,
           {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
         ).then(responseData => {
-            setItems(responseData)
+            console.log(responseData);
         })
     }
     fetchItems()
@@ -98,6 +98,42 @@ const AlokasiBantuan = (props) => {
               id: responseData.id,
               name: responseData.name,
               delete: (
+                  {/* <WhiteButton width={120} onClick={() => deleteItem(responseData.id)}>
+                      <Delete className="text-blue-800 mr-2" fontSize="inherit" /><span className="text-sm pt-1">HAPUS</span>
+                  </WhiteButton> */}
+              )
+          }))
+      })
+      // setItems(prevItem => prevItem.concat({
+      //     id: prevItem.length + 1, 
+      //     item: formState.inputs.itemName.value, 
+      //     delete: (
+      //         <WhiteButton width={120} onClick={() => deleteItem(prevItem.length + 1)}>
+      //             <Delete className="text-blue-800 mr-2" fontSize="inherit" /><span className="text-sm pt-1">HAPUS</span>
+      //         </WhiteButton>
+      //     )
+      // }))
+      
+    }
+
+    function onSelectChange(event) {
+      console.log(event.target.value);
+    }
+
+    const add = event => {
+      event.preventDefault()
+      sendRequest(
+          `${process.env.REACT_APP_BACKEND_URL}/v1/allocations`,
+          'POST',
+          JSON.stringify({
+              name: formState.inputs.itemName.value
+          }),
+          {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
+      ).then(responseData => {
+          setItems(prevItem => prevItem.concat({
+              id: responseData.id,
+              name: responseData.name,
+              delete: (
                   <WhiteButton width={120} onClick={() => deleteItem(responseData.id)}>
                       <Delete className="text-blue-800 mr-2" fontSize="inherit" /><span className="text-sm pt-1">HAPUS</span>
                   </WhiteButton>
@@ -115,20 +151,33 @@ const AlokasiBantuan = (props) => {
       // }))
     }
 
+    const fileUploadButton = () => {
+        document.getElementById('fileButton').click();
+    }
+    
+
+    const [selectedData, updateSelectedData] = useState("");
+
+    const handleChange = (data) =>  {
+      updateSelectedData(data)
+      console.log(data);
+      
+    }
+
+  
+
     let $imagePreview = null;
     if (imagePreviewUrl) {
-      $imagePreview = (<img style={{width: 400, maxHeight: 300}}  src={imagePreviewUrl} />);
+      $imagePreview = (<img className=""
+      style={{width: 400, maxHeight: 300}}  
+      src={imagePreviewUrl} />);
     }
 
     
 
     return(
 
-      
-     
         <div className="flex flex-row h-full w-full">
-
-            {/* sidebar */}
 
             <Sidebar role="" name="ADMIN" links={links} />
 
@@ -139,20 +188,12 @@ const AlokasiBantuan = (props) => {
                 <form onSubmit={addItem} className="">
             
                 <div className="flex flex-col lg:flex-row w-full lg:mb-5">
-                    {/* <TextInput
-                        divClassName="w-2/5 lg:4/12 lg:mr-3"
-                        id="itemName"
-                        type="text"
-                        label="Lembaga Penerima"
-                        validators={[VALIDATOR_REQUIRE()]}
-                        onInput={inputHandler}
-                        errorText="Mohon masukkan nama barang."
-                     /> */}
-
+                   
                      <Select 
+                      onSelectChange={handleChange}
                      label="Lembaga Penerima"
                      divClassName="mr-3 w-2/5"
-                  
+                      arrayList={["map",2,3,3,4]} 
                       />
 
                     {/* <TextInput
@@ -172,13 +213,13 @@ const AlokasiBantuan = (props) => {
 
                 </div>
                 
-                
-                
 
                 <div className="flex flex-col lg:flex-row w-full lg:mb-5">
                      <Select 
+                     
                       label="Jenis Barang"
-                      divClassName="mr-3 w-2/5"/>
+                      divClassName="mr-3 w-2/5"
+                      arrayList={[1,2,3,3,4]}/>
 
               
                     <TextInput
@@ -193,6 +234,7 @@ const AlokasiBantuan = (props) => {
 
                     <Select 
                       placeholde={`as`}
+                      arrayList={[1,2,3,3,4]}
                       divClassName="w-1/5 lg:4/12 lg:mr-3 lg:mt-6"/>
 
 
@@ -202,20 +244,13 @@ const AlokasiBantuan = (props) => {
 
 
                 <div className="flex flex-col w-full lg:mb-5">
-                  <TextInput
-                    divClassName="w-2/5 lg:4/12 lg:mr-3"
-                    id="itemName"
-                    type="text"
-                    label="Upload Foto Penyerahan"
-                    validators={[VALIDATOR_REQUIRE()]}
-                    onInput={inputHandler}
-                    errorText="Mohon masukkan nama barang."
-                  />
-
+                 
+                   
+                  <label htmlFor={props.id} className="text-gray-700 tracking-wide font-medium text-sm md:text-base my-1">Upload Foto Penyerahan</label>
 
                   <div>
                     <form onSubmit={handleSubmit}>
-                      <input type="file" onChange={handleImageChange} />
+                      <input id="fileButton" type="file" hidden onChange={handleImageChange} />
                       {/* <button type="submit" onClick={handleSubmit}>Upload Image</button> */}
                     </form>
                     {$imagePreview}
@@ -229,7 +264,7 @@ const AlokasiBantuan = (props) => {
                   <WhiteButton width={125} type="submit" className="md:mt-3">
                         {!isLoading ? 
                             <React.Fragment>
-                                <AddCircle className="text-blue-800 mr-2" fontSize="inherit" /> <span className="text-sm pt-1">Upload</span>
+                                <AddCircle className="text-blue-800 mr-2" fontSize="inherit" /> <span onClick={fileUploadButton} className="text-sm pt-1">Upload</span>
                             </React.Fragment> : 
                             <LoadingSpinner style={{transform: 'translateY(-3px)'}} />
                         }
@@ -246,6 +281,8 @@ const AlokasiBantuan = (props) => {
                      
 
                 </div>
+
+              
 
                 </form>
                 {/* Text-error */}
