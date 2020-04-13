@@ -42,9 +42,9 @@ const LoginPage = (props) => {
             
             let redirectLink = '/dashboard/tambah-barang'
             
-            if(responseData.user.role === 'donator'){
+            if(responseData.user.role === 'DONATOR'){
                 redirectLink = '/dashboard/donasi-saya'
-            } else if(responseData.user.role === 'applicant'){
+            } else if(responseData.user.role === 'APPLICANT'){
                 redirectLink = '/dashboard/riwayat-permohonan'
             }
 

@@ -223,23 +223,18 @@ const AlokasiBantuan = (props) => {
 
               
                     <TextInput
-                    divClassName="w-1/5 lg:4/12 lg:mr-3"
-                    id="itemName"
-                    type="text"
-                    label="Kuantitas"
-                    validators={[VALIDATOR_REQUIRE()]}
-                    onInput={inputHandler}
-                    errorText="Mohon masukkan kuantitas barang."
+                        divClassName="w-1/5 lg:4/12 lg:mr-3"
+                        id="itemName"
+                        type="text"
+                        label="Kuantitas"
+                        validators={[VALIDATOR_REQUIRE()]}
+                        onInput={inputHandler}
+                        errorText="Mohon masukkan nama barang."
                     />
 
                     <Select 
-                      placeholde={`as`}
-                      arrayList={[1,2,3,3,4]}
-                      divClassName="w-1/5 lg:4/12 lg:mr-3 lg:mt-6"/>
-
-
-                          
-                
+                        placeholder={`as`}
+                        divClassName="w-1/5 lg:4/12 lg:mr-3 lg:mt-6"/>
                 </div>
 
 

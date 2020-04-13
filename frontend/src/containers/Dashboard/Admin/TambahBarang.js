@@ -69,6 +69,7 @@ const TambahBarang = () => {
             {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
            ).then(responseData => {
                if(responseData){
+                console.log(responseData)
                 responseData.forEach(data => data.delete = (
                     <WhiteButton width={120} onClick={() => deleteItem(data.id)}>
                         <Delete className="text-blue-800 mr-2" fontSize="inherit" /><span className="text-sm pt-1">HAPUS</span>
