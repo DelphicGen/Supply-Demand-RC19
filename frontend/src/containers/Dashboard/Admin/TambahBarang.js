@@ -121,7 +121,7 @@ const TambahBarang = () => {
     }
 
     const deleteUnit = id => {
-        return fetch(`${process.env.REACT_APP_BACKEND_URL}/v1/items/${id}`, {
+        return fetch(`${process.env.REACT_APP_BACKEND_URL}/v1/units/${id}`, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json', 
@@ -227,7 +227,7 @@ const TambahBarang = () => {
                 </form>
 				}
 				
-				<div className="flex flex-row">
+				<div className="flex flex-row my-3">
                     <RadioInput
                         changed={radioChangeHandler}
                         id="item"
@@ -243,7 +243,7 @@ const TambahBarang = () => {
                         value="unit" />
                 </div>
 
-                {(items.length > 0 || units.length > 0) && <Table columns={ table === 'item' ? columns : unitColumns } data={ table === 'item' ? items : units } />}
+                {(items.length > 0 || units.length > 0) && <Table columns={table === 'item' ? columns : unitColumns} data={table === 'item' ? items : units} />}
                 {error && <ErrorText>{error}</ErrorText>}
             </div>
 

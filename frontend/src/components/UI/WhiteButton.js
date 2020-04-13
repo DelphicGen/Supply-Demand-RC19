@@ -15,8 +15,7 @@ const Button = props => {
     const styles2 = {
         container: mediaQuery => ({
             width: mediaQuery ? '75' : props.width,
-            maxHeight: 41,
-            paddingLeft: mediaQuery && '0'
+            maxHeight: 41
         })
     };
 
