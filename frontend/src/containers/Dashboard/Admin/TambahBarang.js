@@ -194,6 +194,7 @@ const TambahBarang = () => {
                         label="Nama Barang"
                         validators={[VALIDATOR_REQUIRE()]}
                         onInput={inputHandler}
+                        customClear={{right: 18, top: 10}}
                         errorText="Mohon masukkan nama barang."
                         width={300} />
                     <WhiteButton width={125} type="submit" className="md:mt-3">
@@ -244,7 +245,13 @@ const TambahBarang = () => {
                         value="unit" />
                 </div>
 
-                {(items.length > 0 || units.length > 0) && <Table columns={table === 'item' ? columns : unitColumns} data={table === 'item' ? items : units} />}
+                {(items.length > 0 || units.length > 0) && (
+                    <React.Fragment>
+                        <Title>{`Daftar ${table === 'item' ? 'Barang' : 'Satuan'}`} </Title>
+                        <div className="h-3"></div>
+                        <Table columns={table === 'item' ? columns : unitColumns} data={table === 'item' ? items : units} />
+                    </React.Fragment>
+                )}
                 {error && <ErrorText>{error}</ErrorText>}
             </div>
 

@@ -96,7 +96,7 @@ const TextInput = props => {
                     <Clear
                         className={`${hidden ? 'text-gray-700' : 'text-blue-700'} absolute cursor-pointer`} 
                         fontSize="small"
-                        style={{right: 16, top: 9}}
+                        style={props.customClear || {right: 8, top: 10}}
                         onClick={clearHandler} />
                 )}
             </div>

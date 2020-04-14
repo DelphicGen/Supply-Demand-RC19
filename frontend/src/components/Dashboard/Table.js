@@ -32,7 +32,7 @@ const Table = ({ columns, data, isLandingPage, donasi }) => {
 
     return (
         <div className="flex-auto">
-            <div className={`${donasi ? 'w-full' : 'md:w-10/12'} overflow-y-hidden h-full ${isLandingPage && 'lg:pb-32 mx-auto'}`}>
+            <div className={`${!isLandingPage ? 'w-full' : 'md:w-10/12'} overflow-y-hidden h-full ${isLandingPage && 'lg:pb-32 mx-auto'}`}>
                 <div className="w-full overflow-y-auto h-full">
                     <table {...getTableProps()} className={`${donasi && 'md:text-base text-sm'} w-full`}>
                         <thead>
@@ -83,37 +83,37 @@ const Table = ({ columns, data, isLandingPage, donasi }) => {
                 </div>
 
                 <div className="pagination mt-4">
-                    <span style={styles.container(mediaQuery)} className="text-sm font-semibold">
+                    <span style={styles.container(mediaQuery)} className="text-xs font-semibold mr-2">
                         10 Baris per halaman
                     </span>
 
-                    <button onClick={() => gotoPage(0)} disabled={!canPreviousPage} className="font-semibold text-sm rounded-l-md bg-gray-400 px-2 text-blue-800 h-8">
+                    <button onClick={() => gotoPage(0)} disabled={!canPreviousPage} className="font-semibold text-sm rounded-l-md bg-gray-400 px-2 text-blue-800 h-6">
                     {'<<'}
                     </button>{' '}
-                    <button onClick={() => previousPage()} disabled={!canPreviousPage} className="font-semibold text-sm bg-gray-400 px-2 text-blue-800 h-8">
+                    <button onClick={() => previousPage()} disabled={!canPreviousPage} className="font-semibold text-sm bg-gray-400 px-2 text-blue-800 h-6">
                     {'<'}
                     </button>
-                    <span className="bg-gray-100 text-sm px-8 h-8 inline-block font-semibold">
+                    <span className="bg-gray-100 text-xs px-4 h-6 inline-block font-semibold">
                         {pageIndex + 1} dari {pageOptions.length}
                     </span>
-                    <button onClick={() => nextPage()} disabled={!canNextPage} className="font-semibold text-sm bg-gray-400 px-2 text-blue-800 h-8">
+                    <button onClick={() => nextPage()} disabled={!canNextPage} className="font-semibold text-sm bg-gray-400 px-2 text-blue-800 h-6">
                     {'>'}
                     </button>{' '}
-                    <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage} className="font-semibold text-sm rounded-r-md bg-gray-400 px-2 text-blue-800 h-8">
+                    <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage} className="font-semibold text-sm rounded-r-md bg-gray-400 px-2 text-blue-800 h-6">
                     {'>>'}
                     </button>
 
-                    <span style={styles.container(mediaQuery)} className="text-sm font-semibold mx-4">
+                    <span className="text-xs font-semibold mx-4 lg:mx-0 lg:block">
                     Menuju halaman:{' '}
                     <input
-                        className="inline-block h-8 pl-2 font-semibold"
+                        className="inline-block h-6 pl-2 font-semibold bg-gray-100"
                         type="number"
                         defaultValue={pageIndex + 1}
                         onChange={e => {
                         const page = e.target.value ? Number(e.target.value) - 1 : 0
                         gotoPage(page)
                         }}
-                        style={{ width: '100px' }}
+                        style={{ width: '35px' }}
                     />
                     </span>{' '}
 
