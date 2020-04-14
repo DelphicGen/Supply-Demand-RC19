@@ -52,7 +52,7 @@ const LandingPage = () => {
         ).then(responseData => {
             console.log(responseData)
             // setDataDemand(responseData.data.requestItems)
-        })
+        }, [sendRequest])
 
         sendRequest(
             `${process.env.REACT_APP_BACKEND_URL}/v1/stocks`,
@@ -65,7 +65,7 @@ const LandingPage = () => {
                 // setDataStock(responseData.data)
             }
         })
-    }, [])
+    }, [sendRequest])
 
     return(
         <React.Fragment>

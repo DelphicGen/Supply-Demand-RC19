@@ -4,7 +4,7 @@ import {links} from '../../../components/Dashboard/adminLink'
 import {AuthContext} from '../../../context/auth-context'
 import {useForm} from '../../../hooks/form-hook'
 import {useHttpClient} from '../../../hooks/http-hook'
-import {VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE, VALIDATOR_PASSWORD}from '../../../util/validator'
+import {VALIDATOR_REQUIRE}from '../../../util/validator'
 
 import Sidebar from '../../../components/Dashboard/SideBar'
 import LoadingSpinner from '../../../components/UI/LoadingSpinner'
@@ -17,9 +17,6 @@ import DatePicker from '../../../components/UI/DatePicker2'
 import Select from '../../../components/UI/Select'
 
 const AlokasiBantuan = () => {
-
-  const [pageSize, setPageSize] = useState()
-    
   const [items, setItems] = useState([])
   const [formState, inputHandler] = useForm({
       itemName: {

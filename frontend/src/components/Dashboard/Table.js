@@ -17,8 +17,7 @@ const Table = ({ columns, data, isLandingPage, donasi }) => {
         gotoPage,
         nextPage,
         previousPage,
-        setPageSize,
-        state: { pageIndex, pageSize },
+        state: { pageIndex},
     } = useTable({
           columns,
           data,
@@ -83,19 +82,6 @@ const Table = ({ columns, data, isLandingPage, donasi }) => {
                 <div className="pagination mt-4">
                     <span style={styles.container(mediaQuery)} className="text-sm font-semibold">
                         10 Baris per halaman
-                        {/* <select
-                        className="px-4 mx-4 bg-gray-400 text-blue-800"
-                        value={pageSize}
-                        onChange={e => {
-                            setPageSize(Number(e.target.value))
-                        }}
-                        >
-                        {[10, 20, 30, 40, 50].map(pageSize => (
-                            <option key={pageSize} value={pageSize}>
-                            {pageSize}
-                            </option>
-                        ))}
-                        </select> */}
                     </span>
 
                     <button onClick={() => gotoPage(0)} disabled={!canPreviousPage} className="font-semibold text-sm rounded-l-md bg-gray-400 px-2 text-blue-800 h-8">

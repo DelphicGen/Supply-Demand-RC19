@@ -4,7 +4,6 @@ import { AuthContext } from '../../../context/auth-context'
 import { VALIDATOR_REQUIRE }from '../../../util/validator'
 import { useForm } from '../../../hooks/form-hook'
 import {useHttpClient} from '../../../hooks/http-hook'
-import { useMediaQuery } from '../../../hooks/medquery-hook';
 import { useHistory } from 'react-router-dom'
 
 import Sidebar from '../../../components/Dashboard/SideBar'

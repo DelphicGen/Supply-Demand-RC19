@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext} from 'react'
+import React, {useEffect, useState, useContext, useCallback} from 'react'
 import {AddCircle, Delete} from '@material-ui/icons'
 import {links} from '../../../components/Dashboard/adminLink'
 import {AuthContext} from '../../../context/auth-context'
@@ -60,6 +60,28 @@ const TambahBarang = () => {
     const {isLoading, error, sendRequest} = useHttpClient()
     const auth = useContext(AuthContext)
 
+    const deleteItem = useCallback(id => {
+        return fetch(`${process.env.REACT_APP_BACKEND_URL}/v1/items/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json', 
+                'Content-Type': 'application/json', 
+                'Authorization': `Bearer ${auth.token}`
+            }
+        }).then(() => setItems(prevItem => prevItem.filter(item => item.id !== id)))
+    }, [auth.token])
+
+    const deleteUnit = useCallback(id => {
+        return fetch(`${process.env.REACT_APP_BACKEND_URL}/v1/units/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json', 
+                'Content-Type': 'application/json', 
+                'Authorization': `Bearer ${auth.token}`
+            }
+        }).then(() => setUnits(prevUnit => prevUnit.filter(unit => unit.id !== id)))
+    }, [auth.token])
+
     useEffect(() => {
        const fetchItems = () => {
            sendRequest(
@@ -83,7 +105,7 @@ const TambahBarang = () => {
        if(auth.token){
             fetchItems()
        }
-    }, [auth.token, sendRequest])
+    }, [auth.token, sendRequest, deleteItem])
 
     useEffect(() => {
         const fetchUnits = () => {
@@ -107,29 +129,7 @@ const TambahBarang = () => {
         if(auth.token){
              fetchUnits()
         }
-     }, [auth.token, sendRequest])
-
-    const deleteItem = id => {
-        return fetch(`${process.env.REACT_APP_BACKEND_URL}/v1/items/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Accept': 'application/json', 
-                'Content-Type': 'application/json', 
-                'Authorization': `Bearer ${auth.token}`
-            }
-        }).then(() => setItems(prevItem => prevItem.filter(item => item.id !== id)))
-    }
-
-    const deleteUnit = id => {
-        return fetch(`${process.env.REACT_APP_BACKEND_URL}/v1/units/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Accept': 'application/json', 
-                'Content-Type': 'application/json', 
-                'Authorization': `Bearer ${auth.token}`
-            }
-        }).then(() => setUnits(prevUnit => prevUnit.filter(unit => unit.id !== id)))
-    }
+     }, [auth.token, sendRequest, deleteUnit])
 
     const addItem = event => {
         event.preventDefault()
