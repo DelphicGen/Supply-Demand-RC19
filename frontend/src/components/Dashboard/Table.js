@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { useTable, usePagination } from 'react-table'
 import {useMediaQuery} from '../../hooks/medquery-hook';
 import './Table.module.css'
@@ -21,11 +21,14 @@ const Table = ({ columns, data, isLandingPage, donasi }) => {
     } = useTable({
           columns,
           data,
-          initialState: { pageIndex: 0 }
         },usePagination)
     
     const mediaQuery = useMediaQuery('(max-width: 1260px)');
     const mediaQuery2 = useMediaQuery('(max-width: 768px)');
+
+    useEffect(() => {
+        console.log(pageIndex)
+    }, [pageIndex])
 
     return (
         <div className="flex-auto">
@@ -90,7 +93,7 @@ const Table = ({ columns, data, isLandingPage, donasi }) => {
                     <button onClick={() => previousPage()} disabled={!canPreviousPage} className="font-semibold text-sm bg-gray-400 px-2 text-blue-800 h-8">
                     {'<'}
                     </button>
-                    <span className="bg-white text-sm px-8 h-8 inline-block font-semibold">
+                    <span className="bg-gray-100 text-sm px-8 h-8 inline-block font-semibold">
                         {pageIndex + 1} dari {pageOptions.length}
                     </span>
                     <button onClick={() => nextPage()} disabled={!canNextPage} className="font-semibold text-sm bg-gray-400 px-2 text-blue-800 h-8">
@@ -101,7 +104,7 @@ const Table = ({ columns, data, isLandingPage, donasi }) => {
                     </button>
 
                     <span style={styles.container(mediaQuery)} className="text-sm font-semibold mx-4">
-                    Go to page:{' '}
+                    Menuju halaman:{' '}
                     <input
                         className="inline-block h-8 pl-2 font-semibold"
                         type="number"
@@ -113,14 +116,6 @@ const Table = ({ columns, data, isLandingPage, donasi }) => {
                         style={{ width: '100px' }}
                     />
                     </span>{' '}
-                    
-                    {/* <button onClick={() => previousPage()} disabled={!canPreviousPage} className="font-semibold text-sm bg-gray-400 px-2 text-blue-800 h-8">
-                    {'<'}
-                    </button>
-                    <PageList count={pageOptions.length} />    
-                    <button onClick={() => nextPage()} disabled={!canNextPage} className="font-semibold xl:text-xl text-lg bg-gray-400 px-2 text-blue-800 h-8">
-                    {'>'}
-                    </button> */}
 
                 </div>
             </div>

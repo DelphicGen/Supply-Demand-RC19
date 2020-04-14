@@ -16,7 +16,7 @@ export const useAuth = () => {
     setUserName(name)
     setContactPerson(contactPerson)
     setContactNumber(contactNumber)
-    const tokenExpiresIn = expirationDate || new Date(new Date().getTime() + 10000)
+    const tokenExpiresIn = expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60 * 3)
     setTokenExpirationDate(tokenExpiresIn)
     localStorage.setItem(
       'userData',

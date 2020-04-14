@@ -60,7 +60,7 @@ const TambahBarang = () => {
     const {isLoading, error, sendRequest} = useHttpClient()
     const auth = useContext(AuthContext)
 
-    const deleteItem = useCallback(id => {
+    const deleteHandler = id => {
         return fetch(`${process.env.REACT_APP_BACKEND_URL}/v1/items/${id}`, {
             method: 'DELETE',
             headers: {
@@ -68,18 +68,15 @@ const TambahBarang = () => {
                 'Content-Type': 'application/json', 
                 'Authorization': `Bearer ${auth.token}`
             }
-        }).then(() => setItems(prevItem => prevItem.filter(item => item.id !== id)))
+        })
+    }
+
+    const deleteItem = useCallback(id => {
+        deleteHandler(id).then(() => setItems(prevItem => prevItem.filter(item => item.id !== id)))
     }, [auth.token])
 
     const deleteUnit = useCallback(id => {
-        return fetch(`${process.env.REACT_APP_BACKEND_URL}/v1/units/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Accept': 'application/json', 
-                'Content-Type': 'application/json', 
-                'Authorization': `Bearer ${auth.token}`
-            }
-        }).then(() => setUnits(prevUnit => prevUnit.filter(unit => unit.id !== id)))
+        deleteHandler(id).then(() => setUnits(prevUnit => prevUnit.filter(unit => unit.id !== id)))
     }, [auth.token])
 
     useEffect(() => {
@@ -91,7 +88,6 @@ const TambahBarang = () => {
             {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
            ).then(responseData => {
                if(responseData){
-                console.log(responseData)
                 responseData.forEach(data => data.delete = (
                     <WhiteButton width={120} onClick={() => deleteItem(data.id)}>
                         <Delete className="text-blue-800 mr-2" fontSize="inherit" /><span className="text-sm pt-1">HAPUS</span>
@@ -106,6 +102,11 @@ const TambahBarang = () => {
             fetchItems()
        }
     }, [auth.token, sendRequest, deleteItem])
+
+    
+    useEffect(() => {
+        console.log(items)
+    }, [items])
 
     useEffect(() => {
         const fetchUnits = () => {
@@ -145,7 +146,7 @@ const TambahBarang = () => {
                 id: responseData.id,
                 name: responseData.name,
                 delete: (
-                    <WhiteButton width={120} onClick={() => deleteUnit(responseData.id)}>
+                    <WhiteButton width={120} onClick={() => deleteItem(responseData.id)}>
                         <Delete className="text-blue-800 mr-2" fontSize="inherit" /><span className="text-sm pt-1">HAPUS</span>
                     </WhiteButton>
                 )
@@ -183,7 +184,7 @@ const TambahBarang = () => {
         <div className="flex flex-row">
             <Sidebar role="" name="ADMIN" links={links} />
 
-            <div className="p-8 md:p-16">
+            <div className="p-8 pb-20 md:p-16">
                 <Title>Tambahkan Jenis Barang atau Satuan</Title>
                 {table === 'item' && <form onSubmit={addItem} className="md:flex md:flex-row md:items-center">
                     <TextInput

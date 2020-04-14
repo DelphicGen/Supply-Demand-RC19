@@ -1,5 +1,5 @@
 import React, {useReducer, useEffect, useState} from 'react'
-import {RemoveRedEye} from '@material-ui/icons'
+import {RemoveRedEye, Clear} from '@material-ui/icons'
 import {validate} from '../../util/validator'
 
 const inputReducer = (state, action) => {
@@ -14,6 +14,11 @@ const inputReducer = (state, action) => {
             return{
                 ...state,
                 isTouched: true
+            }
+        case 'CLEAR':
+            return{
+                ...state,
+                value: ''
             }
         default:
             return state
@@ -44,6 +49,10 @@ const TextInput = props => {
         dispatch({type: 'TOUCH'})
     }
 
+    const clearHandler = () => {
+        dispatch({type: 'CLEAR'})
+    }
+
     if(props.isPassword){
         return(
             <div className={`flex flex-col ${props.divClassName}`}>
@@ -72,15 +81,25 @@ const TextInput = props => {
     return (
         <div className={`flex flex-col ${props.divClassName}`}>
             <label htmlFor={props.id} className="text-gray-700 tracking-wide font-medium text-sm md:text-base my-1">{props.label}</label>
-            <input
-                className={`mb-3 w-full bg-gray-400 text-gray-700 p-2 rounded-md tex-sm font-semibold tracking-wide outline-none focus:shadow-outline focus:text-blue-700 ${props.className}`}
-                style={{width: props.width, maxWidth: props.maxWidth}} 
-                id={props.id}
-                type={props.type}
-                value={inputState.value}
-                placeholder={props.placeholder}
-                onChange={changeHandler}
-                onBlur={touchHandler} />
+            <div className="relative w-full">
+                <input
+                    className={`mb-3 w-full bg-gray-400 text-gray-700 p-2 rounded-md tex-sm font-semibold tracking-wide outline-none focus:shadow-outline focus:text-blue-700 ${props.className}`}
+                    style={{width: props.width, maxWidth: props.maxWidth}} 
+                    id={props.id}
+                    type={props.type}
+                    value={inputState.value}
+                    placeholder={props.placeholder}
+                    onChange={changeHandler}
+                    onBlur={touchHandler} />
+
+                {inputState.value !== '' && (
+                    <Clear
+                        className={`${hidden ? 'text-gray-700' : 'text-blue-700'} absolute cursor-pointer`} 
+                        fontSize="small"
+                        style={{right: 16, top: 9}}
+                        onClick={clearHandler} />
+                )}
+            </div>
             {!inputState.isValid && inputState.isTouched && <p className="text-xs text-red-800 font-medium tracking-wider mb-3">{props.errorText} </p>}
         </div>
     )
