@@ -81,7 +81,7 @@ const TextInput = props => {
     return (
         <div className={`flex flex-col ${props.divClassName}`}>
             <label htmlFor={props.id} className="text-gray-700 tracking-wide font-medium text-sm md:text-base my-1">{props.label}</label>
-            <div className="relative w-full">
+            <div className="relative" style={props.dashboardWidth || {width: 'auto'}}>
                 <input
                     className={`mb-3 w-full bg-gray-400 text-gray-700 p-2 rounded-md tex-sm font-semibold tracking-wide outline-none focus:shadow-outline focus:text-blue-700 ${props.className}`}
                     style={{width: props.width, maxWidth: props.maxWidth}} 

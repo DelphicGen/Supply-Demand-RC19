@@ -4,6 +4,7 @@ import {links} from '../../../components/Dashboard/adminLink'
 import {AuthContext} from '../../../context/auth-context'
 import {useForm} from '../../../hooks/form-hook'
 import {useHttpClient} from '../../../hooks/http-hook'
+import {useMediaQuery} from '../../../hooks/medquery-hook'
 import {VALIDATOR_REQUIRE} from '../../../util/validator'
 
 import Sidebar from '../../../components/Dashboard/SideBar'
@@ -44,6 +45,7 @@ const TambahBarang = () => {
             accessor: 'delete'
         }
     ]
+    const mediaQuery = useMediaQuery('(max-width: 767px)')
     const [items, setItems] = useState([])
     const [units, setUnits] = useState([])
 	const [table, setTable] = useState('item')
@@ -194,7 +196,8 @@ const TambahBarang = () => {
                         label="Nama Barang"
                         validators={[VALIDATOR_REQUIRE()]}
                         onInput={inputHandler}
-                        customClear={{right: 18, top: 10}}
+                        customClear={styles.container(mediaQuery)}
+                        dashboardWidth={styles2.container(mediaQuery)}
                         errorText="Mohon masukkan nama barang."
                         width={300} />
                     <WhiteButton width={125} type="submit" className="md:mt-3">
@@ -257,6 +260,19 @@ const TambahBarang = () => {
 
         </div>
     )
+}
+
+const styles = {
+    container: mediaQuery => ({
+        right: mediaQuery ? 8 : 18,
+        top: 10
+    })
+}
+
+const styles2 = {
+    container: mediaQuery => ({
+        width: mediaQuery ? 300 : 'auto'
+    })
 }
 
 export default TambahBarang
