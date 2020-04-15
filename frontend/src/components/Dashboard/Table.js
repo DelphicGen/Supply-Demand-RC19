@@ -35,7 +35,7 @@ const Table = ({ columns, data, isLandingPage, pageToGo, donasi }) => {
         <div className="flex-auto">
             <div className={`${!isLandingPage ? 'w-full' : 'md:w-10/12'} overflow-y-hidden h-full ${isLandingPage && 'lg:pb-32 mx-auto'}`}>
                 <div className="w-full overflow-y-auto h-full">
-                    <table {...getTableProps()} className={`${donasi && 'md:text-base text-sm'} w-full`}>
+                    <table {...getTableProps()} className={`${donasi && 'md:text-base text-sm'} ${donasi ? 'w-full md:w-10/12' : 'w-full'}`}>
                         <thead>
                         {
                             headerGroups.map(headerGroup => (
@@ -44,12 +44,12 @@ const Table = ({ columns, data, isLandingPage, pageToGo, donasi }) => {
                                     headerGroup.headers.map(column => {
                                         if(column.Header === 'No'){
                                             return (
-                                                <th {...column.getHeaderProps()} className={`${donasi ? 'w-1/12 pl-1 pr-0' : 'px-3'} text-left text-sm font-semibold px-3 py-4`}>{column.render('Header')}</th>
+                                                <th {...column.getHeaderProps()} className={`${donasi ? 'w-1/12 pl-2 md:pl-4 pr-0' : 'px-3'} text-left text-xs md:text-sm font-medium md:font-semibold px-3 py-4`}>{column.render('Header')}</th>
                                             )
                                         }
                                         else{
                                             return (
-                                                <th {...column.getHeaderProps()} className={`${donasi ? 'w-1/12 pl-1 pr-0' : 'px-3'} text-left text-sm font-semibold`}>{column.render('Header')}</th>
+                                                <th {...column.getHeaderProps()} className={`${donasi ? 'w-1/12 pl-2 md:pl-4 pr-0' : 'px-3'} text-left text-xs md:text-sm font-medium md:font-semibold`}>{column.render('Header')}</th>
                                             )
                                         }
                                     })
