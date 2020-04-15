@@ -66,7 +66,7 @@ const Table = ({ columns, data, isLandingPage, pageToGo, donasi }) => {
                                 {
                                     row.cells.map(cell => {
                                         if(cell.column.Header === 'No'){
-                                            return <td {...cell.getCellProps()} className={`pl-4 py-3 text-sm font-medium`}>{i+1}</td>        
+                                            return <td {...cell.getCellProps()} className={`pl-4 py-3 text-sm font-medium`}>{pageIndex * 10 + i+1}</td>        
                                         }
                                         else if(cell.column.Header === 'Update'){
                                             return <td {...cell.getCellProps()} className={`pl-4 py-3`} style={styles2.container(mediaQuery2)}>{cell.render('Cell')}</td>    

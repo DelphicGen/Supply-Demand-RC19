@@ -75,6 +75,10 @@ const TambahBarang = () => {
         })
     }
 
+    useEffect(() => {
+        console.log(unitPage)
+    }, [unitPage])
+
     const deleteItem = useCallback(id => {
         deleteHandler(id).then(() => {
             setItems(prevItem => prevItem.filter(item => item.id !== id))
@@ -84,6 +88,7 @@ const TambahBarang = () => {
 
     const deleteUnit = useCallback(id => {
         deleteHandler(id).then(() => setUnits(prevUnit => prevUnit.filter(unit => unit.id !== id)))
+        setUnitPage(units.length)
     }, [auth.token])
 
     useEffect(() => {
