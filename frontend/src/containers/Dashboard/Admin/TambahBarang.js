@@ -48,6 +48,8 @@ const TambahBarang = () => {
     const mediaQuery = useMediaQuery('(max-width: 767px)')
     const [items, setItems] = useState([])
     const [units, setUnits] = useState([])
+    const [itemPage, setItemPage] = useState(0)
+    const [unitPage, setUnitPage] = useState(0)
 	const [table, setTable] = useState('item')
     const [formState, inputHandler] = useForm({
         itemName: {
@@ -74,7 +76,10 @@ const TambahBarang = () => {
     }
 
     const deleteItem = useCallback(id => {
-        deleteHandler(id).then(() => setItems(prevItem => prevItem.filter(item => item.id !== id)))
+        deleteHandler(id).then(() => {
+            setItems(prevItem => prevItem.filter(item => item.id !== id))
+            setItemPage(items.length)
+        })
     }, [auth.token])
 
     const deleteUnit = useCallback(id => {
@@ -104,11 +109,6 @@ const TambahBarang = () => {
             fetchItems()
        }
     }, [auth.token, sendRequest, deleteItem])
-
-    
-    useEffect(() => {
-        console.log(items)
-    }, [items])
 
     useEffect(() => {
         const fetchUnits = () => {
@@ -153,8 +153,13 @@ const TambahBarang = () => {
                     </WhiteButton>
                 )
             }))
+            setItemPage(items.length)
         })
     }
+
+    useEffect(() => {
+        console.log(itemPage)
+    }, [itemPage])
 
     const addUnit = event => {
         event.preventDefault()
@@ -175,6 +180,7 @@ const TambahBarang = () => {
                     </WhiteButton>
                 )
             }))
+            setUnitPage(units.length)
         })
     }
 	
@@ -219,6 +225,8 @@ const TambahBarang = () => {
                         label="Satuan (Liter, Box, Botol, dll)"
                         validators={[VALIDATOR_REQUIRE()]}
                         onInput={inputHandler}
+                        customClear={styles.container(mediaQuery)}
+                        dashboardWidth={styles2.container(mediaQuery)}
                         errorText="Mohon masukkan satuan."
                         width={300} />
                     <WhiteButton width={125} type="submit" className="md:mt-3">
@@ -252,7 +260,7 @@ const TambahBarang = () => {
                     <React.Fragment>
                         <Title>{`Daftar ${table === 'item' ? 'Barang' : 'Satuan'}`} </Title>
                         <div className="h-3"></div>
-                        <Table columns={table === 'item' ? columns : unitColumns} data={table === 'item' ? items : units} />
+                        <Table columns={table === 'item' ? columns : unitColumns} data={table === 'item' ? items : units} pageToGo={table === 'item' ? itemPage : unitPage} />
                     </React.Fragment>
                 )}
                 {error && <ErrorText>{error}</ErrorText>}

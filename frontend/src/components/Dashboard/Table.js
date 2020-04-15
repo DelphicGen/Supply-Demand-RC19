@@ -3,7 +3,7 @@ import { useTable, usePagination } from 'react-table'
 import {useMediaQuery} from '../../hooks/medquery-hook';
 import './Table.module.css'
 
-const Table = ({ columns, data, isLandingPage, donasi }) => {
+const Table = ({ columns, data, isLandingPage, pageToGo, donasi }) => {
     const {
         getTableProps,
         getTableBodyProps,
@@ -27,8 +27,9 @@ const Table = ({ columns, data, isLandingPage, donasi }) => {
     const mediaQuery2 = useMediaQuery('(max-width: 768px)');
 
     useEffect(() => {
-        console.log(pageIndex)
-    }, [pageIndex])
+        let page = Math.floor(pageToGo / 10) || 0
+        gotoPage(page)
+    }, [gotoPage, pageToGo])
 
     return (
         <div className="flex-auto">
