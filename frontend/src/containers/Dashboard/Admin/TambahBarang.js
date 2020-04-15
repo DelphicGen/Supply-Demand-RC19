@@ -64,7 +64,11 @@ const TambahBarang = () => {
     const {isLoading, error, sendRequest} = useHttpClient()
     const auth = useContext(AuthContext)
 
-    const deleteHandler = id => {
+    useEffect(() => {
+        console.log(unitPage)
+    }, [unitPage])
+
+    const deleteItem = useCallback(id => {
         return fetch(`${process.env.REACT_APP_BACKEND_URL}/v1/items/${id}`, {
             method: 'DELETE',
             headers: {
@@ -72,23 +76,22 @@ const TambahBarang = () => {
                 'Content-Type': 'application/json', 
                 'Authorization': `Bearer ${auth.token}`
             }
-        })
-    }
-
-    useEffect(() => {
-        console.log(unitPage)
-    }, [unitPage])
-
-    const deleteItem = useCallback(id => {
-        deleteHandler(id).then(() => {
+        }).then(() => {
             setItems(prevItem => prevItem.filter(item => item.id !== id))
-            setItemPage(items.length)
         })
     }, [auth.token])
 
     const deleteUnit = useCallback(id => {
-        deleteHandler(id).then(() => setUnits(prevUnit => prevUnit.filter(unit => unit.id !== id)))
-        setUnitPage(units.length)
+        return fetch(`${process.env.REACT_APP_BACKEND_URL}/v1/units/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json', 
+                'Content-Type': 'application/json', 
+                'Authorization': `Bearer ${auth.token}`
+            }
+        }).then(() => {
+            setUnits(prevUnit => prevUnit.filter(unit => unit.id !== id))
+        })
     }, [auth.token])
 
     useEffect(() => {
