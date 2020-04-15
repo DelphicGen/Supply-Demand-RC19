@@ -48,6 +48,7 @@ const TambahBarang = () => {
     const mediaQuery = useMediaQuery('(max-width: 767px)')
     const [items, setItems] = useState([])
     const [units, setUnits] = useState([])
+    const [deleteError, setDeleteError] = useState()
     const [itemPage, setItemPage] = useState(0)
     const [unitPage, setUnitPage] = useState(0)
 	const [table, setTable] = useState('item')
@@ -64,10 +65,6 @@ const TambahBarang = () => {
     const {isLoading, error, sendRequest} = useHttpClient()
     const auth = useContext(AuthContext)
 
-    useEffect(() => {
-        console.log(unitPage)
-    }, [unitPage])
-
     const deleteItem = useCallback(id => {
         return fetch(`${process.env.REACT_APP_BACKEND_URL}/v1/items/${id}`, {
             method: 'DELETE',
@@ -76,8 +73,12 @@ const TambahBarang = () => {
                 'Content-Type': 'application/json', 
                 'Authorization': `Bearer ${auth.token}`
             }
-        }).then(() => {
-            setItems(prevItem => prevItem.filter(item => item.id !== id))
+        }).then((res) => {
+            if(res){
+                setDeleteError('Barang tidak bisa dihapus karena sedang digunakan di tempat lain.')
+            } else {
+                setItems(prevItem => prevItem.filter(item => item.id !== id))
+            }
         })
     }, [auth.token])
 
@@ -89,8 +90,12 @@ const TambahBarang = () => {
                 'Content-Type': 'application/json', 
                 'Authorization': `Bearer ${auth.token}`
             }
-        }).then(() => {
-            setUnits(prevUnit => prevUnit.filter(unit => unit.id !== id))
+        }).then((res) => {
+            if(res){
+                setDeleteError('Satuan tidak bisa dihapus karena sedang digunakan di tempat lain.')
+            } else {
+                setUnits(prevUnit => prevUnit.filter(unit => unit.id !== id))
+            }
         })
     }, [auth.token])
 
@@ -165,10 +170,6 @@ const TambahBarang = () => {
         })
     }
 
-    useEffect(() => {
-        console.log(itemPage)
-    }, [itemPage])
-
     const addUnit = event => {
         event.preventDefault()
         sendRequest(
@@ -194,6 +195,10 @@ const TambahBarang = () => {
 	
 	const radioChangeHandler = (event) => {
         setTable(event.target.value)
+    }
+
+    const clearDeleteError = () => {
+        setDeleteError(null)
     }
 
     return(
@@ -272,6 +277,7 @@ const TambahBarang = () => {
                     </React.Fragment>
                 )}
                 {error && <ErrorText>{error}</ErrorText>}
+                {deleteError && <ErrorText clear={clearDeleteError}>{deleteError}</ErrorText>}
             </div>
 
         </div>
