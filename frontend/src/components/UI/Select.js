@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
 
-const Select =  (props, )  => {
+const Select =  (props)  => {
 
-  const [arrayList] = useState(props.arrayList);
+  
   const [selectedData, updateSelectedData] = useState("");
 
 
@@ -11,12 +11,6 @@ const Select =  (props, )  => {
     if(props.onSelectChange) props.onSelectChange(event.target.value)
 
   }
-
-  let options  = arrayList.map(data => (
-    <option key={data.id} value={data}>
-      {data}
-    </option>
-  ));
 
 
     return (
@@ -28,8 +22,14 @@ const Select =  (props, )  => {
           style={{width: props.width, maxWidth: props.maxWidth, height: 40}} 
           onChange={handleChange}
           >
-
-          {options}
+          <option defaultValue disabled>Select Item</option>
+          if(props.arrayList) {
+            props.arrayList.map((item, index) => (
+            <option key={item.id} value={item.name} >
+              {item.name}
+            </option> 
+           ))
+          }
         </select>
       </div>
     );
