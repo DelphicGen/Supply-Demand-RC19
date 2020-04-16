@@ -6,16 +6,17 @@ import {AddCircle} from '@material-ui/icons'
 import { useHistory } from 'react-router-dom'
 import {useMediaQuery} from '../../../hooks/medquery-hook';
 
+import ErrorModal from '../../../components/UI/ErrorModal'
 import Sidebar from '../../../components/Dashboard/SideBar'
 import LoadingSpinner from '../../../components/UI/LoadingSpinner'
 import Table from '../../../components/Dashboard/Table'
 import WhiteButton from '../../../components/UI/WhiteButton'
 import Title from '../../../components/Dashboard/Title'
-// import UpdateDonasi from './UpdateDonasi'
 
 const DonasiSaya = () => {
     const auth = useContext(AuthContext)
-    const {isLoading, error, sendRequest} = useHttpClient()
+    const {isLoading, error, sendRequest, clearError} = useHttpClient()
+    const requestError = error && 'Gagal memuat data, silakan coba lagi.'
     const history = useHistory()
     const mediaQuery = useMediaQuery('(max-width: 600px)')
 
@@ -43,21 +44,20 @@ const DonasiSaya = () => {
         ]       
 
     const [dataTable, setDataTable] = useState([])
-    const [unitList, setUnitList] = useState([])
-    const [itemList, setItemList] = useState([])
 
     useEffect(() => {
         const fetchItems = () => {
             sendRequest(
-                `${process.env.REACT_APP_BACKEND_URL}/v1/donations`,
+                `${process.env.REACT_APP_BACKEND_URL}/v1/donations?page=2&size=10`,
                 'GET',
                 null,
                 {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
             ).then(responseData => {
                 if(responseData){
+                    console.log(responseData)
                     let temp = []
                     responseData.data.forEach(data => {
-                        if(data.donationItems){
+                        if(data.donationItems && data.donator.id === auth.id){
                             temp = [...temp, data.donationItems[0]]
                         }
                     })
@@ -103,26 +103,21 @@ const DonasiSaya = () => {
 
     const update = (data) => {
         localStorage.setItem('selected', JSON.stringify(data))
-        // let i
-        // let x
-        // console.log(list1)
-        // for([i, x] of itemList.entries()){
-        //     if(x.name === data.item){
-        //         localStorage.setItem('selectedItemIndex', JSON.stringify({itemIndex: i}))
-        //         break;
-        //     }
-        // }
-        // for([i, x] of unitList.entries()){
-        //     if(x.name === data.unit){
-        //         localStorage.setItem('selectedUnitIndex', JSON.stringify({unitIndex: i}))
-        //         break;
-        //     }
-        // }
         history.push('/dashboard/donasi-saya/update')
+    }
+
+    let content = <LoadingSpinner />
+    if(!isLoading){
+        if(dataTable.length > 0){
+            content = <Table columns={ columns } data={ dataTable } donasi={true} />
+        } else {
+            content = <p className="text-sm font-semibold">Anda belum melakukan donasi.</p>
+        }
     }
 
     return(
         <React.Fragment>
+            <ErrorModal error={requestError} onClear={clearError} />
             <div className="p-8 py-4 block md:hidden md:text-left lg:pl-5 md:pl-3 inline-block bg-blue-700 rounded-b-lg sm:rounded-b-none sm:rounded-r-lg w-full sm:w-auto">
                 <h5 className="font-semibold text-md text-white">Dashboard Donatur</h5>
                 <h2 className="font-semibold text-lg text-white">{auth.name}</h2>
@@ -132,7 +127,7 @@ const DonasiSaya = () => {
                 <div className="flex w-full flex-col md:p-12 sm:ml-6" style={{paddingLeft: '5px', paddingRight: '5px'}}>
                     <Title>Donasi Saya</Title>
                     <div className="h-2"></div>
-                    {isLoading ? <LoadingSpinner /> : <Table columns={ columns } data={ dataTable } donasi={true} />}
+                    {content}
                 </div>
             </div>
         </React.Fragment>

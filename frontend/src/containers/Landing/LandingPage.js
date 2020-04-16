@@ -51,7 +51,7 @@ const LandingPage = () => {
             {'Accept': 'application/json', 'Content-Type': 'application/json'}
         ).then(responseData => {
             console.log(responseData)
-            // setDataDemand(responseData.data.requestItems)
+            //setDataDemand(responseData.data.requestItems)
         }, [sendRequest])
 
         sendRequest(
@@ -62,7 +62,7 @@ const LandingPage = () => {
         ).then(responseData => {
             console.log(responseData)
             if(responseData){
-                // setDataStock(responseData.data)
+                setDataStock(responseData.data)
             }
         })
     }, [sendRequest])

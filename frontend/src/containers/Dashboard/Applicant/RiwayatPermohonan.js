@@ -80,7 +80,9 @@ const RiwayatPermohonan = () => {
                 if(responseData){
                     let temp = []
                     responseData.data.forEach(data => {
-                        temp = [...temp, data.donationItems[0]]
+                        if(data.donationItems){
+                            temp = [...temp, data.donationItems[0]]
+                        }
                     })
                     temp.forEach((data, index) => data.donation_id = responseData.data[index].id)
                     temp.forEach((data, index) => {
