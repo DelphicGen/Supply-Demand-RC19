@@ -7,6 +7,7 @@ import {useHttpClient} from '../../../hooks/http-hook'
 import {useMediaQuery} from '../../../hooks/medquery-hook'
 import {VALIDATOR_REQUIRE} from '../../../util/validator'
 
+import ErrorModal from '../../../components/UI/ErrorModal'
 import Sidebar from '../../../components/Dashboard/SideBar'
 import RadioInput from '../../../components/Form/RadioInput'
 import LoadingSpinner from '../../../components/UI/LoadingSpinner'
@@ -48,7 +49,6 @@ const TambahBarang = () => {
     const mediaQuery = useMediaQuery('(max-width: 767px)')
     const [items, setItems] = useState([])
     const [units, setUnits] = useState([])
-    const [deleteError, setDeleteError] = useState()
     const [itemPage, setItemPage] = useState(0)
     const [unitPage, setUnitPage] = useState(0)
 	const [table, setTable] = useState('item')
@@ -62,7 +62,7 @@ const TambahBarang = () => {
             isValid: false
         }
     }, false)
-    const {isLoading, error, sendRequest} = useHttpClient()
+    const {isLoading, error, sendRequest, clearError} = useHttpClient()
     const auth = useContext(AuthContext)
 
     const deleteItem = useCallback(id => {
@@ -73,12 +73,9 @@ const TambahBarang = () => {
                 'Content-Type': 'application/json', 
                 'Authorization': `Bearer ${auth.token}`
             }
-        }).then((res) => {
-            if(res){
-                setDeleteError('Barang tidak bisa dihapus karena sedang digunakan di tempat lain.')
-            } else {
-                setItems(prevItem => prevItem.filter(item => item.id !== id))
-            }
+        }).then(() => {
+            setItems(prevItem => prevItem.filter(item => item.id !== id))
+            
         })
     }, [auth.token])
 
@@ -90,12 +87,8 @@ const TambahBarang = () => {
                 'Content-Type': 'application/json', 
                 'Authorization': `Bearer ${auth.token}`
             }
-        }).then((res) => {
-            if(res){
-                setDeleteError('Satuan tidak bisa dihapus karena sedang digunakan di tempat lain.')
-            } else {
-                setUnits(prevUnit => prevUnit.filter(unit => unit.id !== id))
-            }
+        }).then(() => {
+            setUnits(prevUnit => prevUnit.filter(unit => unit.id !== id))
         })
     }, [auth.token])
 
@@ -197,90 +190,88 @@ const TambahBarang = () => {
         setTable(event.target.value)
     }
 
-    const clearDeleteError = () => {
-        setDeleteError(null)
-    }
-
     return(
-        <div className="flex flex-row">
-            <Sidebar role="" name="ADMIN" links={links} />
+        <React.Fragment>
+            <ErrorModal error={error} onClear={clearError} />
+            <div className="flex flex-row">
+                <Sidebar role="" name="ADMIN" links={links} />
 
-            <div className="p-8 pb-20 md:p-16">
-                <Title>Tambahkan Jenis Barang atau Satuan</Title>
-                {table === 'item' && <form onSubmit={addItem} className="md:flex md:flex-row md:items-center">
-                    <TextInput
-                        className="md:mr-3"
-                        id="itemName"
-                        type="text"
-                        label="Nama Barang"
-                        validators={[VALIDATOR_REQUIRE()]}
-                        onInput={inputHandler}
-                        customClear={styles.container(mediaQuery)}
-                        dashboardWidth={styles2.container(mediaQuery)}
-                        errorText="Mohon masukkan nama barang."
-                        width={300} />
-                    <WhiteButton width={125} type="submit" className="md:mt-3">
-                        {!isLoading ? 
-                            <React.Fragment>
-                                <AddCircle className="text-blue-800 mr-2" fontSize="inherit" /> <span className="text-sm pt-1">TAMBAH</span>
-                            </React.Fragment> : 
-                            <LoadingSpinner style={{transform: 'translateY(-3px)'}} />
-                        }
-                    </WhiteButton>
-                </form>
-				}
+                <div className="p-8 pb-20 md:p-16">
+                    <Title>Tambahkan Jenis Barang atau Satuan</Title>
+                    {table === 'item' && <form onSubmit={addItem} className="md:flex md:flex-row md:items-center">
+                        <TextInput
+                            className="md:mr-3"
+                            id="itemName"
+                            type="text"
+                            label="Nama Barang"
+                            validators={[VALIDATOR_REQUIRE()]}
+                            onInput={inputHandler}
+                            customClear={styles.container(mediaQuery)}
+                            dashboardWidth={styles2.container(mediaQuery)}
+                            errorText="Mohon masukkan nama barang."
+                            width={300} />
+                        <WhiteButton width={125} type="submit" className="md:mt-3">
+                            {!isLoading ? 
+                                <React.Fragment>
+                                    <AddCircle className="text-blue-800 mr-2" fontSize="inherit" /> <span className="text-sm pt-1">TAMBAH</span>
+                                </React.Fragment> : 
+                                <LoadingSpinner style={{transform: 'translateY(-3px)'}} />
+                            }
+                        </WhiteButton>
+                    </form>
+                    }
 
-                {table === 'unit' && <form onSubmit={addUnit} className="md:flex md:flex-row md:items-center">
-                    <TextInput
-                        className="md:mr-3"
-                        id="unit"
-                        type="text"
-                        label="Satuan (Liter, Box, Botol, dll)"
-                        validators={[VALIDATOR_REQUIRE()]}
-                        onInput={inputHandler}
-                        customClear={styles.container(mediaQuery)}
-                        dashboardWidth={styles2.container(mediaQuery)}
-                        errorText="Mohon masukkan satuan."
-                        width={300} />
-                    <WhiteButton width={125} type="submit" className="md:mt-3">
-                        {!isLoading ? 
-                            <React.Fragment>
-                                <AddCircle className="text-blue-800 mr-2" fontSize="inherit" /> <span className="text-sm pt-1">TAMBAH</span>
-                            </React.Fragment> : 
-                            <LoadingSpinner style={{transform: 'translateY(-3px)'}} />
-                        }
-                    </WhiteButton>
-                </form>
-				}
-				
-				<div className="flex flex-row my-3">
-                    <RadioInput
-                        changed={radioChangeHandler}
-                        id="item"
-                        isSelected={table === 'item'}
-                        label="Barang"
-                        value="item" />
+                    {table === 'unit' && <form onSubmit={addUnit} className="md:flex md:flex-row md:items-center">
+                        <TextInput
+                            className="md:mr-3"
+                            id="unit"
+                            type="text"
+                            label="Satuan (Liter, Box, Botol, dll)"
+                            validators={[VALIDATOR_REQUIRE()]}
+                            onInput={inputHandler}
+                            customClear={styles.container(mediaQuery)}
+                            dashboardWidth={styles2.container(mediaQuery)}
+                            errorText="Mohon masukkan satuan."
+                            width={300} />
+                        <WhiteButton width={125} type="submit" className="md:mt-3">
+                            {!isLoading ? 
+                                <React.Fragment>
+                                    <AddCircle className="text-blue-800 mr-2" fontSize="inherit" /> <span className="text-sm pt-1">TAMBAH</span>
+                                </React.Fragment> : 
+                                <LoadingSpinner style={{transform: 'translateY(-3px)'}} />
+                            }
+                        </WhiteButton>
+                    </form>
+                    }
+                    
+                    <div className="flex flex-row my-3">
+                        <RadioInput
+                            changed={radioChangeHandler}
+                            id="item"
+                            isSelected={table === 'item'}
+                            label="Barang"
+                            value="item" />
 
-                    <RadioInput
-                        changed={radioChangeHandler}
-                        id="unit"
-                        isSelected={table === 'unit'}
-                        label="Satuan"
-                        value="unit" />
+                        <RadioInput
+                            changed={radioChangeHandler}
+                            id="unit"
+                            isSelected={table === 'unit'}
+                            label="Satuan"
+                            value="unit" />
+                    </div>
+
+                    {(items.length > 0 || units.length > 0) && (
+                        <React.Fragment>
+                            <Title>{`Daftar ${table === 'item' ? 'Barang' : 'Satuan'}`} </Title>
+                            <div className="h-3"></div>
+                            <Table columns={table === 'item' ? columns : unitColumns} data={table === 'item' ? items : units} pageToGo={table === 'item' ? itemPage : unitPage} />
+                        </React.Fragment>
+                    )}
+                    {error && <ErrorText>{error}</ErrorText>}
                 </div>
 
-                {(items.length > 0 || units.length > 0) && (
-                    <React.Fragment>
-                        <Title>{`Daftar ${table === 'item' ? 'Barang' : 'Satuan'}`} </Title>
-                        <div className="h-3"></div>
-                        <Table columns={table === 'item' ? columns : unitColumns} data={table === 'item' ? items : units} pageToGo={table === 'item' ? itemPage : unitPage} />
-                    </React.Fragment>
-                )}
-                {error && <ErrorText>{error}</ErrorText>}
-                {deleteError && <ErrorText clear={clearDeleteError}>{deleteError}</ErrorText>}
             </div>
-
-        </div>
+        </React.Fragment>
     )
 }
 

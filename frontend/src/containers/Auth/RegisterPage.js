@@ -38,10 +38,6 @@ const RegisterPage = (props) => {
     const auth = useContext(AuthContext)
     const {isLoading, error, sendRequest} = useHttpClient()
 
-    useEffect(() => {
-        console.log(auth.token, auth.role, auth.name)
-    }, [auth])
-
     const radioChangeHandler = (event) => {
         setRole(event.target.value)
         setRoleValid(true)
@@ -60,7 +56,6 @@ const RegisterPage = (props) => {
             }),
             {'Accept': 'application/json', 'Content-Type': 'application/json'}
         ).then((responseData) => {
-            console.log(responseData)
             auth.login(responseData.jwt, responseData.user.role, responseData.user.name)
             let redirectLink = '/dashboard/tambah-barang'
 

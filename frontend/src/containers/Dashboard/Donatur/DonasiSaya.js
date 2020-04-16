@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { links } from '../../../components/Dashboard/donaturLink'
 import {AuthContext} from '../../../context/auth-context'
 import {useHttpClient} from '../../../hooks/http-hook'
@@ -19,8 +19,7 @@ const DonasiSaya = () => {
     const history = useHistory()
     const mediaQuery = useMediaQuery('(max-width: 600px)')
 
-    const columns = useMemo(
-        () => [
+    const columns = [
             {
                 Header: 'No',
                 accessor: 'no'
@@ -42,7 +41,6 @@ const DonasiSaya = () => {
                 accessor: 'update'
             }
         ]       
-    )
 
     const [dataTable, setDataTable] = useState([])
     const [unitList, setUnitList] = useState([])
@@ -50,37 +48,18 @@ const DonasiSaya = () => {
 
     useEffect(() => {
         const fetchItems = () => {
-            // sendRequest(
-            //     `${process.env.REACT_APP_BACKEND_URL}/v1/units`,
-            //     'GET',
-            //     null,
-            //     {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
-            // ).then(responseData => {
-            //     setUnitList(responseData)
-            // })
-    
-            // sendRequest(
-            //     `${process.env.REACT_APP_BACKEND_URL}/v1/items`,
-            //     'GET',
-            //     null,
-            //     {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
-            // ).then(responseData => {
-            //     setItemList(responseData)
-            // })
-            
-
             sendRequest(
                 `${process.env.REACT_APP_BACKEND_URL}/v1/donations`,
                 'GET',
                 null,
                 {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
             ).then(responseData => {
-                console.log(responseData)
- 
                 if(responseData){
                     let temp = []
                     responseData.data.forEach(data => {
-                        temp = [...temp, data.donationItems[0]]
+                        if(data.donationItems){
+                            temp = [...temp, data.donationItems[0]]
+                        }
                     })
                     temp.forEach((data, index) => data.donation_id = responseData.data[index].id)
                     temp.forEach((data, index) => {

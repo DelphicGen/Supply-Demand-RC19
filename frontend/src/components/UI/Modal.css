@@ -1,0 +1,27 @@
+.modal-enter {
+  -webkit-transform: translateY(-10rem);
+          transform: translateY(-10rem);
+  opacity: 0;
+}
+
+.modal-enter-active {
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  opacity: 1;
+  -webkit-transition: all 200ms;
+  transition: all 200ms;
+}
+
+.modal-exit {
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  opacity: 1;
+}
+
+.modal-exit-active {
+  -webkit-transform: translateY(-10rem);
+          transform: translateY(-10rem);
+  opacity: 0;
+  -webkit-transition: all 200ms;
+  transition: all 200ms;
+}

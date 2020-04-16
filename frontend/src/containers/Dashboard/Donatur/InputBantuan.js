@@ -229,7 +229,6 @@ const InputBantuan = () => {
                             type="submit"
                             onClick={submitHandler}
                             disabled={!formState.isValid}>
-                        >
                             {
                                 isLoading ? <LoadingSpinner color="white" style={{transform: 'translateY(-3px)'}} /> : 'SUBMIT'
                             } 
