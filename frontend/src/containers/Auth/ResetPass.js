@@ -1,6 +1,6 @@
 import React from 'react'
 import {useForm} from '../../hooks/form-hook'
-import {VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE} from '../../util/validator'
+import {VALIDATOR_EMAIL, VALIDATOR_REQUIRE} from '../../util/validator'
 
 import VirusSVG from '../../components/UI/VirusSVG'
 import AuthTitle from '../../components/UI/AuthTitle'
@@ -9,7 +9,7 @@ import Button from '../../components/UI/Button'
 
 const ResetPass = () => {
     const [formState, inputHandler] = useForm({
-        password: {
+        email: {
             value: '',
             isValid: false
         }
@@ -23,12 +23,12 @@ const ResetPass = () => {
             </div>
 
             <TextInput
-                id="password"
-                type="password"
-                label="Password"
-                validators={[VALIDATOR_MINLENGTH(8), VALIDATOR_REQUIRE()]}
+                id="email"
+                type="email"
+                label="Email"
+                validators={[VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()]}
                 onInput={inputHandler}
-                errorText="Password minimal 8 karakter."
+                errorText="Mohon masukkan email yang valid."
                 width={300} />
 
             <Button
