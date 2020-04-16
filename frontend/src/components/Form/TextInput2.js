@@ -36,10 +36,6 @@ const TextInput2 = props => {
         onInput(id, value, isValid)
     }, [onInput, id, value, isValid])
 
-    useEffect(() => {
-        console.log(inputState)
-    }, [inputState])
-
     const changeHandler = event => {
         dispatch({type: 'CHANGE', val: event.target.value, validators: props.validators})
     }

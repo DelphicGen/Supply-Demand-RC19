@@ -4,7 +4,6 @@ import { AuthContext } from '../../../context/auth-context'
 import { VALIDATOR_REQUIRE }from '../../../util/validator'
 import { useForm } from '../../../hooks/form-hook'
 import {useHttpClient} from '../../../hooks/http-hook'
-import { useMediaQuery } from '../../../hooks/medquery-hook';
 import { useHistory } from 'react-router-dom'
 
 import Sidebar from '../../../components/Dashboard/SideBar'
@@ -14,14 +13,11 @@ import TextInput2 from '../../../components/Form/TextInput2'
 import Button from '../../../components/UI/Button'
 import Select2 from '../../../components/UI/Select2'
 
-// export const testProvider = React.createContext(false)
-
 const UpdateDonasi = (props) => {
     let data = JSON.parse(localStorage.getItem('selected'))
     // let selectedUnitIndex = JSON.parse(localStorage.getItem('selectedUnitIndex'))
     // let selectedItemIndex = JSON.parse(localStorage.getItem('selectedItemIndex'))
     const auth = useContext(AuthContext)
-    const [name, setName] = useState(auth.name)
     let history = useHistory()
     const {isLoading, error, sendRequest} = useHttpClient()
     const [formState, inputHandler] = useForm({
@@ -147,7 +143,7 @@ const UpdateDonasi = (props) => {
 
     return(
         <div className="flex flex-row h-full w-full">
-            <Sidebar role="Donatur" name={name} links={links} />
+            <Sidebar role="Donatur" name={auth.name} links={links} />
 
             <div>
 
@@ -187,7 +183,6 @@ const UpdateDonasi = (props) => {
                         type="submit"
                         onClick={submitHandler}
                         disabled={!formState.isValid}>
-                    >
                         {
                             isLoading ? <LoadingSpinner color="white" style={{transform: 'translateY(-3px)'}} /> : 'SUBMIT'
                         } 
