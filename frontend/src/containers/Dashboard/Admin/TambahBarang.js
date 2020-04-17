@@ -51,6 +51,8 @@ const TambahBarang = () => {
     const [units, setUnits] = useState([])
     const [itemPage, setItemPage] = useState(0)
     const [unitPage, setUnitPage] = useState(0)
+    const [deleteLoading, setDeleteLoading] = useState(false)
+    const [deleteError, setDeleteError] = useState(false)
 	const [table, setTable] = useState('item')
     const [formState, inputHandler] = useForm({
         itemName: {
@@ -66,6 +68,7 @@ const TambahBarang = () => {
     const auth = useContext(AuthContext)
 
     const deleteItem = useCallback(id => {
+        setDeleteLoading(true)
         return fetch(`${process.env.REACT_APP_BACKEND_URL}/v1/items/${id}`, {
             method: 'DELETE',
             headers: {
@@ -73,13 +76,20 @@ const TambahBarang = () => {
                 'Content-Type': 'application/json', 
                 'Authorization': `Bearer ${auth.token}`
             }
-        }).then(() => {
-            setItems(prevItem => prevItem.filter(item => item.id !== id))
-            
+        }).then((res) => {
+            return res.text()
+        }).then(text => {
+            if(!text.length){
+                setItems(prevItem => prevItem.filter(item => item.id !== id))
+            } else {
+                setDeleteError('Maaf, barang tidak dapat dihapus karena sedang digunakan dalam proses supply atau demand.')
+            }
+            setDeleteLoading(false)
         })
     }, [auth.token])
 
     const deleteUnit = useCallback(id => {
+        setDeleteLoading(true)
         return fetch(`${process.env.REACT_APP_BACKEND_URL}/v1/units/${id}`, {
             method: 'DELETE',
             headers: {
@@ -87,8 +97,15 @@ const TambahBarang = () => {
                 'Content-Type': 'application/json', 
                 'Authorization': `Bearer ${auth.token}`
             }
-        }).then(() => {
-            setUnits(prevUnit => prevUnit.filter(unit => unit.id !== id))
+        }).then((res) => {
+            return res.text()
+        }).then(text => {
+            if(!text.length){
+                setItems(prevUnit => prevUnit.filter(unit => unit.id !== id))
+            } else {
+                setDeleteError('Maaf, satuan tidak dapat dihapus karena sedang digunakan dalam proses supply atau demand.')
+            }
+            setDeleteLoading(false)
         })
     }, [auth.token])
 
@@ -190,9 +207,14 @@ const TambahBarang = () => {
         setTable(event.target.value)
     }
 
+    const clearDeleteError = () => {
+        setDeleteError(null)
+    }
+
     return(
         <React.Fragment>
             <ErrorModal error={error} onClear={clearError} />
+            <ErrorModal error={deleteError} onClear={clearDeleteError} />
             <div className="flex flex-row">
                 <Sidebar role="" name="ADMIN" links={links} />
 
@@ -234,11 +256,11 @@ const TambahBarang = () => {
                             errorText="Mohon masukkan satuan."
                             width={300} />
                         <WhiteButton width={125} type="submit" className="md:mt-3">
-                            {!isLoading ? 
+                            {(isLoading || deleteLoading) ? 
+                                <LoadingSpinner style={{transform: 'translateY(-3px)'}} /> :
                                 <React.Fragment>
                                     <AddCircle className="text-blue-800 mr-2" fontSize="inherit" /> <span className="text-sm pt-1">TAMBAH</span>
-                                </React.Fragment> : 
-                                <LoadingSpinner style={{transform: 'translateY(-3px)'}} />
+                                </React.Fragment>
                             }
                         </WhiteButton>
                     </form>

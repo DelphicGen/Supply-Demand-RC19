@@ -5,22 +5,20 @@ let logoutTimer
 export const useAuth = () => {
   const [token, setToken] = useState()
   const [tokenExpirationDate, setTokenExpirationDate] = useState()
+  const [userId, setUserId] = useState()
   const [userRole, setUserRole] = useState()
   const [userName, setUserName] = useState()
-  const [contactPerson, setContactPerson] = useState() 
-  const [contactNumber, setContactNumber] = useState()
 
-  const login = useCallback((token, role, name, contactPerson, contactNumber, expirationDate) => {
+  const login = useCallback((token, role, name, id, expirationDate) => {
     setToken(token)
     setUserRole(role)
     setUserName(name)
-    setContactPerson(contactPerson)
-    setContactNumber(contactNumber)
+    setUserId(id)
     const tokenExpiresIn = expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60 * 3)
     setTokenExpirationDate(tokenExpiresIn)
     localStorage.setItem(
       'userData',
-      JSON.stringify({token: token, userRole: role, userName: name, contactPerson: contactPerson, contactNumber: contactNumber, expiration: tokenExpiresIn.toISOString()})
+      JSON.stringify({token: token, userRole: role, userName: name, userId: id, expiration: tokenExpiresIn.toISOString()})
     )
   }, [])
 
@@ -29,9 +27,9 @@ export const useAuth = () => {
     setTokenExpirationDate(null)
     setUserRole(null)
     setUserName(null)
-    setContactPerson(null)
-    setContactNumber(null)
+    setUserId(null)
     localStorage.removeItem('userData')
+    localStorage.removeItem('selected')
   }, [])
 
   useEffect(() => {
@@ -46,9 +44,9 @@ export const useAuth = () => {
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem('userData'))
     if(storedData && storedData.token && new Date(storedData.expiration) > new Date()){
-      login(storedData.token, storedData.userRole, storedData.userName, storedData.contactPerson, storedData.contactNumber, new Date(storedData.expiration))
+      login(storedData.token, storedData.userRole, storedData.userName, storedData.userId, new Date(storedData.expiration))
     }
   }, [login])
 
-  return {token, userRole, userName, contactPerson, contactNumber, login, logout}
+  return {token, userRole, userName, userId, login, logout}
 }

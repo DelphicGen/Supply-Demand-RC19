@@ -34,7 +34,7 @@ const Table = ({ columns, data, isLandingPage, pageToGo, donasi }) => {
     return (
         <div className="flex-auto">
             <div className={`${!isLandingPage ? 'w-full' : 'md:w-10/12'} overflow-y-hidden h-full ${isLandingPage && 'lg:pb-32 mx-auto'}`}>
-                <div className="w-full overflow-y-auto h-full">
+                <div className="w-full overflow-y-auto">
                     <table {...getTableProps()} className={`${donasi && 'md:text-base text-sm'} ${donasi ? 'w-full md:w-10/12' : 'w-full'}`}>
                         <thead>
                         {

@@ -5,6 +5,7 @@ import {useForm} from '../../hooks/form-hook'
 import {useHttpClient} from '../../hooks/http-hook'
 import {VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE} from '../../util/validator'
 
+import ErrorModal from '../../components/UI/ErrorModal'
 import VirusSVG from '../../components/UI/VirusSVG'
 import AuthTitle from '../../components/UI/AuthTitle'
 import TextInput from '../../components/Form/TextInput'
@@ -25,7 +26,7 @@ const LoginPage = (props) => {
     }, false)
 
     const auth = useContext(AuthContext)
-    const {isLoading, error, sendRequest} = useHttpClient()
+    const {isLoading, error, sendRequest, clearError} = useHttpClient()
 
     const loginSubmit = event => {
         event.preventDefault()
@@ -38,7 +39,7 @@ const LoginPage = (props) => {
             }),
             {'Accept': 'application/json', 'Content-Type': 'application/json'}
         ).then((responseData) => {
-            auth.login(responseData.jwt, responseData.user.role, responseData.user.name, responseData.user['contact_person'], responseData.user['contact_number'])
+            auth.login(responseData.jwt, responseData.user.role, responseData.user.name, responseData.user.id)
             
             let redirectLink = '/dashboard/tambah-barang'
             
@@ -53,41 +54,43 @@ const LoginPage = (props) => {
     }
 
     return (
-        <form className="flex items-center justify-center h-screen flex-col" onSubmit={loginSubmit}>
-            <div className="flex flex-row items-center mb-3">
-                <VirusSVG />
-                <AuthTitle>Login</AuthTitle>
-            </div>
-            
-            <div>
-                <TextInput
-                    id="email"
-                    type="email"
-                    label="Email"
-                    validators={[VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()]}
-                    onInput={inputHandler}
-                    errorText="Mohon masukkan email yang valid."
-                    width={300} />
+        <React.Fragment>
+            <ErrorModal error={error} onClear={clearError} />
+            <form className="flex items-center justify-center h-screen flex-col" onSubmit={loginSubmit}>
+                <div className="flex flex-row items-center mb-3">
+                    <VirusSVG />
+                    <AuthTitle>Login</AuthTitle>
+                </div>
+                
+                <div>
+                    <TextInput
+                        id="email"
+                        type="email"
+                        label="Email"
+                        validators={[VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()]}
+                        onInput={inputHandler}
+                        errorText="Mohon masukkan email yang valid."
+                        width={300} />
 
-                <TextInput
-                    id="password"
-                    isPassword={true}
-                    label="Password"
-                    validators={[VALIDATOR_MINLENGTH(8), VALIDATOR_REQUIRE()]}
-                    onInput={inputHandler}
-                    errorText="Password minimal 8 karakter."
-                    width={300} />
-                <Link to="/reset-password" className="block text-right text-xs md:text-sm font-semibold text-blue-800 hover:text-blue-900 hover:underline">Lupa password?</Link>
+                    <TextInput
+                        id="password"
+                        isPassword={true}
+                        label="Password"
+                        validators={[VALIDATOR_MINLENGTH(8), VALIDATOR_REQUIRE()]}
+                        onInput={inputHandler}
+                        errorText="Password minimal 8 karakter."
+                        width={300} />
+                    <Link to="/reset-password" className="block text-right text-xs md:text-sm font-semibold text-blue-800 hover:text-blue-900 hover:underline">Lupa password?</Link>
 
-                <Button
-                    width={300}
-                    type="submit"
-                    disabled={!formState.isValid}>{isLoading ? <LoadingSpinner color="white" style={{transform: 'translateY(-3px)'}} /> : 'LOGIN'} </Button>
-                    
-                {error && <ErrorText>{error}</ErrorText>}
-                <Link to="/daftar" className="block mt-3 text-center text-xs md:text-sm font-semibold text-gray-700 tracking-wider hover:text-gray-600">Belum punya akun? <span className="hover:underline">Daftar</span></Link>
-            </div>
-        </form>
+                    <Button
+                        width={300}
+                        type="submit"
+                        disabled={!formState.isValid}>{isLoading ? <LoadingSpinner color="white" style={{transform: 'translateY(-3px)'}} /> : 'LOGIN'} </Button>
+                        
+                    <Link to="/daftar" className="block mt-3 text-center text-xs md:text-sm font-semibold text-gray-700 tracking-wider hover:text-gray-600">Belum punya akun? <span className="hover:underline">Daftar</span></Link>
+                </div>
+            </form>
+        </React.Fragment>
     )
 }
 

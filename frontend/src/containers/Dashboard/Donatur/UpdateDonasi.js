@@ -1,12 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { links } from '../../../components/Dashboard/donaturLink'
 import { AuthContext } from '../../../context/auth-context'
-import { VALIDATOR_REQUIRE }from '../../../util/validator'
+import { VALIDATOR_REQUIRE } from '../../../util/validator'
 import { useForm } from '../../../hooks/form-hook'
-import {useHttpClient} from '../../../hooks/http-hook'
+import { useHttpClient } from '../../../hooks/http-hook'
 import { useHistory } from 'react-router-dom'
 
 import Sidebar from '../../../components/Dashboard/SideBar'
+import ErrorModal from '../../../components/UI/ErrorModal'
 import Title from '../../../components/Dashboard/Title'
 import LoadingSpinner from '../../../components/UI/LoadingSpinner'
 import TextInput2 from '../../../components/Form/TextInput2'
@@ -15,11 +16,9 @@ import Select2 from '../../../components/UI/Select2'
 
 const UpdateDonasi = (props) => {
     let data = JSON.parse(localStorage.getItem('selected'))
-    // let selectedUnitIndex = JSON.parse(localStorage.getItem('selectedUnitIndex'))
-    // let selectedItemIndex = JSON.parse(localStorage.getItem('selectedItemIndex'))
     const auth = useContext(AuthContext)
     let history = useHistory()
-    const {isLoading, error, sendRequest} = useHttpClient()
+    const { isLoading, error, sendRequest, clearError } = useHttpClient()
     const [formState, inputHandler] = useForm({
         quantity: {
             value: data.quantity,
@@ -45,7 +44,7 @@ const UpdateDonasi = (props) => {
             `${process.env.REACT_APP_BACKEND_URL}/v1/units`,
             'GET',
             null,
-            {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
+            { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
         ).then(responseData => {
             setUnitList(responseData)
         })
@@ -54,7 +53,7 @@ const UpdateDonasi = (props) => {
             `${process.env.REACT_APP_BACKEND_URL}/v1/items`,
             'GET',
             null,
-            {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
+            { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
         ).then(responseData => {
             setItemList(responseData)
         })
@@ -78,8 +77,8 @@ const UpdateDonasi = (props) => {
         console.log(itemList)
         let x
         let i
-        for([i, x] of itemList.entries()){
-            if(x.name === data.item){
+        for ([i, x] of itemList.entries()) {
+            if (x.name === data.item) {
                 setDonasi({
                     ...donasi,
                     item_id: x.id
@@ -95,8 +94,8 @@ const UpdateDonasi = (props) => {
     useEffect(() => {
         let x
         let i
-        for([i, x] of unitList.entries()){
-            if(x.name === data.unit) {
+        for ([i, x] of unitList.entries()) {
+            if (x.name === data.unit) {
                 setDonasi({
                     ...donasi,
                     unit_id: x.id
@@ -107,21 +106,6 @@ const UpdateDonasi = (props) => {
         }
     }, [unitList])
 
-    // useEffect(() => {
-    //     console.log(donasi)
-    //     console.log(data)
-
-    // }, [donasi])
-
-    useEffect(() => {
-        // inputHandler('quantity', data.quantity, true)
-        // console.log(formState.inputs)
-        // console.log(data, selectedItemIndex, selectedUnitIndex)
-        console.log(selectedItemIndex)
-    }, [selectedItemIndex])
-
-
-    //SUBMIT HANDLER FOR CLICK SUBMIT
     const submitHandler = () => {
         sendRequest(
             `${process.env.REACT_APP_BACKEND_URL}/v1/donations`,
@@ -137,15 +121,13 @@ const UpdateDonasi = (props) => {
                     }
                 ]
             }),
-            {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
+            { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
         ).then(responseData => {
             console.log(responseData)
             history.goBack()
         })
     }
 
-
-    //THE HTML 
     return(
         <div className="flex flex-row h-full w-full">
             <Sidebar role="Donatur" name={auth.name} links={links} />
@@ -194,7 +176,7 @@ const UpdateDonasi = (props) => {
                     </Button>
                 </div>
             </div>
-        </div>  
+        </React.Fragment>
     )
 }
 
