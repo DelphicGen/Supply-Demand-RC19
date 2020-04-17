@@ -15,7 +15,9 @@ const useStyles = makeStyles({
     border: 0,
     borderRadius: 3,
     color: 'white',
-    height: 48
+    height: 48,
+    fontWeight: 600,
+    fontSize: '0.875rem'
     }, 
   underline: {
       "&&&:before": {

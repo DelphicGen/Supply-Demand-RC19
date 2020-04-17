@@ -61,10 +61,11 @@ const TextInput2 = props => {
                     {!inputState.isValid && inputState.isTouched && <p className="text-xs text-red-800 font-medium tracking-wider mb-3">{props.errorText} </p>}
                 </div>
                 <Select3
-                    divClassName="mx-2 w-1/2 inline-block"
+                    divClassName="ml-2 w-1/2 inline-block"
                     list={props.list}
                     changeUnit={props.changeUnit}
                     selectedIndex={ props.selectedIndex }
+                    value={props.value}
                 />
                 
             </div>

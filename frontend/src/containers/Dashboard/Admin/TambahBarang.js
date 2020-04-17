@@ -82,7 +82,7 @@ const TambahBarang = () => {
             if(!text.length){
                 setItems(prevItem => prevItem.filter(item => item.id !== id))
             } else {
-                setDeleteError('Maaf, barang tidak dapat dihapus karena sedang digunakan dalam proses supply atau demand.')
+                setDeleteError('Maaf, barang tidak dapat dihapus karena masalah koneksi internet atau sedang digunakan dalam proses supply atau demand.')
             }
             setDeleteLoading(false)
         })
@@ -103,8 +103,11 @@ const TambahBarang = () => {
             if(!text.length){
                 setItems(prevUnit => prevUnit.filter(unit => unit.id !== id))
             } else {
-                setDeleteError('Maaf, satuan tidak dapat dihapus karena sedang digunakan dalam proses supply atau demand.')
+                setDeleteError('Maaf, satuan tidak dapat dihapus karena masalah koneksi internet atau sedang digunakan dalam proses supply atau demand.')
             }
+            setDeleteLoading(false)
+        }).catch(err => {
+            console.log(err)
             setDeleteLoading(false)
         })
     }, [auth.token])
@@ -289,7 +292,6 @@ const TambahBarang = () => {
                             <Table columns={table === 'item' ? columns : unitColumns} data={table === 'item' ? items : units} pageToGo={table === 'item' ? itemPage : unitPage} />
                         </React.Fragment>
                     )}
-                    {error && <ErrorText>{error}</ErrorText>}
                 </div>
 
             </div>
