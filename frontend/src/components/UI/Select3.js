@@ -17,10 +17,11 @@ const Select3 = props  => {
                     props.changeUnit(e.target.value)
                 }}
             >
-            {props.list.map((unit, index) => {
+            if(props.list){
+              props.list.map((unit, index) => {
                 if(index === indeks){
                     return(
-                        <option key={unit.id} value={unit.id} selected>
+                        <option key={unit.id} value={unit.id} defaultValue>
                             {unit.name}
                         </option>
                     )   

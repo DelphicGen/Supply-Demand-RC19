@@ -1,6 +1,6 @@
 
 import React, { useState, useContext, useEffect } from 'react'
-import { links } from '../../../components/Dashboard/donaturLink'
+import { links } from '../../../components/Dashboard/pemohonLink'
 import { AuthContext } from '../../../context/auth-context'
 import { VALIDATOR_REQUIRE }from '../../../util/validator'
 import { useForm } from '../../../hooks/form-hook'
@@ -18,6 +18,7 @@ import Select2 from '../../../components/UI/Select2'
 // export const testProvider = React.createContext(false)
 
 const UpdateRiwayat = (props) => {
+    //DATA DARI EACH ROW
     let data = JSON.parse(localStorage.getItem('selected'))
     // let selectedUnitIndex = JSON.parse(localStorage.getItem('selectedUnitIndex'))
     // let selectedItemIndex = JSON.parse(localStorage.getItem('selectedItemIndex'))
@@ -32,7 +33,7 @@ const UpdateRiwayat = (props) => {
         }
     }, false)
 
-    const [donasi, setDonasi] = useState(
+    const [kebutuhan, setKebutuhan] = useState(
         {
             item_id: '',
             unit_id: ''
@@ -44,16 +45,23 @@ const UpdateRiwayat = (props) => {
     const [selectedItemIndex, setSelectedItemIndex] = useState(0)
     const [selectedUnitIndex, setSelectedUnitIndex] = useState(0)
 
+
+    // FETCHING DATA UNITNYA;
     useEffect(() => {
+
+        //REQUEST TO THE UNITS(KILO, BOX, BARANG;); 
         sendRequest(
             `${process.env.REACT_APP_BACKEND_URL}/v1/units`,
             'GET',
             null,
             {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
         ).then(responseData => {
+
             setUnitList(responseData)
         })
 
+
+        //REQUEST TO THE ITEMS(INDOMIE, NASI KOTAK, MASKER, APD); knp w juga ga tau; 
         sendRequest(
             `${process.env.REACT_APP_BACKEND_URL}/v1/items`,
             'GET',
@@ -62,30 +70,36 @@ const UpdateRiwayat = (props) => {
         ).then(responseData => {
             setItemList(responseData)
         })
-    }, [auth.token, sendRequest])
+    }, [auth.token, sendRequest]) //USE EFFECT END;
 
+
+    //FUNC GANTI ITEM;
     const changeItem = (item_id) => {
-        setDonasi({
-            ...donasi,
+        setKebutuhan({
+            ...kebutuhan,
             item_id: item_id
         })
     }
 
+
+    //set Unit KG BOX of the kebutuhan;
     const changeUnit = (unit_id) => {
-        setDonasi({
-            ...donasi,
+        setKebutuhan({
+            ...kebutuhan,
             unit_id: unit_id
         })
     }
 
+
+    //EFFECT SET ITEM SELECTED; 
     useEffect(() => {
         console.log(itemList)
         let x
         let i
         for([i, x] of itemList.entries()){
             if(x.name === data.item){
-                setDonasi({
-                    ...donasi,
+                setKebutuhan({
+                    ...kebutuhan,
                     item_id: x.id
                 })
                 setSelectedItemIndex(i)
@@ -96,13 +110,14 @@ const UpdateRiwayat = (props) => {
 
     }, [itemList])
 
+    //EFECT SELECTED UNIT; 
     useEffect(() => {
         let x
         let i
         for([i, x] of unitList.entries()){
             if(x.name === data.unit) {
-                setDonasi({
-                    ...donasi,
+                setKebutuhan({
+                    ...kebutuhan,
                     unit_id: x.id
                 })
                 setSelectedUnitIndex(i)
@@ -124,17 +139,23 @@ const UpdateRiwayat = (props) => {
         console.log(selectedItemIndex)
     }, [selectedItemIndex])
 
+
+    //SUBMIT BUTTON CLICK FOR UPDATING THE BARANG YANG DIREQUEST; 
     const submitHandler = () => {
+      console.log(data.request_id);
+      console.log('this is the donation id');
+      let idtest = `1aZXT7o9koiK94Td6RI6MOHQhzU`
         sendRequest(
-            `${process.env.REACT_APP_BACKEND_URL}/v1/donations`,
+            // `${process.env.REACT_APP_BACKEND_URL}/v1/requests/${data.request_id}`,
+            `${process.env.REACT_APP_BACKEND_URL}/v1/requests/${idtest}`,
             'PUT',
             JSON.stringify({
-                donationItems: [
+                requestItems: [
                     {
-                        id: data.id,
-                        donation_id: data.donation_id,
-                        item_id: donasi.item_id,
-                        unit_id: donasi.unit_id,
+                        // id: data.id,
+                        // donation_id: ,
+                        item_id: kebutuhan.item_id,
+                        unit_id: kebutuhan.unit_id,
                         quantity: formState.inputs.quantity.value
                     }
                 ]
@@ -142,13 +163,16 @@ const UpdateRiwayat = (props) => {
             {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
         ).then(responseData => {
             console.log(responseData)
-            history.goBack()
+            console.log('update the request is done');
+            // history.goBack()
         })
     }
 
+
+    //THE HTML COMPONENT; 
     return(
         <div className="flex flex-row h-full w-full">
-            <Sidebar role="Donatur" name={name} links={links} />
+          <Sidebar role="" name="PEMOHON" links={links} />
 
             <div>
 

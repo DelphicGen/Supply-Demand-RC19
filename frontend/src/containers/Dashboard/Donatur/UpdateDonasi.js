@@ -42,7 +42,8 @@ const UpdateDonasi = (props) => {
     const [itemList, setItemList] = useState([])
     const [selectedItemIndex, setSelectedItemIndex] = useState(0)
     const [selectedUnitIndex, setSelectedUnitIndex] = useState(0)
-
+      
+    
     useEffect(() => {
         sendRequest(
             `${process.env.REACT_APP_BACKEND_URL}/v1/units`,
@@ -123,6 +124,8 @@ const UpdateDonasi = (props) => {
         console.log(selectedItemIndex)
     }, [selectedItemIndex])
 
+
+    //SUBMIT HANDLER FOR CLICK SUBMIT
     const submitHandler = () => {
         sendRequest(
             `${process.env.REACT_APP_BACKEND_URL}/v1/donations`,
@@ -145,6 +148,8 @@ const UpdateDonasi = (props) => {
         })
     }
 
+
+    //THE HTML 
     return(
         <div className="flex flex-row h-full w-full">
             <Sidebar role="Donatur" name={name} links={links} />

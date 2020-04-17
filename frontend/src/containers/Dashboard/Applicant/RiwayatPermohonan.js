@@ -70,40 +70,65 @@ const RiwayatPermohonan = () => {
             
 
             sendRequest(
-                `${process.env.REACT_APP_BACKEND_URL}/v1/donations`,
+                `${process.env.REACT_APP_BACKEND_URL}/v1/requests`,
                 'GET',
                 null,
                 {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
             ).then(responseData => {
                 console.log(responseData)
+                console.log('response data of request');
+
  
                 if(responseData){
                     let temp = []
                     responseData.data.forEach(data => {
-                        temp = [...temp, data.donationItems[0]]
+                        data.requestItems.forEach(item => {
+                          //temp is each object of requestItems
+                          temp = [...temp, item]
+                        })
+                        // temp = [...temp, data.requestItems[0]]
+                        // temp = [data.donationItems[0]]
+                        
+                        console.log(temp)
+                        console.log('print temp');
                     })
-                    temp.forEach((data, index) => data.donation_id = responseData.data[index].id)
+                    
+                    // for each object requestItem add request id is the id of the reqeust at that time;
+                    temp.forEach((data, index) => data.request_id = responseData.data[index].id)
+                    //for each object rquest id; jika foreach object di main data[] which object.isFulfillled itu 
                     temp.forEach((data, index) => {
-                        if(responseData.data[index].isDonated){
+                        if(responseData.data[index].isFulfilled){
                             return(
                                 data.keterangan = (
-                                    <div className="inline-block py-1 px-2 rounded-full text-red-600 bg-red-400">
-                                        Habis
+                                    <div className="inline-block py-1 px-2 rounded-full text-green-600 bg-green-200">
+                                        Sudah Diproses
                                     </div>
                                 )
                             )
                         } else{
+                          //else yang isFullfiled is false; belum terfulfill aka belum diprocess; 
                             return(
                                 data.keterangan = (
-                                    <div className="inline-block py-1 px-2 rounded-full text-green-600 bg-green-400">
-                                        Ready
+                                    <div className="inline-block py-1 px-2 rounded-full text-red-800 bg-red-200">
+                                        Belum Diproses
                                     </div>
                                 )
                             )
                         }
                     })
-
+                    //for each objec request item yg isinya ;
+                    // id: "1aZXT7o9koiK94Td6RI6MOHQhzU"
+                    // item: "test"
+                    // unit: "Ekor"
+                    // quantity: "1.00"
+                    // request_id: "1aZXT935g3DU0FmBSGaAAJvzzWz"
+                    // keterangan: {$$typeof: Symbol(react.element), type: "div", key: null, ref: null, props: {…}, …}
+                    // update: isinya react compoonent
+                    //
+                    
                     temp.forEach((data) => {
+
+                        
 
                         data.update = (
                             <WhiteButton width={120} onClick={() => update(data)} donasi={true} >
@@ -124,6 +149,7 @@ const RiwayatPermohonan = () => {
 
     const update = (data) => {
         console.log(data)
+        console.log('this update data');
         localStorage.setItem('selected', JSON.stringify(data))
         // let i
         // let x
@@ -140,7 +166,7 @@ const RiwayatPermohonan = () => {
         //         break;
         //     }
         // }
-        history.push('/dashboard/donasi-saya/update')
+        history.push('/dashboard/riwayat-permohonan/update')
     }
 
     return(

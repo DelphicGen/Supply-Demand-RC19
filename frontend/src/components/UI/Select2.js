@@ -21,11 +21,12 @@ const Select2 = props  => {
                 setSelected(e.target.value)
             }}
             >
-            {props.list.map((item, index) => {
+            if(props.list){
+              props.list.map((item, index) => {
                 if(index === indeks){
                     console.log('Yeay')
                     return(
-                        <option key={item.id} value={item.id} selected>
+                        <option key={item.id} value={item.id} defaultValue>
                             {item.name}
                         </option>
                     )   
