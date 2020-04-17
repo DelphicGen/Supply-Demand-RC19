@@ -95,6 +95,7 @@ const RiwayatPermohonan = () => {
                     
                     // for each object requestItem add request id is the id of the reqeust at that time;
                     temp.forEach((data, index) => data.request_id = responseData.data[index].id)
+                    
                     //for each object rquest id; jika foreach object di main data[] which object.isFulfillled itu 
                     temp.forEach((data, index) => {
                         if(responseData.data[index].isFulfilled){

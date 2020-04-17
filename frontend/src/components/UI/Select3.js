@@ -21,19 +21,20 @@ const Select3 = props  => {
               props.list.map((unit, index) => {
                 if(index === indeks){
                     return(
-                        <option key={unit.id} value={unit.id} selected className="outline-none text-sm text-gray-700 capitalize font-semibold">
+                        <option key={unit.id} value={unit.id} defaultValue className="outline-none text-sm text-gray-700 capitalize font-semibold">
                             {unit.name}
                         </option>
                     )   
                 }
                 else{
                     return(
-                        <option key={unit.id} value={unit.id} className="outline-none text-sm text-gray-700 font-semibold capitalize">
+                        <option key={unit.id} value={unit.id} defaultValue className="outline-none text-sm text-gray-700 font-semibold capitalize">
                             {unit.name}
                         </option>
                     )
                 }
-            })}
+              })
+            }
             
             </select>
         </div>

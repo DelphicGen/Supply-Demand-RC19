@@ -25,7 +25,7 @@ const Select2 = props  => {
               props.list.map((item, index) => {
                 if(index === indeks){
                     return(
-                        <option key={item.id} value={item.id} selected className="text-gray-700 font-semibold text-sm outline-none capitalize">
+                        <option key={item.id} value={item.id} defaultValue className="text-gray-700 font-semibold text-sm outline-none capitalize">
                             {item.name}
                         </option>
                     )   

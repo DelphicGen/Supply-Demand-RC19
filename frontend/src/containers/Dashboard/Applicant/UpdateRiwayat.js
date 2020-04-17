@@ -48,7 +48,8 @@ const UpdateRiwayat = (props) => {
 
     // FETCHING DATA UNITNYA;
     useEffect(() => {
-
+        console.log(data);
+        console.log('isi object data from the row table');
         //REQUEST TO THE UNITS(KILO, BOX, BARANG;); 
         sendRequest(
             `${process.env.REACT_APP_BACKEND_URL}/v1/units`,
@@ -144,10 +145,13 @@ const UpdateRiwayat = (props) => {
     const submitHandler = () => {
       console.log(data.request_id);
       console.log('this is the donation id');
-      let idtest = `1aZXT7o9koiK94Td6RI6MOHQhzU`
+      let idtest = `1aZXT935g3DU0FmBSGaAAJvzzWz`
+      console.log(kebutuhan.item_id, kebutuhan.unit_id);
+      console.log(`${process.env.REACT_APP_BACKEND_URL}/v1/requests/${idtest}`);
+      
         sendRequest(
-            // `${process.env.REACT_APP_BACKEND_URL}/v1/requests/${data.request_id}`,
-            `${process.env.REACT_APP_BACKEND_URL}/v1/requests/${idtest}`,
+            `${process.env.REACT_APP_BACKEND_URL}/v1/requests/${data.request_id}`,
+            // `${process.env.REACT_APP_BACKEND_URL}/v1/requests/${idtest}`,
             'PUT',
             JSON.stringify({
                 requestItems: [
@@ -177,7 +181,7 @@ const UpdateRiwayat = (props) => {
             <div>
 
                 <div className="flex w-full flex-col p-8 md:p-16">
-                    <Title>Informasi Barang</Title>
+                    <Title>Update</Title>
                     <form className="md:flex md:flex-row md:items-center mt-4">
                         <div className="flex flex-col lg:flex-row w-full lg:mb-5 lg:border-none lg:shadow-none border-gray-700 rounded-md shadow-md lg:p-0 p-4 relative">
                             <Select2
@@ -214,7 +218,7 @@ const UpdateRiwayat = (props) => {
                         disabled={!formState.isValid}>
                     >
                         {
-                            isLoading ? <LoadingSpinner color="white" style={{transform: 'translateY(-3px)'}} /> : 'SUBMIT'
+                            isLoading ? <LoadingSpinner color="white" style={{transform: 'translateY(-3px)'}} /> : 'UPDATE'
                         } 
                     </Button>
                 </div>
