@@ -336,11 +336,15 @@ const AlokasiBantuan = (props) => {
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
       <div className="flex flex-row h-full w-full">
+
         <Sidebar role="" name="ADMIN" links={links} />
+
         <div className="flex w-full flex-col p-8 md:p-16">
           <Title>Alokasikan Bantuan</Title>
+
+
           <form onSubmit={submitHandler} className="">
-            <div className="flex flex-col lg:flex-row w-full lg:mb-5 lg:border-none lg:shadow-none border-gray-700 rounded-md shadow-lg lg:p-0 p-4 relative mb-5">
+            <div className="flex flex-col lg:flex-row w-full lg:mb-5">
 
               <Select
                 onSelectChange={changeLembaga}
@@ -357,7 +361,7 @@ const AlokasiBantuan = (props) => {
 
             </div>
 
-            <div className="flex flex-col lg:flex-row w-full lg:mb-5 lg:border-none lg:shadow-none border-gray-700 rounded-md shadow-lg lg:p-0 p-4 relative">
+            <div className="flex flex-col lg:flex-row w-full lg:mb-5">
               <Select
                 onSelectChange={changeItem}
                 label="Jenis Barang"
@@ -366,7 +370,7 @@ const AlokasiBantuan = (props) => {
               />
 
               <TextInput2
-                divClassName="lg:w-6/12 w-full lg:4/12"
+                divClassName="lg:w-6/12 w-full lg:4/12 lg:mr-3"
                 id="quantity"
                 type="text"
                 label="Kuantitas"
@@ -392,6 +396,7 @@ const AlokasiBantuan = (props) => {
 
         </div>
       </div>
+
     </React.Fragment>
   )
 }

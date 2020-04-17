@@ -26,9 +26,3 @@ const Select2 = props  => {
 
 
 export default Select2 
-
-
-
-
-
-

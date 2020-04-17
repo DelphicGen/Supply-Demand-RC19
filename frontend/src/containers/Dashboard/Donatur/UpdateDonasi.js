@@ -37,7 +37,8 @@ const UpdateDonasi = (props) => {
     const [itemList, setItemList] = useState([])
     const [selectedItemIndex, setSelectedItemIndex] = useState(0)
     const [selectedUnitIndex, setSelectedUnitIndex] = useState(0)
-
+      
+    
     useEffect(() => {
         sendRequest(
             `${process.env.REACT_APP_BACKEND_URL}/v1/units`,
@@ -127,57 +128,55 @@ const UpdateDonasi = (props) => {
         })
     }
 
-    return (
-        <React.Fragment>
-            <ErrorModal error={error} onClear={clearError} />
-            <div className="flex flex-row h-full w-full">
-                <Sidebar role="Donatur" name={auth.name} links={links} />
+    return(
+        <div className="flex flex-row h-full w-full">
+            <Sidebar role="Donatur" name={auth.name} links={links} />
 
-                <div>
-                    <div className="flex w-full flex-col p-8 md:p-16">
-                        <Title>Informasi Barang</Title>
-                        <form className="md:flex md:flex-row md:items-center mt-4">
-                            <div className="flex flex-col lg:flex-row w-full lg:mb-5 lg:border-none lg:shadow-none border-gray-700 rounded-md shadow-md lg:p-0 p-4 relative">
-                                <Select2
-                                    label="Jenis Barang"
-                                    divClassName="mr-3 lg:w-6/12 w-full mt-2 lg:mt-0"
-                                    list={itemList}
-                                    changeItem={changeItem}
-                                    selectedIndex={selectedItemIndex}
-                                />
-                                <TextInput2
-                                    divClassName="lg:w-6/12 w-full lg:4/12 lg:mr-3"
-                                    id="quantity"
-                                    type="text"
-                                    label="Kuantitas"
-                                    validators={[VALIDATOR_REQUIRE()]}
-                                    onInput={inputHandler}
-                                    changeUnit={changeUnit}
-                                    errorText="Mohon masukkan kuantitas barang."
-                                    list={unitList}
-                                    value={formState.inputs.quantity.value}
-                                    selectedIndex={selectedUnitIndex}
-                                />
+            <div>
 
-                            </div>
-                        </form>
-                    </div>
+                <div className="flex w-full flex-col p-8 md:p-16">
+                    <Title>Informasi Barang</Title>
+                    <form className="md:flex md:flex-row md:items-center mt-4">
+                        <div className="flex flex-col lg:flex-row w-full lg:mb-5 lg:border-none lg:shadow-none border-gray-700 rounded-md shadow-md lg:p-0 p-4 relative">
+                            <Select2
+                                label="Jenis Barang"
+                                divClassName="mr-3 lg:w-6/12 w-full mt-2 lg:mt-0"
+                                list={ itemList }
+                                changeItem={ changeItem }
+                                selectedIndex={ selectedItemIndex }
+                            />
+                            <TextInput2
+                                divClassName="lg:w-6/12 w-full lg:4/12 lg:mr-3"
+                                id="quantity"
+                                type="text"
+                                label="Kuantitas"
+                                validators={[VALIDATOR_REQUIRE()]}
+                                onInput={inputHandler}
+                                changeUnit={ changeUnit }
+                                errorText="Mohon masukkan kuantitas barang."
+                                list={unitList}
+                                value={formState.inputs.quantity.value}
+                                selectedIndex={ selectedUnitIndex }
+                            />
+                            
+                        </div>
+                    </form>
+                </div>
 
-                    <div className="md:ml-16 ml-8">
+                <div className="md:ml-16 ml-8">
 
-                        <Button
-                            width={200}
-                            type="submit"
-                            onClick={submitHandler}
-                            disabled={!formState.isValid}>
-                            {
-                                isLoading ? <LoadingSpinner color="white" style={{ transform: 'translateY(-3px)' }} /> : 'SUBMIT'
-                            }
-                        </Button>
-                    </div>
+                    <Button
+                        width={200}
+                        type="submit"
+                        onClick={submitHandler}
+                        disabled={!formState.isValid}>
+                        {
+                            isLoading ? <LoadingSpinner color="white" style={{transform: 'translateY(-3px)'}} /> : 'SUBMIT'
+                        } 
+                    </Button>
                 </div>
             </div>
-        </React.Fragment>
+        </div>
     )
 }
 
