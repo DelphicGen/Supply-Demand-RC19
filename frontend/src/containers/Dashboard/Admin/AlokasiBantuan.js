@@ -35,6 +35,8 @@ const AlokasiBantuan = (props) => {
   const {isLoading, error, sendRequest} = useHttpClient()
   const auth = useContext(AuthContext)
 
+  // let kebutuhanData = JSON.parse(localStorage.getItem('kebutuhan'))
+
 
 
 
@@ -62,6 +64,24 @@ const AlokasiBantuan = (props) => {
 
  
   useEffect(() => {
+
+    // localStorage.setItem('kebutuhan', {
+    //   penerima: 'Puskesmas Depok',
+    //   daftarKebutuhan: [
+    //     { 
+    //       id: 1,
+    //       item: 'Hand Sanitizer',
+    //       kuantitas: '12',
+    //       unit: 'linter'
+    //     },
+    //     { id: 1,
+    //       item: 'Hand Sanitizer',
+    //       kuantitas: '12',
+    //       unit: 'linter'
+    //     }
+    //   ],
+    //   tanggal: '11 Januari 2020'
+    // })
     
     const fetchItems = () => {
         sendRequest(
@@ -339,7 +359,33 @@ const AlokasiBantuan = (props) => {
 
             <Sidebar role="" name="ADMIN" links={links} />
 
+         
+            
+
             <div className="flex w-full flex-col p-8 md:p-16">
+
+              <div>
+                <Title>Penerima: Puskesmas Depok</Title>
+
+                <label className="text-gray-700 tracking-wide font-medium text-sm md:text-base my-1">Daftar Kebutuhan</label>
+
+                <div className="flex flex-col lg:flex-row w-full lg:mb-5">
+                <h4 className="text-left text-xs md:text-sm font-medium md:font-semibold pr-3 py-4">Hand Sanitizer</h4>
+                <h4 className="text-left text-xs md:text-sm font-medium md:font-semibold px-3 py-4">50 Liter</h4>
+              
+                </div>
+
+                
+
+
+
+
+
+                </div>
+
+                
+
+
                 <Title>Alokasikan Bantuan</Title>
 
                 
