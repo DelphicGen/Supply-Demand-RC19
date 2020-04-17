@@ -48,7 +48,7 @@ const DonasiSaya = () => {
     useEffect(() => {
         const fetchItems = () => {
             sendRequest(
-                `${process.env.REACT_APP_BACKEND_URL}/v1/donations/user/${auth.id}`,
+                `${process.env.REACT_APP_BACKEND_URL}/v1/donations/user/${auth.id}?page=1&size=100`,
                 'GET',
                 null,
                 {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
