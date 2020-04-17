@@ -24,11 +24,8 @@ const AlokasiBantuan = (props) => {
   const [itemList, setItemList] = useState([]) 
   const [unitList, setUnitList] = useState([]) 
   const [lembagaList, setLembagaList] = useState([])
-
-  
-
   const [units, setUnits] = useState([])
-  
+
   const [formState, inputHandler] = useForm({
       quantity: {
         value: '',

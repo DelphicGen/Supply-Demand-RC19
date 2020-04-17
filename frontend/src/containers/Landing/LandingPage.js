@@ -24,37 +24,9 @@ const LandingPage = () => {
                 accessor: 'quantity'
             }
         ]
-    // const dataDemand = [
-    //         {
-    //             item: 'Barang1',
-    //             quantity: '1'
-    //         },
-    //         {
-    //             item: 'Barang2',
-    //             quantity: '2'
-    //         },
-    //         {
-    //             item: 'Barang3',
-    //             quantity: '3'
-    //         }
-    // ]
 
     const [dataDemand, setDataDemand] = useState([])
     const [dataStock, setDataStock] = useState([])
-    // const data2 = [
-    //         {
-    //             namabarang: 'Barang4',
-    //             kuantitas: '4'
-    //         },
-    //         {
-    //             namabarang: 'Barang5',
-    //             kuantitas: '5'
-    //         },
-    //         {
-    //             namabarang: 'Barang6',
-    //             kuantitas: '6'
-    //         }
-    //     ]
     const {isLoading, error, sendRequest} = useHttpClient()
 
     const radioChangeHandler = event => {
@@ -80,7 +52,7 @@ const LandingPage = () => {
         ).then(responseData => {
             console.log(responseData)
             // setDataDemand(responseData.data.requestItems)
-        })
+        }, [sendRequest])
 
         sendRequest(
             `${process.env.REACT_APP_BACKEND_URL}/v1/stocks`,
@@ -93,7 +65,7 @@ const LandingPage = () => {
                 // setDataStock(responseData.data)
             }
         })
-    }, [])
+    }, [sendRequest])
 
     return(
         <React.Fragment>
