@@ -30,8 +30,6 @@ const TextInput2 = props => {
     const{id, onInput} = props
     const{value, isValid} = inputState
 
-    const [hidden, setHidden] = useState(true)
-
     useEffect(() => {
         onInput(id, value, isValid)
     }, [onInput, id, value, isValid])

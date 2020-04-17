@@ -30,8 +30,6 @@ const InputBantuan = () => {
         {
             item_id: '',
             unit_id: ''
-            // quantity: ''
-            // sasaran: ''
         }
     )
 
@@ -140,6 +138,7 @@ const InputBantuan = () => {
                                     divClassName="mr-3 lg:w-6/12 w-full mt-2 lg:mt-0"
                                     list={ itemList }
                                     changeItem={ changeItem }
+                                    value={donasi.item_id}
                                 />
                                 <TextInput2
                                     divClassName="lg:w-6/12 w-full lg:4/12 lg:mr-3"
