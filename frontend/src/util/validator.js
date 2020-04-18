@@ -6,6 +6,7 @@ const VALIDATOR_TYPE_MAX = 'MAX'
 const VALIDATOR_TYPE_EMAIL = 'EMAIL'
 const VALIDATOR_TYPE_FILE = 'FILE'
 const VALIDATOR_TYPE_PASSWORD = 'PASSWORD'
+const VALIDATOR_TYPE_TEL = 'TEL'
 
 export const VALIDATOR_REQUIRE = () => ({ type: VALIDATOR_TYPE_REQUIRE })
 export const VALIDATOR_FILE = () => ({ type: VALIDATOR_TYPE_FILE })
@@ -21,6 +22,7 @@ export const VALIDATOR_MIN = val => ({ type: VALIDATOR_TYPE_MIN, val: val })
 export const VALIDATOR_MAX = val => ({ type: VALIDATOR_TYPE_MAX, val: val })
 export const VALIDATOR_EMAIL = () => ({ type: VALIDATOR_TYPE_EMAIL })
 export const VALIDATOR_PASSWORD = val => ({type: VALIDATOR_TYPE_PASSWORD, val})
+export const VALIDATOR_TEL = () => ({type: VALIDATOR_TYPE_TEL})
 
 export const validate = (value, validators) => {
   let isValid = true
@@ -45,6 +47,9 @@ export const validate = (value, validators) => {
     }
     if (validator.type === VALIDATOR_TYPE_PASSWORD){
       isValid = isValid && value === validator.val
+    }
+    if (validator.type === VALIDATOR_TYPE_TEL){
+      isValid = isValid && /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g.test(value)
     }
   }
   return isValid

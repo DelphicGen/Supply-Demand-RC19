@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { AuthContext } from '../../context/auth-context'
 import { useHttpClient } from '../../hooks/http-hook'
 import { useForm } from '../../hooks/form-hook'
-import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE, VALIDATOR_PASSWORD } from '../../util/validator'
+import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE, VALIDATOR_PASSWORD, VALIDATOR_TEL, VALIDATOR_MAXLENGTH } from '../../util/validator'
 
 import ErrorModal from '../../components/UI/ErrorModal'
 import VirusSVG from '../../components/UI/VirusSVG'
@@ -33,6 +33,14 @@ const RegisterPage = (props) => {
         confirmPassword: {
             value: '',
             isValid: false
+        },
+        contactPerson: {
+            value: '',
+            isValid: false
+        },
+        contactNumber: {
+            value: '',
+            isValid: false
         }
     }, false)
 
@@ -53,7 +61,9 @@ const RegisterPage = (props) => {
                 email: formState.inputs.email.value,
                 password: formState.inputs.password.value,
                 name: formState.inputs.institutionName.value,
-                role: role
+                role: role,
+                contact_person: formState.inputs.contactPerson.value,
+                contact_number: formState.inputs.contactNumber.value
             }),
             { 'Accept': 'application/json', 'Content-Type': 'application/json' }
         ).then((responseData) => {
@@ -120,6 +130,28 @@ const RegisterPage = (props) => {
                         validators={[VALIDATOR_PASSWORD(formState.inputs.password.value)]}
                         onInput={inputHandler}
                         errorText="Password tidak cocok"
+                    />
+                </div>
+
+                <div className="flex flex-col items-center lg:flex-row lg:justify-around w-full lg:px-48">
+                    <TextInput
+                        divClassName="w-4/5 lg:4/12 lg:mr-32"
+                        id="contactPerson"
+                        type="text"
+                        label="Contact Person"
+                        validators={[VALIDATOR_REQUIRE()]}
+                        onInput={inputHandler}
+                        errorText="Masukkan contact person."
+                    />
+
+                    <TextInput
+                        divClassName="w-4/5 lg:4/12"
+                        type="tel"
+                        id="contactNumber"
+                        label="Kontak yang Bisa Dihubungi"
+                        validators={[VALIDATOR_REQUIRE(), VALIDATOR_TEL(), VALIDATOR_MINLENGTH(10)]}
+                        onInput={inputHandler}
+                        errorText="Masukkan nomor yang dapat dihubungi dengan panjang minimal 10."
                     />
                 </div>
 

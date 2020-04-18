@@ -39,7 +39,7 @@ const LoginPage = (props) => {
             }),
             {'Accept': 'application/json', 'Content-Type': 'application/json'}
         ).then((responseData) => {
-            auth.login(responseData.jwt, responseData.user.role, responseData.user.name, responseData.user.id)
+            auth.login(responseData.jwt, responseData.user.role, responseData.user.name, responseData.user.id, responseData.user.contact_person, responseData.user.contact_number)
             
             let redirectLink = '/dashboard/tambah-barang'
             

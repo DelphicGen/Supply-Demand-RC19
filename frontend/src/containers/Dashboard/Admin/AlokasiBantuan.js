@@ -344,7 +344,7 @@ const AlokasiBantuan = (props) => {
 
 
           <form onSubmit={submitHandler} className="">
-            <div className="flex flex-col lg:flex-row w-full lg:mb-5">
+            <div className="flex flex-col lg:flex-row w-full lg:mb-5 lg:border-none lg:shadow-none border-gray-700 rounded-md shadow-lg lg:p-0 p-4 relative mb-5">
 
               <Select
                 onSelectChange={changeLembaga}
@@ -361,7 +361,7 @@ const AlokasiBantuan = (props) => {
 
             </div>
 
-            <div className="flex flex-col lg:flex-row w-full lg:mb-5">
+            <div className="flex flex-col lg:flex-row w-full lg:mb-5 lg:border-none lg:shadow-none border-gray-700 rounded-md shadow-lg lg:p-0 p-4 relative">
               <Select
                 onSelectChange={changeItem}
                 label="Jenis Barang"
