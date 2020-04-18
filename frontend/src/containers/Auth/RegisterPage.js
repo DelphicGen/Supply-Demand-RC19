@@ -68,7 +68,7 @@ const RegisterPage = (props) => {
             { 'Accept': 'application/json', 'Content-Type': 'application/json' }
         ).then((responseData) => {
             console.log(responseData)
-            auth.login(responseData.jwt, responseData.user.role, responseData.user.name, responseData.user.id)
+            auth.login(responseData.jwt, responseData.user.role, responseData.user.name, responseData.user.id, responseData.user.contact_person, responseData.user.contact_number)
             let redirectLink = '/dashboard/tambah-barang'
 
             if (responseData.user.role === 'DONATOR') {
@@ -149,9 +149,9 @@ const RegisterPage = (props) => {
                         type="tel"
                         id="contactNumber"
                         label="Kontak yang Bisa Dihubungi"
-                        validators={[VALIDATOR_REQUIRE(), VALIDATOR_TEL(), VALIDATOR_MINLENGTH(10)]}
+                        validators={[VALIDATOR_REQUIRE(), VALIDATOR_TEL(), VALIDATOR_MINLENGTH(10), VALIDATOR_MAXLENGTH(14)]}
                         onInput={inputHandler}
-                        errorText="Masukkan nomor yang dapat dihubungi dengan panjang minimal 10."
+                        errorText="Masukkan nomor yang dapat dihubungi dengan panjang minimal 10 dan maksimal 14 karakter."
                     />
                 </div>
 

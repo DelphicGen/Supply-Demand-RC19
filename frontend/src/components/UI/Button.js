@@ -16,7 +16,7 @@ const Button = props => {
             <Link 
                 to={props.to} 
                 className="px-4 py-3 bg-blue-800 rounded-md focus:outline-none shadow-xl text-gray-200 mr-10 text-lg font-bold tracking-widest transform hover:scale-95 hover:shadow-none duration-300"
-                style={styles.container(mediaQuery)} 
+                style={props.width ? styles.container(mediaQuery) : {width: props.width}} 
             >
                 {props.children}
             </Link>

@@ -9,6 +9,7 @@ const LandingPage = React.lazy(() => import('./containers/Landing/LandingPage'))
 const LoginPage = React.lazy(() => import('./containers/Auth/LoginPage'))
 const RegisterPage = React.lazy(() => import('./containers/Auth/RegisterPage'))
 const ResetPass = React.lazy(() => import('./containers/Auth/ResetPass'))
+const NewPassword = React.lazy(() => import('./containers/Auth/NewPassword'))
 
 const AlokasiBantuan = React.lazy(() => import('./containers/Dashboard/Admin/AlokasiBantuan'))
 const TambahBarang = React.lazy(() => import('./containers/Dashboard/Admin/TambahBarang'))
@@ -31,6 +32,7 @@ const App = () => {
       <Route path="/login" component={LoginPage} exact />
       <Route path="/daftar" component={RegisterPage} exact />
       <Route path="/reset-password" component={ResetPass} exact />
+      <Route path="/confirm/:confirmId" component={NewPassword} exact />
 
       <Route path="/dashboard/donasi-saya" component={DonasiSaya} exact />
       <Route path="/dashboard/info-demand" component={InfoDemand} exact />
