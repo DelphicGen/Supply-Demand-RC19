@@ -3,13 +3,11 @@ import { ArrowForward } from '@material-ui/icons'
 import { links } from '../../../components/Dashboard/adminLink'
 import { AuthContext } from '../../../context/auth-context'
 import { useHttpClient } from '../../../hooks/http-hook'
-import { useMediaQuery } from '../../../hooks/medquery-hook'
 
 import ErrorModal from '../../../components/UI/ErrorModal'
 import Sidebar from '../../../components/Dashboard/SideBar'
 import LoadingSpinner from '../../../components/UI/LoadingSpinner'
 import Title from '../../../components/Dashboard/Title'
-import Button from '../../../components/UI/Button'
 import Table from '../../../components/Dashboard/Table'
 
 const KonfirmasiDonasi = () => {

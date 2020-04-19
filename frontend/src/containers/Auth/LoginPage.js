@@ -46,7 +46,7 @@ const LoginPage = (props) => {
             if(responseData.user.role === 'DONATOR'){
                 redirectLink = '/dashboard/donasi-saya'
             } else if(responseData.user.role === 'APPLICANT'){
-                redirectLink = '/dashboard/riwayat-permohonan'
+                redirectLink = '/dashboard/riwayat-kebutuhan'
             }
 
             props.history.push(redirectLink)

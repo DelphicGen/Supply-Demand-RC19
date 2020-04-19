@@ -1,21 +1,21 @@
 import React, { useMemo, useState, useContext, useEffect } from 'react'
-import {links} from '../../../components/Dashboard/pemohonLink'
-import {AuthContext} from '../../../context/auth-context'
-import {useHttpClient} from '../../../hooks/http-hook'
-import {AddCircle} from '@material-ui/icons'
+import { links } from '../../../components/Dashboard/pemohonLink'
+import { AuthContext } from '../../../context/auth-context'
+import { useHttpClient } from '../../../hooks/http-hook'
+import { AddCircle } from '@material-ui/icons'
 import { useHistory } from 'react-router-dom'
-import {useMediaQuery} from '../../../hooks/medquery-hook';
+import { useMediaQuery } from '../../../hooks/medquery-hook';
 
 import Sidebar from '../../../components/Dashboard/SideBar'
 import Table from '../../../components/Dashboard/Table'
 import WhiteButton from '../../../components/UI/WhiteButton'
 import Title from '../../../components/Dashboard/Title'
+import LoadingSpinner from '../../../components/UI/LoadingSpinner'
 // import UpdateDonasi from './UpdateDonasi'
 
 const RiwayatPermohonan = () => {
     const auth = useContext(AuthContext)
-    const [name, setName] = useState(auth.name)
-    const {isLoading, error, sendRequest} = useHttpClient()
+    const { isLoading, error, sendRequest } = useHttpClient()
     const history = useHistory()
     const mediaQuery = useMediaQuery('(max-width: 600px)')
 
@@ -41,7 +41,7 @@ const RiwayatPermohonan = () => {
                 Header: 'Update',
                 accessor: 'update'
             }
-        ]       
+        ]
     )
 
     const [dataTable, setDataTable] = useState([])
@@ -58,7 +58,7 @@ const RiwayatPermohonan = () => {
             // ).then(responseData => {
             //     setUnitList(responseData)
             // })
-    
+
             // sendRequest(
             //     `${process.env.REACT_APP_BACKEND_URL}/v1/items`,
             //     'GET',
@@ -67,83 +67,74 @@ const RiwayatPermohonan = () => {
             // ).then(responseData => {
             //     setItemList(responseData)
             // })
-            
+
 
             sendRequest(
-                `${process.env.REACT_APP_BACKEND_URL}/v1/requests`,
+                `${process.env.REACT_APP_BACKEND_URL}/v1/requests/user/${auth.id}`,
                 'GET',
                 null,
-                {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
+                { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
             ).then(responseData => {
                 console.log(responseData)
                 console.log('response data of request');
 
- 
-                if(responseData){
+
+                if (responseData) {
                     let temp = []
-                    responseData.data.forEach(data => {
-                        data.requestItems.forEach(item => {
-                          //temp is each object of requestItems
-                          temp = [...temp, item]
+                    if (responseData.data) {
+                        responseData.data.forEach(data => {
+                            data.requestItems.forEach(item => {
+                                //temp is each object of requestItems
+                                temp = [...temp, item]
+                            })
+                            // temp = [...temp, data.requestItems[0]]
+                            // temp = [data.donationItems[0]]
+
+                            console.log(temp)
+                            console.log('print temp');
                         })
-                        // temp = [...temp, data.requestItems[0]]
-                        // temp = [data.donationItems[0]]
-                        
-                        console.log(temp)
-                        console.log('print temp');
-                    })
-                    
-                    // for each object requestItem add request id is the id of the reqeust at that time;
-                    temp.forEach((data, index) => data.request_id = responseData.data[index].id)
-                    
-                    //for each object rquest id; jika foreach object di main data[] which object.isFulfillled itu 
-                    temp.forEach((data, index) => {
-                        if(responseData.data[index].isFulfilled){
-                            return(
-                                data.keterangan = (
-                                    <div className="inline-block py-1 px-2 rounded-full text-green-600 bg-green-200">
-                                        Sudah Diproses
-                                    </div>
+
+                        // for each object requestItem add request id is the id of the reqeust at that time;
+                        temp.forEach((data, index) => data.request_id = responseData.data[index].id)
+
+                        //for each object rquest id; jika foreach object di main data[] which object.isFulfillled itu 
+                        temp.forEach((data, index) => {
+                            if (responseData.data[index].isFulfilled) {
+                                return (
+                                    data.keterangan = (
+                                        <div className="inline-block py-1 px-2 rounded-full text-green-600 bg-green-200 text-center">
+                                            Sudah Diproses
+                                        </div>
+                                    )
                                 )
-                            )
-                        } else{
-                          //else yang isFullfiled is false; belum terfulfill aka belum diprocess; 
-                            return(
-                                data.keterangan = (
-                                    <div className="inline-block py-1 px-2 rounded-full text-red-800 bg-red-200">
-                                        Belum Diproses
-                                    </div>
+                            } else {
+                                //else yang isFullfiled is false; belum terfulfill aka belum diprocess; 
+                                return (
+                                    data.keterangan = (
+                                        <div className="inline-block py-1 px-2 rounded-full text-red-800 bg-red-200 text-center">
+                                            Belum Diproses
+                                        </div>
+                                    )
                                 )
+                            }
+                        })
+
+                        temp.forEach((data) => {
+
+                            data.update = (
+                                <WhiteButton width={120} onClick={() => update(data)} donasi={true} >
+                                    <AddCircle className="text-blue-800 mr-2 text-sm" style={styles.container(mediaQuery)} /><span style={styles2.container(mediaQuery)} className="text-sm">UPDATE</span>
+                                </WhiteButton>
                             )
-                        }
-                    })
-                    //for each objec request item yg isinya ;
-                    // id: "1aZXT7o9koiK94Td6RI6MOHQhzU"
-                    // item: "test"
-                    // unit: "Ekor"
-                    // quantity: "1.00"
-                    // request_id: "1aZXT935g3DU0FmBSGaAAJvzzWz"
-                    // keterangan: {$$typeof: Symbol(react.element), type: "div", key: null, ref: null, props: {…}, …}
-                    // update: isinya react compoonent
-                    //
-                    
-                    temp.forEach((data) => {
+                        })
 
-                        
-
-                        data.update = (
-                            <WhiteButton width={120} onClick={() => update(data)} donasi={true} >
-                                <AddCircle className="text-blue-800 mr-2 text-sm" style={styles.container(mediaQuery)} /><span style={styles2.container(mediaQuery)} className="text-sm">UPDATE</span>
-                            </WhiteButton>
-                        )
-                    })
-
-                    setDataTable(temp)
+                        setDataTable(temp)
+                    }
                 }
             })
         }
 
-        if(auth.token){
+        if (auth.token) {
             fetchItems()
         }
     }, [auth.token, sendRequest])
@@ -167,20 +158,30 @@ const RiwayatPermohonan = () => {
         //         break;
         //     }
         // }
-        history.push('/dashboard/riwayat-permohonan/update')
+        history.push('/dashboard/riwayat-kebutuhan/update')
     }
 
-    return(
+    let content = <LoadingSpinner />
+    if (!isLoading) {
+        if (dataTable.length > 0) {
+            content = <Table columns={columns} data={dataTable} />
+        } else {
+            content = <p className="text-sm font-semibold">Anda belum melakukan donasi.</p>
+        }
+    }
+
+    return (
         <React.Fragment>
             <div className="p-8 py-4 block md:hidden md:text-left lg:pl-5 md:pl-3 inline-block bg-blue-700 rounded-r-lg">
-                <h5 className="font-semibold text-md text-white">{`Dashboard Donatur`} </h5>
-                <h2 className="font-semibold text-lg text-white">{name}</h2>
+                <h5 className="font-semibold text-md text-white">{`Dashboard Pemohon`} </h5>
+                <h2 className="font-semibold text-lg text-white">{auth.name}</h2>
             </div>
-            <div className={`items-center md:pt-0 pt-10 md:pb-0 pb-24 flex`}>
-                <Sidebar role="" name="PEMOHON" links={links} />
-                <div className="flex w-full flex-col py-8 md:p-16" style={{paddingLeft: '5px', paddingRight: '5px'}}>
+            <div className="flex flex-row">
+                <Sidebar role="Pemohon" name={auth.name} links={links} />
+                <div className="p-8 pb-24 md:p-16 w-full lg:w-11/12">
                     <Title>Permohonan Saya</Title>
-                    <Table columns={ columns } data={ dataTable } donasi={true} />
+                    <div className="h-3"></div>
+                    {content}
                 </div>
             </div>
         </React.Fragment>

@@ -2,6 +2,8 @@ import React, { useState, useContext, useEffect } from 'react'
 import { AuthContext } from '../../context/auth-context'
 import { useHttpClient } from '../../hooks/http-hook'
 
+import LoadingSpinner from '../../components/UI/LoadingSpinner'
+import ErrorModal from '../../components/UI/ErrorModal'
 import logo from '../../images/LandingPage.png'
 import Button from '../../components/UI/Button'
 import RadioTextInput from '../../components/Form/RadioTextInput'
@@ -32,17 +34,29 @@ const LandingPage = () => {
         },
         {
             Header: 'Nama Barang',
-            accessor: 'name'
+            accessor: data => {
+                let output = []
+                data.requestItems.map(request => {
+                    output.push(request.item)
+                })
+                return output.join(', ')
+            }
         },
         {
             Header: 'Kuantitas',
-            accessor: 'quantity'
+            accessor: data => {
+                let output = []
+                data.requestItems.map(request => {
+                    output.push(request.quantity)
+                })
+                return output.join(', ')
+            }
         }
     ]
 
     const [dataDemand, setDataDemand] = useState([])
     const [dataStock, setDataStock] = useState([])
-    const { isLoading, error, sendRequest } = useHttpClient()
+    const { isLoading, error, sendRequest, clearError } = useHttpClient()
 
     const radioChangeHandler = event => {
         setTable(event.target.value)
@@ -55,8 +69,12 @@ const LandingPage = () => {
     if (auth.role === 'DONATOR') {
         dashboardLink = '/dashboard/donasi-saya'
     } else if (auth.role === 'APPLICANT') {
-        dashboardLink = '/dashboard/riwayat-permohonan'
+        dashboardLink = '/dashboard/riwayat-kebutuhan'
     }
+
+    useEffect(() => {
+        console.log(dataDemand)
+    }, [dataDemand])
 
     useEffect(() => {
         sendRequest(
@@ -66,7 +84,13 @@ const LandingPage = () => {
             { 'Accept': 'application/json', 'Content-Type': 'application/json' }
         ).then(responseData => {
             console.log(responseData)
-            //setDataDemand(responseData.data.requestItems)
+            let temp = []
+            if (responseData.data) {
+                responseData.data.forEach(data => {
+                    temp = [...temp, { requestItems: data.requestItems }]
+                })
+                setDataDemand(temp)
+            }
         }, [sendRequest])
 
         sendRequest(
@@ -82,8 +106,16 @@ const LandingPage = () => {
         })
     }, [sendRequest])
 
+    let content = <div className="w-full flex flex-row justify-center mb-3 pb-4">
+        <LoadingSpinner />
+    </div>
+    if(!isLoading){
+        content = <Table columns={table === 'stok' ? stockColumns : demandColumns} data={table === 'kebutuhan' ? dataDemand : dataStock} isLandingPage={true} />
+    }
+
     return (
         <React.Fragment>
+            <ErrorModal error={error} onClear={clearError} />
             <div className="flex items-center justify-center py-10 lg:flex-row flex-col">
                 <img style={{ height: '280px', width: '280px' }} src={logo} alt="doctor-with-mask" />
                 <div className="md:pl-10 px-10">
@@ -121,7 +153,7 @@ const LandingPage = () => {
                     value="stok" />
             </div>
 
-            <Table columns={table === 'stok' ? stockColumns : demandColumns} data={table === 'kebutuhan' ? dataDemand : dataStock} isLandingPage={true} />
+            {content}
             <div className="bg-blue-800 text-white py-10 mt-20 lg:absolute lg:w-full lg:bottom-0">
                 <h5 className="text-sm text-center">Icon by JustIcon</h5>
             </div>

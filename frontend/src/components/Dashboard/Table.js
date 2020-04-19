@@ -35,7 +35,7 @@ const Table = ({ columns, data, isLandingPage, pageToGo, donasi }) => {
         <div className="flex-auto">
             <div className={`${!isLandingPage ? 'w-full' : 'md:w-10/12'} overflow-y-hidden h-full ${isLandingPage && 'lg:pb-32 mx-auto'}`}>
                 <div className="w-full overflow-y-auto">
-                    <table {...getTableProps()} className={`${donasi && 'md:text-base text-sm'} ${donasi ? 'w-full md:w-10/12' : 'w-full'}`}>
+                    <table {...getTableProps()} className={`${donasi && 'md:text-base text-sm'} ${donasi ? 'w-full md:w-11/12' : 'w-full'}`}>
                         <thead>
                         {
                             headerGroups.map(headerGroup => (
@@ -62,17 +62,17 @@ const Table = ({ columns, data, isLandingPage, pageToGo, donasi }) => {
                         {page.map((row, i) => {
                             prepareRow(row)
                             return (
-                            <tr {...row.getRowProps()} className="border-b-2">
+                            <tr {...row.getRowProps()} className="border-b-2 border-r-4 border-l-4">
                                 {
                                     row.cells.map(cell => {
                                         if(cell.column.Header === 'No'){
-                                            return <td {...cell.getCellProps()} className={`pl-4 py-3 text-sm font-medium`}>{pageIndex * 10 + i+1}</td>        
+                                            return <td {...cell.getCellProps()} className={`pl-4 py-3 text-xs md:text-sm font-medium`}>{pageIndex * 10 + i+1}</td>        
                                         }
                                         else if(cell.column.Header === 'Update'){
                                             return <td {...cell.getCellProps()} className={`pl-4 py-3`} style={styles2.container(mediaQuery2)}>{cell.render('Cell')}</td>    
                                         }
                                         else{
-                                            return <td {...cell.getCellProps()} className='pl-4 py-3 text-sm font-medium' style={{textTransform: 'capitalize'}}>{cell.render('Cell')}</td>
+                                            return <td {...cell.getCellProps()} className='pl-4 py-3 text-xs md:text-sm font-medium' style={{textTransform: 'capitalize'}}>{cell.render('Cell')}</td>
                                         }
                                     })
                                 }

@@ -8,7 +8,7 @@ import Backdrop from './Backdrop'
 
 const ModalOverlay = props => {
     const content = (
-        <div className="fixed z-50 w-4/5 md:w-3/5 lg:w-2/5" style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+        <div className="fixed z-50 w-4/5 md:w-3/5 lg:w-2/5 shadow-lg" style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 100 }}>
             <div className="text-right" style={{transform: 'translate(12px, 12px)'}}>
                 <div className="inline p-1 bg-gray-100 rounded-full">
                     <Clear
