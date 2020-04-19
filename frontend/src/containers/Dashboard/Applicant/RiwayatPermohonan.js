@@ -149,24 +149,7 @@ const RiwayatPermohonan = () => {
     }, [auth.token, sendRequest])
 
     const update = (data) => {
-        console.log(data)
-        console.log('this update data');
         localStorage.setItem('selected', JSON.stringify(data))
-        // let i
-        // let x
-        // console.log(list1)
-        // for([i, x] of itemList.entries()){
-        //     if(x.name === data.item){
-        //         localStorage.setItem('selectedItemIndex', JSON.stringify({itemIndex: i}))
-        //         break;
-        //     }
-        // }
-        // for([i, x] of unitList.entries()){
-        //     if(x.name === data.unit){
-        //         localStorage.setItem('selectedUnitIndex', JSON.stringify({unitIndex: i}))
-        //         break;
-        //     }
-        // }
         history.push('/dashboard/riwayat-permohonan/update')
     }
 
@@ -174,7 +157,7 @@ const RiwayatPermohonan = () => {
         <React.Fragment>
             <div className="p-8 py-4 block md:hidden md:text-left lg:pl-5 md:pl-3 inline-block bg-blue-700 rounded-r-lg">
                 <h5 className="font-semibold text-md text-white">{`Dashboard Donatur`} </h5>
-                <h2 className="font-semibold text-lg text-white">{name}</h2>
+                <h2 className="font-semibold text-lg text-white">{auth.name}</h2>
             </div>
             <div className={`items-center md:pt-0 pt-10 md:pb-0 pb-24 flex`}>
                 <Sidebar role="" name="PEMOHON" links={links} />

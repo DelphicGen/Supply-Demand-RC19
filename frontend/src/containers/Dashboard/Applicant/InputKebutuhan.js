@@ -5,7 +5,7 @@ import Sidebar from '../../../components/Dashboard/SideBar'
 import {links} from '../../../components/Dashboard/pemohonLink'
 import Title from '../../../components/Dashboard/Title'
 import {useForm} from '../../../hooks/form-hook'
-import {VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE, VALIDATOR_PASSWORD}from '../../../util/validator'
+import { VALIDATOR_REQUIRE}from '../../../util/validator'
 import TextInput from '../../../components/Form/TextInput'
 import Select2 from '../../../components/UI/Select2'
 import TextInput2 from '../../../components/Form/TextInput2'
@@ -13,8 +13,8 @@ import Button from '../../../components/UI/Button'
 import {useHttpClient} from '../../../hooks/http-hook'
 import LoadingSpinner from '../../../components/UI/LoadingSpinner'
 import { AuthContext } from '../../../context/auth-context'
-import WhiteButton from '../../../components/UI/WhiteButton'
-import {AddCircle, Delete} from '@material-ui/icons'
+import ErrorModal from '../../../components/UI/ErrorModal'
+
 
 const InputKebutuhan = () => {
 
@@ -22,10 +22,10 @@ const InputKebutuhan = () => {
   const [itemList, setItemList] = useState([])
   const [check, setCheck] = useState(false)
   const [submit, setSubmit] = useState(false)
-  const {isLoading, error, sendRequest} = useHttpClient()
+  const {isLoading, error, sendRequest, clearError} = useHttpClient()
   const auth = useContext(AuthContext)
-  const [name, setName] = useState(auth.name)
-  const [reqestItems, setRequestItems] = useState([])
+  // const [name, setName] = useState(auth.name)
+  // const [reqestItems, setRequestItems] = useState([])
   
 
 
@@ -54,8 +54,7 @@ const InputKebutuhan = () => {
     {
         item_id: '',
         unit_id: ''
-        // quantity: ''
-        // sasaran: ''
+       
     }
   )
 
@@ -168,44 +167,20 @@ const submitHandler = () => {
 
 
     return(
+       <React.Fragment>
+
+       <ErrorModal error={error} onClear={clearError} />
+            <div className={`absolute right-0 p-2 rounded-bl-lg ${submit ? 'inline-block' : 'hidden'} ${check ? 'bg-green-200 text-green-500' : 'bg-red-200 text-red-800'}`}>
+                <strong>{check ? 'Berhasil, kebuthan Anda berhasil disimpan!' : 'Terjadi error, silakan coba lagi!'}</strong>
+            </div>
+
          <div className="flex flex-row h-full w-full">
 
             <Sidebar role="" name="PEMOHON" links={links} />
 
             
-            <div className="flex w-full flex-col p-8 md:p-16">
-              {/*    <Title>Informasi Pemohon</Title>
-                
-           
-            
-            <div className="md:flex md:flex-row md:items-center mt-4">
-                    <div className="flex flex-col lg:flex-row w-full lg:mb-5">
-                        <TextInput
-                            divClassName="w-2/5 lg:4/12 lg:mr-3"
-                            id="contactName"
-                            type="text"
-                            label="Nama Kontak"
-                            validators={[VALIDATOR_REQUIRE()]}
-                            onInput={inputHandler}
-                            errorText="Mohon masukkan nama anda."
-                        />
-
-                        <TextInput
-                            divClassName="w-2/5 lg:4/12 "
-                            id="contactNumber"
-                            type="text"
-                            label="Nomor Kontak"
-                            validators={[VALIDATOR_REQUIRE()]}
-                            onInput={inputHandler}
-                            errorText="Mohon masukkan nomor anda."
-                        />
-
-                    </div>
-                </div> */}
+            <div className="flex w-full flex-col p-8 md:p-16">    
               <form >
-
-                
-          
                 <div className="flex w-full flex-col ">
                         <Title>Informasi Kebutuhan</Title>
                         
@@ -270,6 +245,7 @@ const submitHandler = () => {
             </div>
 
         </div>  
+    </React.Fragment>
     
     )
 }

@@ -5,15 +5,14 @@ import { AuthContext } from '../../../context/auth-context'
 import { VALIDATOR_REQUIRE }from '../../../util/validator'
 import { useForm } from '../../../hooks/form-hook'
 import {useHttpClient} from '../../../hooks/http-hook'
-import { useMediaQuery } from '../../../hooks/medquery-hook';
 import { useHistory } from 'react-router-dom'
-
 import Sidebar from '../../../components/Dashboard/SideBar'
 import Title from '../../../components/Dashboard/Title'
 import LoadingSpinner from '../../../components/UI/LoadingSpinner'
 import TextInput2 from '../../../components/Form/TextInput2'
 import Button from '../../../components/UI/Button'
 import Select2 from '../../../components/UI/Select2'
+import ErrorModal from '../../../components/UI/ErrorModal'
 
 // export const testProvider = React.createContext(false)
 
@@ -23,9 +22,9 @@ const UpdateRiwayat = (props) => {
     // let selectedUnitIndex = JSON.parse(localStorage.getItem('selectedUnitIndex'))
     // let selectedItemIndex = JSON.parse(localStorage.getItem('selectedItemIndex'))
     const auth = useContext(AuthContext)
-    const [name, setName] = useState(auth.name)
+    // const [name, setName] = useState(auth.name)
     let history = useHistory()
-    const {isLoading, error, sendRequest} = useHttpClient()
+    const {isLoading, error, sendRequest, clearError} = useHttpClient()
     const [formState, inputHandler] = useForm({
         quantity: {
             value: data.quantity,
@@ -44,12 +43,15 @@ const UpdateRiwayat = (props) => {
     const [itemList, setItemList] = useState([])
     const [selectedItemIndex, setSelectedItemIndex] = useState(0)
     const [selectedUnitIndex, setSelectedUnitIndex] = useState(0)
+    const [check, setCheck] = useState(false)
+    const [submit, setSubmit] = useState(false)
+
 
 
     // FETCHING DATA UNITNYA;
     useEffect(() => {
-        console.log(data);
-        console.log('isi object data from the row table');
+        // console.log(data);
+        // console.log('isi object data from the row table');
         //REQUEST TO THE UNITS(KILO, BOX, BARANG;); 
         sendRequest(
             `${process.env.REACT_APP_BACKEND_URL}/v1/units`,
@@ -137,27 +139,34 @@ const UpdateRiwayat = (props) => {
         // inputHandler('quantity', data.quantity, true)
         // console.log(formState.inputs)
         // console.log(data, selectedItemIndex, selectedUnitIndex)
-        console.log(selectedItemIndex)
+        // console.log(selectedItemIndex)
     }, [selectedItemIndex])
+
+    const flashMessage = () => {
+      window.setTimeout(() => {
+          setSubmit(false)
+      }, 2000);
+    }
+  
 
 
     //SUBMIT BUTTON CLICK FOR UPDATING THE BARANG YANG DIREQUEST; 
     const submitHandler = () => {
       console.log(data.request_id);
-      console.log('this is the donation id');
-      let idtest = `1aZXT935g3DU0FmBSGaAAJvzzWz`
-      console.log(kebutuhan.item_id, kebutuhan.unit_id);
-      console.log(`${process.env.REACT_APP_BACKEND_URL}/v1/requests/${idtest}`);
+      // console.log('this is the donation id');
+      
+      
+      // console.log(kebutuhan.item_id, kebutuhan.unit_id,formState.inputs.quantity.value );
+      // console.log(`${process.env.REACT_APP_BACKEND_URL}/v1/requests/${allreq}`);
       
         sendRequest(
             `${process.env.REACT_APP_BACKEND_URL}/v1/requests/${data.request_id}`,
-            // `${process.env.REACT_APP_BACKEND_URL}/v1/requests/${idtest}`,
+            // `${process.env.REACT_APP_BACKEND_URL}/v1/requests/${allreq}`,
             'PUT',
             JSON.stringify({
                 requestItems: [
                     {
-                        // id: data.id,
-                        // donation_id: ,
+                        id: data.id,
                         item_id: kebutuhan.item_id,
                         unit_id: kebutuhan.unit_id,
                         quantity: formState.inputs.quantity.value
@@ -166,15 +175,34 @@ const UpdateRiwayat = (props) => {
             }),
             {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
         ).then(responseData => {
-            console.log(responseData)
-            console.log('update the request is done');
-            // history.goBack()
+            // console.log(responseData)
+            // console.log('update the request is done');
+
+            if(responseData.date != null){
+              // inputHandler("quantity", '', false)
+              setSubmit(true)
+              setCheck(true)
+              flashMessage()
+          }
+          else{
+              setSubmit(true)
+              setCheck(false)
+              flashMessage()
+          }
+            history.goBack()
         })
     }
 
 
     //THE HTML COMPONENT; 
     return(
+      <React.Fragment>
+
+        <ErrorModal error={error} onClear={clearError} />
+            <div className={`absolute right-0 p-2 rounded-bl-lg ${submit ? 'inline-block' : 'hidden'} ${check ? 'bg-green-200 text-green-500' : 'bg-red-200 text-red-800'}`}>
+                <strong>{check ? 'Berhasil, kebutuhan Anda berhasil disimpan!' : 'Terjadi error, silakan coba lagi!'}</strong>
+            </div>
+
         <div className="flex flex-row h-full w-full">
           <Sidebar role="" name="PEMOHON" links={links} />
 
@@ -216,7 +244,7 @@ const UpdateRiwayat = (props) => {
                         type="submit"
                         onClick={submitHandler}
                         disabled={!formState.isValid}>
-                    >
+                    
                         {
                             isLoading ? <LoadingSpinner color="white" style={{transform: 'translateY(-3px)'}} /> : 'UPDATE'
                         } 
@@ -224,6 +252,8 @@ const UpdateRiwayat = (props) => {
                 </div>
             </div>
         </div>  
+
+      </React.Fragment>
     )
 }
 
