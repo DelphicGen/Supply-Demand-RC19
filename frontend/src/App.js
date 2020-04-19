@@ -11,8 +11,10 @@ const RegisterPage = React.lazy(() => import('./containers/Auth/RegisterPage'))
 const ResetPass = React.lazy(() => import('./containers/Auth/ResetPass'))
 const NewPassword = React.lazy(() => import('./containers/Auth/NewPassword'))
 
-const AlokasiBantuan = React.lazy(() => import('./containers/Dashboard/Admin/AlokasiBantuan'))
+const InputAlokasi = React.lazy(() => import('./containers/Dashboard/Admin/InputAlokasi'))
 const TambahBarang = React.lazy(() => import('./containers/Dashboard/Admin/TambahBarang'))
+const AlokasiBantuan = React.lazy(() => import('./containers/Dashboard/Admin/AlokasiBantuan'))
+const KonfirmasiDonasi = React.lazy(() => import('./containers/Dashboard/Admin/KonfirmasiDonasi'))
 
 const InputKebutuhan = React.lazy(() => import('./containers/Dashboard/Applicant/InputKebutuhan'))
 const RiwayatPermohonan = React.lazy(() => import('./containers/Dashboard/Applicant/RiwayatPermohonan'))
@@ -33,23 +35,11 @@ const App = () => {
       <Route path="/daftar" component={RegisterPage} exact />
       <Route path="/reset-password" component={ResetPass} exact />
       <Route path="/confirm/:confirmId" component={NewPassword} exact />
-
-      <Route path="/dashboard/donasi-saya" component={DonasiSaya} exact />
-      <Route path="/dashboard/info-demand" component={InfoDemand} exact />
-      <Route path="/dashboard/input-bantuan" component={InputBantuan} exact />
-      <Route path="/dashboard/donasi-saya/update" component={UpdateDonasi} exact />
-
-      <Route path="/dashboard/input-kebutuhan" component={InputKebutuhan} exact />
-      <Route path="/dashboard/riwayat-permohonan" component={RiwayatPermohonan} exact />
-      <Route path="/dashboard/riwayat-permohonan/update" component={UpdateRiwayat} exact />
-
-      <Route path="/dashboard/alokasi-bantuan" component={AlokasiBantuan} exact />
-      <Route path="/dashboard/tambah-barang" component={TambahBarang} exact />
       <Redirect to='/' />
     </Switch>
   )
 
-  if(auth.role === 'donator'){
+  if(auth.role === 'DONATOR'){
     routes = (
       <Switch>
         <Route path="/" component={LandingPage} exact />
@@ -61,23 +51,25 @@ const App = () => {
       </Switch>
     )
   }
-  else if(auth.role === 'applicant'){
+  else if(auth.role === 'APPLICANT'){
     routes = (
       <Switch>
         <Route path="/" component={LandingPage} exact />
         <Route path="/dashboard/input-kebutuhan" component={InputKebutuhan} exact />
-        <Route path="/dashboard/riwayat-permohonan" component={RiwayatPermohonan} exact />
-        <Route path="/dashboard/riwayat-permohonan/update" component={UpdateRiwayat} exact />
+        <Route path="/dashboard/riwayat-kebutuhan" component={RiwayatPermohonan} exact />
+        <Route path="/dashboard/riwayat-kebutuhan/update" component={UpdateRiwayat} exact />
         <Redirect to='/' />
       </Switch>
     )
   }
-  else if(auth.role === 'admin'){
+  else if(auth.role === 'ADMIN'){
     routes = (
       <Switch>
         <Route path="/" component={LandingPage} exact />
         <Route path="/dashboard/alokasi-bantuan" component={AlokasiBantuan} exact />
+        <Route path="/dashboard/alokasi" component={InputAlokasi} exact />
         <Route path="/dashboard/tambah-barang" component={TambahBarang} exact />
+        <Route path="/dashboard/konfirmasi-donasi" component={KonfirmasiDonasi} exact />
         <Redirect to='/' />
       </Switch>
     )

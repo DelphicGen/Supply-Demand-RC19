@@ -8,7 +8,7 @@ export const links = [
         info: 'Input Kebutuhan'
     },
     {
-        link: '/dashboard/riwayat-permohonan',
+        link: '/dashboard/riwayat-kebutuhan',
         icon: (<Create className="text-white" fontSize="small" />),
         info: 'Riwayat Permohonan'
     },
