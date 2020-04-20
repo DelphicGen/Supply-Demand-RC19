@@ -43,7 +43,7 @@ const KonfirmasiDonasi = () => {
             accessor: data => {
                 let output = []
                 data.donationItems.map(donation => {
-                    output.push(donation.quantity)
+                    output.push(`${Math.round(donation.quantity)} ${donation.unit}`)
                 })
                 return output.join(', ')
             }

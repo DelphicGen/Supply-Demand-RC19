@@ -1318,6 +1318,10 @@ img {
     font-weight: 700;
   }
 
+  .md\:h-32 {
+    height: 8rem;
+  }
+
   .md\:h-auto {
     height: auto;
   }
@@ -1457,6 +1461,10 @@ img {
 
   .md\:text-5xl {
     font-size: 3rem;
+  }
+
+  .md\:w-32 {
+    width: 8rem;
   }
 
   .md\:w-3\/5 {
