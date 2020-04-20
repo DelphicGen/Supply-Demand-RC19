@@ -23,7 +23,7 @@ const LandingPage = () => {
         },
         {
             Header: 'Kuantitas',
-            accessor: 'quantity'
+            accessor: data => `${Math.round(data.quantity)} ${data.unit}`
         }
     ]
 
@@ -47,7 +47,7 @@ const LandingPage = () => {
             accessor: data => {
                 let output = []
                 data.requestItems.map(request => {
-                    output.push(request.quantity)
+                    output.push(`${Math.round(request.quantity)} ${request.unit}`)
                 })
                 return output.join(', ')
             }
