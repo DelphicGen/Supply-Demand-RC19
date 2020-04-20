@@ -9,7 +9,7 @@ module.exports = {
                 './public/index.html'
               ],
               css: ['./src/tailwind.css'],
-            defaultExtractor: content => content.match(/[A-Za-z0-9-_:]+/g) || []
+            defaultExtractor: content => content.match(/[A-Za-z0-9-_:\/]+(?<!:)/g) || []
         })
     ]
 }
