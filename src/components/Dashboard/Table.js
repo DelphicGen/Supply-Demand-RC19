@@ -83,7 +83,7 @@ const Table = ({ columns, data, isLandingPage, pageToGo, donasi }) => {
                     </table>
                 </div>
 
-                <div className="pagination">
+                <div className="pagination mt-2 md:mt-1 lg:mt-0">
                     <button onClick={() => gotoPage(0)} disabled={!canPreviousPage} className="font-semibold text-sm rounded-l-md bg-gray-400 px-2 text-blue-800 h-6">
                     {'<<'}
                     </button>{' '}

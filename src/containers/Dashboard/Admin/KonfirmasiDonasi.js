@@ -49,7 +49,7 @@ const KonfirmasiDonasi = () => {
             }
         },
         {
-            Header: '',
+            Header: 'Konfirmasi',
             accessor: 'confirm'
         }
     ]
@@ -134,7 +134,7 @@ const KonfirmasiDonasi = () => {
             <div className="flex flex-row">
                 <Sidebar role="" name="ADMIN" links={links} />
 
-                <div className="p-8 pb-24 md:p-16 w-full lg:w-11/12">
+                <div className="p-8 pb-24 md:p-12 w-full lg:w-11/12">
                     <div className="flex flex-row items-center">
                         <Title>Konfirmasi Donasi</Title>
                         <div className="w-3"></div>
