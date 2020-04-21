@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
-import ImageUploader from "react-images-upload";
+import { useParams } from 'react-router-dom'
+import ImageUploader from "react-images-upload"
 
 import { links } from '../../../components/Dashboard/adminLink'
 import { AuthContext } from '../../../context/auth-context'
@@ -17,8 +18,9 @@ import DatePicker from '../../../components/UI/DatePicker2'
 import Select from '../../../components/UI/Select'
 
 const InputAlokasi = (props) => {
-  // const [pictures, setPictures] = useState([]);
+  // const [pictures, setPictures] = useState([])
   // const [file, setFile] = useState('')
+  const requestId = useParams().requestId
   const [imagePreviewUrl, setImagePreviewUrl] = useState('')
   const [itemList, setItemList] = useState([])
   const [unitList, setUnitList] = useState([])
@@ -39,14 +41,14 @@ const InputAlokasi = (props) => {
 
 
   // const handleSubmit = (e) => {
-  //   e.preventDefault();
+  //   e.preventDefault()
   // }
 
   // const handleImageChange = (e) =>  {
-  //   e.preventDefault();
+  //   e.preventDefault()
 
-  //   let reader = new FileReader();
-  //   let file = e.target.files[0];
+  //   let reader = new FileReader()
+  //   let file = e.target.files[0]
 
   //   reader.onloadend = () => {
 
@@ -88,7 +90,7 @@ const InputAlokasi = (props) => {
       ).then(responseData => {
         let data = responseData.data
         console.log(responseData.data)
-        console.log('applicant lembaga');
+        console.log('applicant lembaga')
 
 
         let lembagaListTemp = []
@@ -99,7 +101,7 @@ const InputAlokasi = (props) => {
             let applicantId = element.donationApplicant.id
             let applicantRequest = element.requestItems
             applicantRequest.forEach(item => {
-              console.log(item);
+              console.log(item)
               lembagaListTemp.push({
                 id: item.id,
                 name: `lembaga ${applicantName} butuh ${item.item} jumlah ${item.quantity} ${item.unit}`
@@ -109,10 +111,10 @@ const InputAlokasi = (props) => {
 
 
 
-          });
+          })
         }
-        console.log('lembaga lsit temp');
-        console.log(lembagaListTemp);
+        console.log('lembaga lsit temp')
+        console.log(lembagaListTemp)
         setLembagaList(lembagaListTemp)
         // lembaga1.push(lembagaListTemp)
 
@@ -138,8 +140,8 @@ const InputAlokasi = (props) => {
         null,
         { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
       ).then(responseData => {
-        console.log(responseData);
-        console.log('log unit');
+        console.log(responseData)
+        console.log('log unit')
         setUnitList(responseData)
         setItems(id => ({
           ...id,
@@ -156,8 +158,8 @@ const InputAlokasi = (props) => {
           setUnits(responseData)
         }
 
-        console.log(units);
-        console.log('clg state unit');
+        console.log(units)
+        console.log('clg state unit')
 
       })
     }
@@ -168,8 +170,8 @@ const InputAlokasi = (props) => {
   }, [auth.token, sendRequest])
 
   const submitHandler = () => {
-    console.log('data submit');
-    console.log(items.item_id, items.unit_id, formState.inputs.quantity.value, items.date_num);
+    console.log('data submit')
+    console.log(items.item_id, items.unit_id, formState.inputs.quantity.value, items.date_num)
     sendRequest(
       `${process.env.REACT_APP_BACKEND_URL}/v1/allocations`,
       'POST',
@@ -186,9 +188,9 @@ const InputAlokasi = (props) => {
       }),
       { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
     ).then(responseData => {
-      console.log('ini respon data');
+      console.log('ini respon data')
       console.log(responseData)
-      console.log('ini respon data end');
+      console.log('ini respon data end')
       // if(responseData.id.length > 0){
       //     inputHandler("quantity", '', false)
       //     setSubmit(true)
@@ -269,7 +271,7 @@ const InputAlokasi = (props) => {
   // }
 
   const fileUploadButton = () => {
-    document.getElementById('fileButton').click();
+    document.getElementById('fileButton').click()
   }
 
 
@@ -283,11 +285,11 @@ const InputAlokasi = (props) => {
   )
 
 
-  const [selectedData, updateSelectedData] = useState("");
+  const [selectedData, updateSelectedData] = useState("")
 
   const handleChange = (data) => {
     updateSelectedData(data)
-    console.log(data);
+    console.log(data)
 
   }
 
@@ -323,11 +325,11 @@ const InputAlokasi = (props) => {
 
 
 
-  let $imagePreview = null;
+  let $imagePreview = null
   if (imagePreviewUrl) {
     $imagePreview = (<img className={`bg-gray-400 text-gray-700 rounded-md w-full  `}
       style={{ width: 400, maxHeight: 300 }}
-      src={imagePreviewUrl} />);
+      src={imagePreviewUrl} />)
   }
 
 
