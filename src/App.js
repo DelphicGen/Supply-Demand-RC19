@@ -67,7 +67,7 @@ const App = () => {
       <Switch>
         <Route path="/" component={LandingPage} exact />
         <Route path="/dashboard/alokasi-bantuan" component={AlokasiBantuan} exact />
-        <Route path="/dashboard/alokasi" component={InputAlokasi} exact />
+        <Route path="/dashboard/alokasi/:requestId" component={InputAlokasi} exact />
         <Route path="/dashboard/tambah-barang" component={TambahBarang} exact />
         <Route path="/dashboard/konfirmasi-donasi" component={KonfirmasiDonasi} exact />
         <Redirect to='/' />

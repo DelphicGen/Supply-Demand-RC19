@@ -33,7 +33,7 @@ const Table = ({ columns, data, isLandingPage, pageToGo, donasi }) => {
 
     return (
         <div className="flex-auto">
-            <div className={`${!isLandingPage ? 'w-full' : 'md:w-10/12'} overflow-y-hidden h-full ${isLandingPage && 'lg:pb-32 mx-auto'}`}>
+            <div className={`${!isLandingPage ? 'w-full' : 'w-11/12 md:w-10/12'} overflow-y-hidden h-full ${isLandingPage && 'lg:pb-32 mx-auto'}`}>
                 <div className="w-full overflow-y-auto">
                     <table {...getTableProps()} className={`${donasi && 'md:text-base text-sm'} ${donasi ? 'w-full md:w-11/12' : 'w-full'}`}>
                         <thead>
@@ -83,11 +83,7 @@ const Table = ({ columns, data, isLandingPage, pageToGo, donasi }) => {
                     </table>
                 </div>
 
-                <div className="pagination mt-4">
-                    <span style={styles.container(mediaQuery)} className="text-xs font-semibold mr-2">
-                        10 Baris per halaman
-                    </span>
-
+                <div className="pagination mt-2 md:mt-1 lg:mt-0">
                     <button onClick={() => gotoPage(0)} disabled={!canPreviousPage} className="font-semibold text-sm rounded-l-md bg-gray-400 px-2 text-blue-800 h-6">
                     {'<<'}
                     </button>{' '}
@@ -105,7 +101,7 @@ const Table = ({ columns, data, isLandingPage, pageToGo, donasi }) => {
                     </button>
 
                     <span className="text-xs font-semibold mx-4 lg:mx-0 lg:block">
-                    Menuju halaman:{' '}
+                    Ke halaman:{' '}
                     <input
                         className="inline-block h-6 pl-2 font-semibold bg-gray-100"
                         type="number"

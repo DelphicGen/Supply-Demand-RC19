@@ -74,17 +74,12 @@ const LandingPage = () => {
     }
 
     useEffect(() => {
-        console.log(dataDemand)
-    }, [dataDemand])
-
-    useEffect(() => {
         sendRequest(
             `${process.env.REACT_APP_BACKEND_URL}/v1/requests?page=1&size=10000`,
             'GET',
             null,
             { 'Accept': 'application/json', 'Content-Type': 'application/json' }
         ).then(responseData => {
-            console.log(responseData)
             let temp = []
             if (responseData.data) {
                 responseData.data.forEach(data => {
@@ -100,7 +95,6 @@ const LandingPage = () => {
             null,
             { 'Accept': 'application/json', 'Content-Type': 'application/json' }
         ).then(responseData => {
-            console.log(responseData)
             if (responseData) {
                 setDataStock(responseData.data)
             }

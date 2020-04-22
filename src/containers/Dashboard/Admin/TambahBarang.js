@@ -11,7 +11,6 @@ import ErrorModal from '../../../components/UI/ErrorModal'
 import Sidebar from '../../../components/Dashboard/SideBar'
 import RadioInput from '../../../components/Form/RadioInput'
 import LoadingSpinner from '../../../components/UI/LoadingSpinner'
-import ErrorText from '../../../components/UI/ErrorText'
 import Title from '../../../components/Dashboard/Title'
 import WhiteButton from '../../../components/UI/WhiteButton'
 import TextInput from '../../../components/Form/TextInput'
@@ -221,7 +220,7 @@ const TambahBarang = () => {
             <div className="flex flex-row">
                 <Sidebar role="" name="ADMIN" links={links} />
 
-                <div className="p-8 pb-20 md:p-16">
+                <div className="p-8 pb-20 md:p-12">
                     <Title>Tambahkan Jenis Barang atau Satuan</Title>
                     {table === 'item' && <form onSubmit={addItem} className="md:flex md:flex-row md:items-center">
                         <TextInput

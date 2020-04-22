@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
-import ImageUploader from "react-images-upload";
+import { useParams } from 'react-router-dom'
+import ImageUploader from "react-images-upload"
 
 import { links } from '../../../components/Dashboard/adminLink'
 import { AuthContext } from '../../../context/auth-context'
@@ -17,13 +18,13 @@ import DatePicker from '../../../components/UI/DatePicker2'
 import Select from '../../../components/UI/Select'
 
 const InputAlokasi = (props) => {
-  // const [pictures, setPictures] = useState([]);
+  // const [pictures, setPictures] = useState([])
   // const [file, setFile] = useState('')
+  const requestId = useParams().requestId
+  const [requestInfo, setRequestInfo] = useState()
   const [imagePreviewUrl, setImagePreviewUrl] = useState('')
   const [itemList, setItemList] = useState([])
   const [unitList, setUnitList] = useState([])
-  const [lembagaList, setLembagaList] = useState([])
-  const [units, setUnits] = useState([])
 
   const [formState, inputHandler] = useForm({
     quantity: {
@@ -34,19 +35,32 @@ const InputAlokasi = (props) => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
   const auth = useContext(AuthContext)
 
+  useEffect(() => {
+    const fetchRequest = () => {
+      sendRequest(`${process.env.REACT_APP_BACKEND_URL}/v1/requests/${requestId}`,
+        'GET',
+        null,
+        { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+      ).then(responseData => {
+        setRequestInfo(responseData)
+      })
+    }
+    fetchRequest()
+  }, [requestId, sendRequest])
 
-
-
+  useEffect(() => {
+    console.log(requestInfo)
+  }, [requestInfo])
 
   // const handleSubmit = (e) => {
-  //   e.preventDefault();
+  //   e.preventDefault()
   // }
 
   // const handleImageChange = (e) =>  {
-  //   e.preventDefault();
+  //   e.preventDefault()
 
-  //   let reader = new FileReader();
-  //   let file = e.target.files[0];
+  //   let reader = new FileReader()
+  //   let file = e.target.files[0]
 
   //   reader.onloadend = () => {
 
@@ -69,7 +83,6 @@ const InputAlokasi = (props) => {
         null,
         { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
       ).then(responseData => {
-        console.log(responseData)
         setItemList(responseData)
         setItems(prevDonasi => ({
           ...prevDonasi,
@@ -79,54 +92,8 @@ const InputAlokasi = (props) => {
       })
     }
 
-    const fetchLembaga = () => {
-      sendRequest(
-        `${process.env.REACT_APP_BACKEND_URL}/v1/requests`,
-        'GET',
-        null,
-        { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
-      ).then(responseData => {
-        let data = responseData.data
-        console.log(responseData.data)
-        console.log('applicant lembaga');
-
-
-        let lembagaListTemp = []
-
-        if (data != null) {
-          data.forEach(element => {
-            let applicantName = element.donationApplicant.name
-            let applicantId = element.donationApplicant.id
-            let applicantRequest = element.requestItems
-            applicantRequest.forEach(item => {
-              console.log(item);
-              lembagaListTemp.push({
-                id: item.id,
-                name: `lembaga ${applicantName} butuh ${item.item} jumlah ${item.quantity} ${item.unit}`
-              })
-            })
-
-
-
-
-          });
-        }
-        console.log('lembaga lsit temp');
-        console.log(lembagaListTemp);
-        setLembagaList(lembagaListTemp)
-        // lembaga1.push(lembagaListTemp)
-
-        // setItems(prevLembaga => ({
-        //     ...prevLembaga,
-        //     unit_id: responseData[0].donationApplicant.role
-        // }))
-
-      })
-    }
-
     if (auth.token) {
       fetchItems()
-      fetchLembaga()
     }
   }, [auth.token, sendRequest])
 
@@ -138,27 +105,11 @@ const InputAlokasi = (props) => {
         null,
         { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
       ).then(responseData => {
-        console.log(responseData);
-        console.log('log unit');
         setUnitList(responseData)
         setItems(id => ({
           ...id,
           unit_id: responseData[0].id
         }))
-
-
-        if (responseData) {
-          //  responseData.forEach(data => data.delete = (
-          //      <WhiteButton width={120} onClick={() => deleteUnit(data.id)}>
-          //          <Delete className="text-blue-800 mr-2" fontSize="inherit" /><span className="text-sm pt-1">HAPUS</span>
-          //      </WhiteButton>
-          //  ))
-          setUnits(responseData)
-        }
-
-        console.log(units);
-        console.log('clg state unit');
-
       })
     }
 
@@ -168,8 +119,7 @@ const InputAlokasi = (props) => {
   }, [auth.token, sendRequest])
 
   const submitHandler = () => {
-    console.log('data submit');
-    console.log(items.item_id, items.unit_id, formState.inputs.quantity.value, items.date_num);
+    console.log(items.item_id, items.unit_id, formState.inputs.quantity.value, items.date_num)
     sendRequest(
       `${process.env.REACT_APP_BACKEND_URL}/v1/allocations`,
       'POST',
@@ -186,90 +136,12 @@ const InputAlokasi = (props) => {
       }),
       { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
     ).then(responseData => {
-      console.log('ini respon data');
       console.log(responseData)
-      console.log('ini respon data end');
-      // if(responseData.id.length > 0){
-      //     inputHandler("quantity", '', false)
-      //     setSubmit(true)
-      //     setCheck(true)
-      //     flashMessage()
-      // }
-      // else{
-      //     setSubmit(true)
-      //     setCheck(false)
-      //     flashMessage()
-      // }
     })
   }
 
-  // const addItem = event => {
-  //     event.preventDefault()
-  //     sendRequest(
-  //         `${process.env.REACT_APP_BACKEND_URL}/v1/allocations`,
-  //         'POST',
-  //         JSON.stringify({
-  //             name: formState.inputs.itemName.value
-  //         }),
-  //         {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
-  //     ).then(responseData => {
-  //         setItems(prevItem => prevItem.concat({
-  //             id: responseData.id,
-  //             name: responseData.name,
-  //             delete: (
-  //                 <WhiteButton width={120} onClick={() => deleteItem(responseData.id)}>
-  //                     <Delete className="text-blue-800 mr-2" fontSize="inherit" /><span className="text-sm pt-1">HAPUS</span>
-  //                 </WhiteButton>
-  //             )
-  //         }))
-  //     })
-  //     setItems(prevItem => prevItem.concat({
-  //         id: prevItem.length + 1, 
-  //         item: formState.inputs.itemName.value, 
-  //         delete: (
-  //             <WhiteButton width={120} onClick={() => deleteItem(prevItem.length + 1)}>
-  //                 <Delete className="text-blue-800 mr-2" fontSize="inherit" /><span className="text-sm pt-1">HAPUS</span>
-  //             </WhiteButton>
-  //         )
-  //     }))
-
-  //   }
-
-
-
-  // const add = event => {
-  //   event.preventDefault()
-  //   sendRequest(
-  //       `${process.env.REACT_APP_BACKEND_URL}/v1/allocations`,
-  //       'POST',
-  //       JSON.stringify({
-  //           name: formState.inputs.itemName.value
-  //       }),
-  //       {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
-  //   ).then(responseData => {
-  //       setItems(prevItem => prevItem.concat({
-  //           id: responseData.id,
-  //           name: responseData.name,
-  //           delete: (
-  //               <WhiteButton width={120} onClick={() => deleteItem(responseData.id)}>
-  //                   <Delete className="text-blue-800 mr-2" fontSize="inherit" /><span className="text-sm pt-1">HAPUS</span>
-  //               </WhiteButton>
-  //           )
-  //       }))
-  //   })
-  //   // setItems(prevItem => prevItem.concat({
-  //   //     id: prevItem.length + 1, 
-  //   //     item: formState.inputs.itemName.value, 
-  //   //     delete: (
-  //   //         <WhiteButton width={120} onClick={() => deleteItem(prevItem.length + 1)}>
-  //   //             <Delete className="text-blue-800 mr-2" fontSize="inherit" /><span className="text-sm pt-1">HAPUS</span>
-  //   //         </WhiteButton>
-  //   //     )
-  //   // }))
-  // }
-
   const fileUploadButton = () => {
-    document.getElementById('fileButton').click();
+    document.getElementById('fileButton').click()
   }
 
 
@@ -277,26 +149,9 @@ const InputAlokasi = (props) => {
     {
       item_id: '',
       unit_id: '',
-      lembaga_id: '',
       date_num: ''
     }
   )
-
-
-  const [selectedData, updateSelectedData] = useState("");
-
-  const handleChange = (data) => {
-    updateSelectedData(data)
-    console.log(data);
-
-  }
-
-  const changeLembaga = (lembaga_id) => {
-    setItems({
-      ...items,
-      lembaga_id: lembaga_id
-    })
-  }
 
   const changeItem = (item_id) => {
     setItems({
@@ -319,15 +174,13 @@ const InputAlokasi = (props) => {
     })
   }
 
-  const lembaga1 = [{ name: 'rs panti rapih', id: 1 }, { name: 'rs bhayangkara', id: 2 }]
 
 
-
-  let $imagePreview = null;
+  let $imagePreview = null
   if (imagePreviewUrl) {
     $imagePreview = (<img className={`bg-gray-400 text-gray-700 rounded-md w-full  `}
       style={{ width: 400, maxHeight: 300 }}
-      src={imagePreviewUrl} />);
+      src={imagePreviewUrl} />)
   }
 
 
@@ -338,28 +191,23 @@ const InputAlokasi = (props) => {
       <div className="flex flex-row h-full w-full">
 
         <Sidebar role="" name="ADMIN" links={links} />
-
-        <div className="flex w-full flex-col p-8 md:p-16">
+        <div className="flex w-full flex-col p-8 md:p-12">
+          <h3 className="font-bold text-sm lg:text-base mb-2 text-gray-800 capitalize">Penerima : {requestInfo && requestInfo.donationApplicant.name}</h3>
+          <p className="text-gray-800 mb-2 text-sm lg:text-base">Daftar Kebutuhan :</p>
+          {!requestInfo ? <LoadingSpinner /> :
+            <React.Fragment>
+              <div className="mb-6">
+                {requestInfo.requestItems.map(request => (
+                  <div key={request.id} className="pb-1 mb-2 border-gray-500 border-solid border-b-2 inline-block">
+                    <p className="font-medium text-sm">{request.item}<span className="ml-12 pr-12">{request.quantity} {request.unit}</span></p>
+                  </div>
+                ))}
+              </div>
+            </React.Fragment>
+          }
           <Title>Alokasikan Bantuan</Title>
 
-
-          <form onSubmit={submitHandler} className="">
-            <div className="flex flex-col lg:flex-row w-full lg:mb-5 lg:border-none lg:shadow-none border-gray-700 rounded-md shadow-lg lg:p-0 p-4 relative mb-5">
-
-              <Select
-                onSelectChange={changeLembaga}
-                label="Permohonan"
-                divClassName="mr-3 lg:w-6/12 w-full mt-2 lg:mt-0"
-                arrayList={lembagaList}
-              />
-
-              <DatePicker
-                label="Tanggal Penyerahan"
-                divClassName="lg:w-6/12 w-full mt-2 lg:mt-0"
-                onSelectChange={changeDate}
-              />
-
-            </div>
+          <form onSubmit={submitHandler} className="mt-2">
 
             <div className="flex flex-col lg:flex-row w-full lg:mb-5 lg:border-none lg:shadow-none border-gray-700 rounded-md shadow-lg lg:p-0 p-4 relative">
               <Select
@@ -381,6 +229,13 @@ const InputAlokasi = (props) => {
                 list={unitList}
                 value={items.unit_id}
               />
+            </div>
+
+            <div className="flex flex-col lg:flex-row w-full lg:mb-5 lg:border-none lg:shadow-none border-gray-700 rounded-md shadow-lg lg:p-0 p-4 relative mb-5">
+              <DatePicker
+                label="Tanggal Penyerahan"
+                divClassName="lg:w-6/12 w-full mt-2 lg:mt-0"
+                onSelectChange={changeDate}/>
             </div>
           </form>
 
