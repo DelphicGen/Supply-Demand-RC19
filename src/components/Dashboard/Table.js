@@ -83,10 +83,7 @@ const Table = ({ columns, data, isLandingPage, pageToGo, donasi }) => {
                     </table>
                 </div>
 
-                <div className={`pagination ${isLandingPage ? 'mt-2' : 'mt-3'}`}>
-                    <button onClick={() => gotoPage(0)} disabled={!canPreviousPage} className="font-semibold text-sm rounded-l-md bg-gray-400 px-2 text-blue-800 h-6">
-                    {'<<'}
-                    </button>{' '}
+                <div className="pagination text-right mt-2">
                     <button onClick={() => previousPage()} disabled={!canPreviousPage} className="font-semibold text-sm bg-gray-400 px-2 text-blue-800 h-6">
                     {'<'}
                     </button>
@@ -96,14 +93,11 @@ const Table = ({ columns, data, isLandingPage, pageToGo, donasi }) => {
                     <button onClick={() => nextPage()} disabled={!canNextPage} className="font-semibold text-sm bg-gray-400 px-2 text-blue-800 h-6">
                     {'>'}
                     </button>{' '}
-                    <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage} className="font-semibold text-sm rounded-r-md bg-gray-400 px-2 text-blue-800 h-6">
-                    {'>>'}
-                    </button>
 
-                    <span className="text-xs font-semibold mx-4 lg:mx-2">
+                    <span className="text-xs font-semibold ml-2 md:ml-4">
                     Ke halaman:{' '}
                     <input
-                        className="inline-block h-6 text-center font-semibold bg-gray-400 ml-2"
+                        className="inline-block h-6 text-center font-semibold bg-gray-400 ml-2 rounded-md"
                         type="number"
                         defaultValue={pageIndex + 1}
                         onChange={e => {
