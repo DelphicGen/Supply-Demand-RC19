@@ -149,7 +149,7 @@ const LandingPage = () => {
             </div>
 
             {content}
-            <div className="bg-blue-800 text-white py-10 mt-20 lg:absolute lg:w-full lg:bottom-0">
+            <div className="bg-blue-800 text-white pb-3 pt-10 mt-20 lg:absolute lg:w-full lg:bottom-0">
                 <h5 className="text-sm text-center">Icon by JustIcon</h5>
             </div>
         </React.Fragment>

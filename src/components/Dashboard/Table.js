@@ -33,7 +33,7 @@ const Table = ({ columns, data, isLandingPage, pageToGo, donasi }) => {
 
     return (
         <div className="flex-auto">
-            <div className={`${!isLandingPage ? 'w-full' : 'w-11/12 md:w-10/12'} overflow-y-hidden h-full ${isLandingPage && 'lg:pb-32 mx-auto'}`}>
+            <div className={`${!isLandingPage ? 'w-full' : 'w-10/12 md:w-8/12 lg:w-7/12'} overflow-y-hidden h-full ${isLandingPage && 'lg:pb-32 mx-auto'}`}>
                 <div className="w-full overflow-y-auto">
                     <table {...getTableProps()} className={`${donasi && 'md:text-base text-sm'} ${donasi ? 'w-full md:w-11/12' : 'w-full'}`}>
                         <thead>
@@ -62,7 +62,7 @@ const Table = ({ columns, data, isLandingPage, pageToGo, donasi }) => {
                         {page.map((row, i) => {
                             prepareRow(row)
                             return (
-                            <tr {...row.getRowProps()} className="border-b-2 border-r-4 border-l-4">
+                            <tr {...row.getRowProps()} className={`border-b-2 ${isLandingPage ? 'border-r-4' : 'border-r-2'} border-l-4`}>
                                 {
                                     row.cells.map(cell => {
                                         if(cell.column.Header === 'No'){
@@ -83,7 +83,7 @@ const Table = ({ columns, data, isLandingPage, pageToGo, donasi }) => {
                     </table>
                 </div>
 
-                <div className="pagination mt-2 md:mt-1 lg:mt-0">
+                <div className={`pagination ${isLandingPage ? 'mt-2' : 'mt-3'}`}>
                     <button onClick={() => gotoPage(0)} disabled={!canPreviousPage} className="font-semibold text-sm rounded-l-md bg-gray-400 px-2 text-blue-800 h-6">
                     {'<<'}
                     </button>{' '}
@@ -100,17 +100,17 @@ const Table = ({ columns, data, isLandingPage, pageToGo, donasi }) => {
                     {'>>'}
                     </button>
 
-                    <span className="text-xs font-semibold mx-4 lg:mx-0 lg:block">
+                    <span className="text-xs font-semibold mx-4 lg:mx-2">
                     Ke halaman:{' '}
                     <input
-                        className="inline-block h-6 pl-2 font-semibold bg-gray-100"
+                        className="inline-block h-6 text-center font-semibold bg-gray-400 ml-2"
                         type="number"
                         defaultValue={pageIndex + 1}
                         onChange={e => {
                         const page = e.target.value ? Number(e.target.value) - 1 : 0
                         gotoPage(page)
                         }}
-                        style={{ width: '35px' }}
+                        style={{ width: '32px' }}
                     />
                     </span>{' '}
 

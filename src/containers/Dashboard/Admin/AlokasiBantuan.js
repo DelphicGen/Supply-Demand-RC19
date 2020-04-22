@@ -33,7 +33,7 @@ const AlokasiBantuan = (props) => {
             accessor: data => {
                 let output = []
                 data.requestItems.map(request => {
-                    output.push(request.item)
+                    output.push(request.item.name)
                 })
                 return output.join(', ')
             }
