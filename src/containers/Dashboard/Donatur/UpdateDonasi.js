@@ -71,14 +71,21 @@ const UpdateDonasi = (props) => {
             null,
             { 'Accept': 'application/json', 'Content-Type': 'application/json' }
         ).then(responseData => {
-            // console.log(responseData)
-            setDonasi(responseData.donationItems)
+            console.log(responseData)
+            let donasiTemp = [...responseData.donationItems]
+            donasiTemp.forEach((item, i) => {
+                donasiTemp[i].item = donasiTemp[i].item.id
+                donasiTemp[i].unit = donasiTemp[i].unit.id
+                donasiTemp[i].touch = false
+            })
+            setDonasi(donasiTemp)
         })
 
     }, [auth.token, sendRequest])
 
     useEffect(() => {
-        // console.log(donasi)
+        console.log(donasi)
+        console.log(data)
         let tempDisable = false
         for(let i = 0; i < donasi.length; i++){
             if(donasi[i].quantity.length === 0){
@@ -101,57 +108,6 @@ const UpdateDonasi = (props) => {
         setDonasi(donasiTemp)
     }
 
-    useEffect(() => {
-        // console.log(itemList)
-        let x
-        let i
-        for ([i, x] of itemList.entries()) {
-            if (x.name === data.item) {
-                // setDonasi({
-                //     ...donasi,
-                //     item_id: x.id
-                // })
-                setSelectedItemIndex(i)
-                break;
-            }
-        }
-
-
-    }, [itemList])
-
-    useEffect(() => {
-        let x
-        let i
-        for ([i, x] of unitList.entries()) {
-            if (x.name === data.unit) {
-                // setDonasi({
-                //     ...donasi,
-                //     unit_id: x.id
-                // })
-                setSelectedUnitIndex(i)
-                break
-            }
-        }
-    }, [unitList])
-
-    // useEffect(() => {
-    //     let x1
-    //     let i1
-    //     let x2
-    //     let i2
-    //     let donasiTemp = [...donasi]
-    //     for([i1, x1] of donasi.entries()){
-    //         for ([i2, x2] of itemList.entries()) {
-    //             if (x.name === data.item) {
-    //                 // setDonasi({
-    //                 //     ...donasi,
-    //                 //     item_id: x.id
-    //                 // })
-    //                 let 
-    //             }
-    //         }
-    //     }
-    // }, [donasi])
 
     const inputHandler = (event, index) => {
         let donasiTemp = [...donasi]
@@ -171,30 +127,35 @@ const UpdateDonasi = (props) => {
         setDonasi(donationTemp)
     }
 
-    useEffect(() => {
-        console.log(unitList, itemList) 
-    }, [unitList, itemList])
+    // useEffect(() => {
+    //     console.log(unitList, itemList) 
+    // }, [unitList, itemList])
 
     const submitHandler = () => {
-        // sendRequest(
-        //     `${process.env.REACT_APP_BACKEND_URL}/v1/donations`,
-        //     'PUT',
-        //     JSON.stringify({
-        //         donationItems: [
-        //             {
-        //                 id: data.id,
-        //                 donation_id: data.donation_id,
-        //                 item_id: donasi.item_id,
-        //                 unit_id: donasi.unit_id,
-        //                 quantity: donasi.quantity
-        //             }
-        //         ]
-        //     }),
-        //     { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
-        // ).then(responseData => {
-        //     console.log(responseData)
-        //     history.goBack()
-        // })
+        let donation = {
+            donationItems: [
+
+            ]
+        }
+        donasi.forEach((item, index) => {
+            let tempItem = item
+            tempItem.item_id = tempItem.item
+            tempItem.unit_id = tempItem.unit
+            delete tempItem['touch']
+            delete tempItem['item']
+            delete tempItem['unit']
+            donation.donationItems.push(tempItem)
+        })
+        console.log(donation)
+        sendRequest(
+            `${process.env.REACT_APP_BACKEND_URL}/v1/donations/${data.donation_id}`,
+            'PUT',
+            JSON.stringify(donation),
+            { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
+        ).then(responseData => {
+            // console.log(responseData)
+            history.goBack()
+        })
     }
 
     return(
@@ -208,7 +169,7 @@ const UpdateDonasi = (props) => {
                     <form className="mt-4">
                     {
                         donasi.map((item, index) => {
-                            console.log(item)
+                            // console.log(item)
                             return(
                                 <div key={index} className="flex flex-col lg:flex-row w-full mb-5 lg:border-none lg:shadow-none border-gray-700 rounded-md shadow-xl lg:p-0 p-4 relative">
                                     <Select2

@@ -27,11 +27,24 @@ const DonasiSaya = () => {
         },
         {
             Header: 'Nama Barang',
-            accessor: 'item'
+            accessor: data => {
+                // console.log(data)
+                let output = []
+                // data.map(item => {
+                    output.push(data.item.name)
+                // })
+                return output.join(', ')
+            }
         },
         {
             Header: 'Stok',
-            accessor: 'quantity'
+            accessor: data => {
+                let output = []
+                // data.map(data => {
+                    output.push(`${Math.round(data.quantity)} ${data.unit.name}`)
+                // })
+                return output.join(', ')
+            }
         },
         {
             Header: 'Keterangan',

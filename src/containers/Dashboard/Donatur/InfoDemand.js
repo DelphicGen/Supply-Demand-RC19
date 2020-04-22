@@ -21,7 +21,7 @@ const InfoDemand = () => {
             accessor: data => {
                 let output = []
                 data.requestItems.map(request => {
-                    output.push(request.item)
+                    output.push(request.item.name)
                 })
                 return output.join(', ')
             }
@@ -31,7 +31,7 @@ const InfoDemand = () => {
             accessor: data => {
                 let output = []
                 data.requestItems.map(request => {
-                    output.push(`${Math.round(request.quantity)} ${request.unit}`)
+                    output.push(`${Math.round(request.quantity)} ${request.unit.name}`)
                 })
                 return output.join(', ')
             }
