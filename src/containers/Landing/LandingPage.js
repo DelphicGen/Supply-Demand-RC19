@@ -11,6 +11,7 @@ import WhiteButton from '../../components/UI/WhiteButton'
 import Table from '../../components/Dashboard/Table'
 
 const LandingPage = () => {
+
     const [table, setTable] = useState('kebutuhan')
     const stockColumns = [
         {

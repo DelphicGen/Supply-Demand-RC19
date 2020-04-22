@@ -1,6 +1,7 @@
 import {useCallback, useReducer} from 'react'
 
 const formReducer = (state, action) => {
+    // console.log(action)
     switch(action.type){
         case 'INPUT_CHANGE':
             let formIsValid = true
@@ -38,6 +39,13 @@ export const useForm = (initialInputs, initialFormValidity) => {
             isValid: isValid, 
             inputId: id})
     }, [])
+
+    // const addInput = useCallback((newInput) => {
+    //     let addInput = newInput
+    //     dispatch({
+    //         type: 'ADD_INPUT', 
+    //         value: addInput})
+    // }, [])
 
     return [formState, inputHandler]
 }

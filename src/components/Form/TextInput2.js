@@ -1,5 +1,7 @@
 import React, {useReducer, useEffect, useState} from 'react'
 import {validate} from '../../util/validator'
+import { useMediaQuery } from '../../hooks/medquery-hook'
+import { Delete } from '@material-ui/icons'
 import Select3 from '../UI/Select3'
 
 const inputReducer = (state, action) => {
@@ -21,6 +23,7 @@ const inputReducer = (state, action) => {
 }
 
 const TextInput2 = props => {
+    const mediaQuery = useMediaQuery('(max-width: 600px)')
     const [inputState, dispatch] = useReducer(inputReducer, {
         value: props.value || '', 
         isValid: props.valid || false, 
@@ -66,11 +69,19 @@ const TextInput2 = props => {
                     changeUnit={props.changeUnit}
                     selectedIndex={ props.selectedIndex }
                     value={props.value}
+                    index={ props.index }
                 />
+                <Delete className="text-gray-700 mr-2 ml-5 mt-2 text-sm lg:relative absolute top-0 right-0" style={styles.container(mediaQuery)} onClick={() => props.deleteItem(props.index)} />
                 
             </div>
         </div>
     )
 }
+const styles = {
+    container: mediaQuery => ({
+        fontSize: mediaQuery ? '15' : '25'
+    })
+};
+
 
 export default TextInput2

@@ -53,35 +53,75 @@ const DonasiSaya = () => {
                 null,
                 { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
             ).then(responseData => {
+                console.log(responseData)
                 if (responseData) {
-                    console.log(responseData)
                     let temp = []
                     if (responseData.data){
-                        responseData.data.forEach(data => {
+                        responseData.data.forEach((data, index) => {
                             if (data.donationItems && data.donator.id === auth.id) {
-                                temp = [...temp, data.donationItems[0]]
+                                if(data.donationItems.length === 1){
+
+                                    temp = [...temp, data.donationItems[0]]
+                                    temp[temp.length-1].donation_id = responseData.data[index].id
+                                    if (responseData.data[index].isDonated) {
+                                        temp[temp.length-1].keterangan = (
+                                            <div className="inline-block py-1 px-2 rounded-full text-red-800 bg-red-200">
+                                                Habis
+                                            </div>
+                                        )
+                                    } else {
+                                        temp[temp.length-1].keterangan = (
+                                            <div className="inline-block py-1 px-2 tracking-wide text-xs md:text-sm rounded-full text-green-500 bg-green-200">
+                                                Ready
+                                            </div>
+                                        )
+                                    }
+
+                                } else {
+
+                                    for(let i = 0; i < data.donationItems.length; i++){
+                                        temp = [...temp, data.donationItems[i]]
+                                        temp[temp.length-1].donation_id = responseData.data[index].id
+                                        if (responseData.data[index].isDonated) {
+                                            temp[temp.length-1].keterangan = (
+                                                <div className="inline-block py-1 px-2 rounded-full text-red-800 bg-red-200">
+                                                    Habis
+                                                </div>
+                                            )
+                                        } else {
+                                            temp[temp.length-1].keterangan = (
+                                                <div className="inline-block py-1 px-2 tracking-wide text-xs md:text-sm rounded-full text-green-500 bg-green-200">
+                                                    Ready
+                                                </div>
+                                            )
+                                        }
+                                    }
+
+                                }
+                                // temp = temp.concat(data.donationItems)
                             }
                         })
-                        temp.forEach((data, index) => data.donation_id = responseData.data[index].id)
-                        temp.forEach((data, index) => {
-                            if (responseData.data[index].isDonated) {
-                                return (
-                                    data.keterangan = (
-                                        <div className="inline-block py-1 px-2 rounded-full text-red-800 bg-red-200">
-                                            Habis
-                                        </div>
-                                    )
-                                )
-                            } else {
-                                return (
-                                    data.keterangan = (
-                                        <div className="inline-block py-1 px-2 tracking-wide text-xs md:text-sm rounded-full text-green-500 bg-green-200">
-                                            Ready
-                                        </div>
-                                    )
-                                )
-                            }
-                        })
+                        console.log(temp)
+                        // temp.forEach((data, index) => data.donation_id = responseData.data[index].id)
+                        // temp.forEach((data, index) => {
+                        //     if (responseData.data[index].isDonated) {
+                        //         return (
+                        //             data.keterangan = (
+                        //                 <div className="inline-block py-1 px-2 rounded-full text-red-800 bg-red-200">
+                        //                     Habis
+                        //                 </div>
+                        //             )
+                        //         )
+                        //     } else {
+                        //         return (
+                        //             data.keterangan = (
+                        //                 <div className="inline-block py-1 px-2 tracking-wide text-xs md:text-sm rounded-full text-green-500 bg-green-200">
+                        //                     Ready
+                        //                 </div>
+                        //             )
+                        //         )
+                        //     }
+                        // })
 
                         temp.forEach((data) => {
 
@@ -104,9 +144,14 @@ const DonasiSaya = () => {
     }, [auth.token, sendRequest])
 
     const update = (data) => {
+        console.log(data)
         localStorage.setItem('selected', JSON.stringify(data))
         history.push('/dashboard/donasi-saya/update')
     }
+
+    // useEffect(() => {
+    //     console.log(dataTable)
+    // }, [dataTable])
 
     let content = <LoadingSpinner />
     if (!isLoading) {

@@ -11,59 +11,60 @@ import Title from '../../../components/Dashboard/Title'
 const InfoDemand = () => {
     const auth = useContext(AuthContext)
     const {isLoading, error, sendRequest} = useHttpClient()
-    const columns = useMemo(
-        () => [
-            {
-                Header: 'No',
-                accessor: 'no'
-            },
-            {
-                Header: 'Nama Barang',
-                accessor: 'namabarang'
-            },
-            {
-                Header: 'Kuantitas',
-                accessor: 'kuantitas'
+    const columns = [
+        {
+            Header: 'No',
+            accessor: 'no'
+        },
+        {
+            Header: 'Nama Barang',
+            accessor: data => {
+                let output = []
+                data.requestItems.map(request => {
+                    output.push(request.item)
+                })
+                return output.join(', ')
             }
-        ]       
-    )
-    // const data = useMemo(
-    //     () => [
-    //         {
-    //             namabarang: 'Barang1',
-    //             kuantitas: '1'
-    //         },
-    //         {
-    //             namabarang: 'Barang2',
-    //             kuantitas: '2'
-    //         },
-    //         {
-    //             namabarang: 'Barang3',
-    //             kuantitas: '3'
-    //         }
-    //     ]
-    //   )
+        },
+        {
+            Header: 'Kuantitas',
+            accessor: data => {
+                let output = []
+                data.requestItems.map(request => {
+                    output.push(`${Math.round(request.quantity)} ${request.unit}`)
+                })
+                return output.join(', ')
+            }
+        }
+    ]
 
     const [dataDemand, setDataDemand] = useState([])
     
-      useEffect(() => {
+    // useEffect(() => {
+    //     console.log(dataDemand)
+    // }, [dataDemand])
+    
+    useEffect(() => {
         const fetchItems = () => {
             sendRequest(
                 `${process.env.REACT_APP_BACKEND_URL}/v1/requests`,
                 'GET',
                 null,
-                {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
+                {'Accept': 'application/json', 'Content-Type': 'application/json'}
             ).then(responseData => {
-                console.log(responseData)
+                let temp = []
                 if(responseData){
-                    //setDataDemand(responseData.data.requestItems)
+                    responseData.data.forEach(data => {
+                        temp = [...temp, { requestItems: data.requestItems }]
+                    })
                 }
+                setDataDemand(temp)
             })
         }
         if(auth.token){
             fetchItems()
-       }
-      }, [auth.token, sendRequest])
+        }
+    }, [auth.token, sendRequest])
 
     return (
         <React.Fragment>
