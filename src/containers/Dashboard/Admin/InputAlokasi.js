@@ -6,7 +6,7 @@ import { links } from '../../../components/Dashboard/adminLink'
 import { AuthContext } from '../../../context/auth-context'
 import { useForm } from '../../../hooks/form-hook'
 import { useHttpClient } from '../../../hooks/http-hook'
-import { VALIDATOR_REQUIRE } from '../../../util/validator'
+import { VALIDATOR_REQUIRE, VALIDATOR_NUMBER } from '../../../util/validator'
 
 import Sidebar from '../../../components/Dashboard/SideBar'
 import LoadingSpinner from '../../../components/UI/LoadingSpinner'
@@ -23,8 +23,16 @@ const InputAlokasi = (props) => {
   const requestId = useParams().requestId
   const [requestInfo, setRequestInfo] = useState()
   const [imagePreviewUrl, setImagePreviewUrl] = useState('')
+  const [submitError, setSubmitError] = useState()
   const [itemList, setItemList] = useState([])
   const [unitList, setUnitList] = useState([])
+  const [items, setItems] = useState(
+    {
+      item_id: '',
+      unit_id: '',
+      date_num: ''
+    }
+  )
 
   const [formState, inputHandler] = useForm({
     quantity: {
@@ -43,14 +51,27 @@ const InputAlokasi = (props) => {
         { 'Accept': 'application/json', 'Content-Type': 'application/json' }
       ).then(responseData => {
         setRequestInfo(responseData)
+        setItems(prev => ({
+          ...prev,
+          item_id: responseData.requestItems[0].item.id
+        }))
+        setItems(prev => ({
+          ...prev,
+          unit_id: responseData.requestItems[0].unit.id
+        }))
+        let newItemList = []
+        let newUnitList = []
+        responseData.requestItems.forEach(req => {
+          newItemList.push(req.item)
+          newUnitList.push(req.unit)
+        })
+        setItemList(newItemList)
+        setUnitList(newUnitList)
       })
     }
     fetchRequest()
   }, [requestId, sendRequest])
 
-  useEffect(() => {
-    console.log(requestInfo)
-  }, [requestInfo])
 
   // const handleSubmit = (e) => {
   //   e.preventDefault()
@@ -71,87 +92,33 @@ const InputAlokasi = (props) => {
   //   reader.readAsDataURL(file)
   // }
 
-
-
-
-  useEffect(() => {
-
-    const fetchItems = () => {
-      sendRequest(
-        `${process.env.REACT_APP_BACKEND_URL}/v1/items`,
-        'GET',
-        null,
-        { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
-      ).then(responseData => {
-        setItemList(responseData)
-        setItems(prevDonasi => ({
-          ...prevDonasi,
-          item_id: responseData[0].id
-        }))
-
-      })
-    }
-
-    if (auth.token) {
-      fetchItems()
-    }
-  }, [auth.token, sendRequest])
-
-  useEffect(() => {
-    const fetchUnits = () => {
-      sendRequest(
-        `${process.env.REACT_APP_BACKEND_URL}/v1/units`,
-        'GET',
-        null,
-        { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
-      ).then(responseData => {
-        setUnitList(responseData)
-        setItems(id => ({
-          ...id,
-          unit_id: responseData[0].id
-        }))
-      })
-    }
-
-    if (auth.token) {
-      fetchUnits()
-    }
-  }, [auth.token, sendRequest])
-
   const submitHandler = () => {
-    console.log(items.item_id, items.unit_id, formState.inputs.quantity.value, items.date_num)
     sendRequest(
       `${process.env.REACT_APP_BACKEND_URL}/v1/allocations`,
       'POST',
       JSON.stringify({
+        requestId: requestId,
         date: items.date_num,
         items: [
           {
             item_id: items.item_id,
             unit_id: items.unit_id,
-            quantity: formState.inputs.quantity.value,
-
+            quantity: formState.inputs.quantity.value
           }
         ]
       }),
       { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
     ).then(responseData => {
       console.log(responseData)
+      if(responseData.error){
+        setSubmitError(responseData.error)
+      }
     })
   }
 
   const fileUploadButton = () => {
     document.getElementById('fileButton').click()
   }
-
-
-  const [items, setItems] = useState(
-    {
-      item_id: '',
-      unit_id: '',
-      date_num: ''
-    }
-  )
 
   const changeItem = (item_id) => {
     setItems({
@@ -183,23 +150,26 @@ const InputAlokasi = (props) => {
       src={imagePreviewUrl} />)
   }
 
-
+  const clearSubmitError = () => {
+    setSubmitError(null)
+  }
 
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
+      <ErrorModal error={submitError} onClear={clearSubmitError} />
       <div className="flex flex-row h-full w-full">
 
         <Sidebar role="" name="ADMIN" links={links} />
-        <div className="flex w-full flex-col p-8 md:p-12">
+        <div className="flex w-full flex-col p-8 md:p-12 md:pr-16">
           <h3 className="font-bold text-sm lg:text-base mb-2 text-gray-800 capitalize">Penerima : {requestInfo && requestInfo.donationApplicant.name}</h3>
-          <p className="text-gray-800 mb-2 text-sm lg:text-base">Daftar Kebutuhan :</p>
+          <p className="text-gray-800 mb-2 text-sm">Daftar Kebutuhan :</p>
           {!requestInfo ? <LoadingSpinner /> :
             <React.Fragment>
               <div className="mb-6">
                 {requestInfo.requestItems.map(request => (
                   <div key={request.id} className="pb-1 mb-2 border-gray-500 border-solid border-b-2 inline-block">
-                    <p className="font-medium text-sm">{request.item}<span className="ml-12 pr-12">{request.quantity} {request.unit}</span></p>
+                    <p className="font-medium text-sm capitalize">{request.item.name}<span className="ml-12 pr-12">{(request.quantity % 1 === 0) ? Math.round(request.quantity) : request.quantity} {request.unit.name}</span></p>
                   </div>
                 ))}
               </div>
@@ -222,12 +192,11 @@ const InputAlokasi = (props) => {
                 id="quantity"
                 type="text"
                 label="Kuantitas"
-                validators={[VALIDATOR_REQUIRE()]}
+                validators={[VALIDATOR_REQUIRE(), VALIDATOR_NUMBER()]}
                 onInput={inputHandler}
                 changeUnit={changeUnit}
-                errorText="Mohon masukkan kuantitas barang."
+                errorText="Mohon masukkan kuantitas barang dengan benar."
                 list={unitList}
-                value={items.unit_id}
               />
             </div>
 

@@ -59,6 +59,7 @@ const AlokasiBantuan = (props) => {
                 { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
             ).then(responseData => {
                 if (responseData) {
+                    console.log(responseData)
                     let temp = []
                     if (responseData.data) {
                         responseData.data.forEach(data => {

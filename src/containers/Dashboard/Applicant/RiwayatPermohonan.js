@@ -166,7 +166,7 @@ const RiwayatPermohonan = () => {
         if (dataTable.length > 0) {
             content = <Table columns={columns} data={dataTable} />
         } else {
-            content = <p className="text-sm font-semibold">Anda belum melakukan donasi.</p>
+            content = <p className="text-sm font-semibold">Anda belum mengajukan permohonan.</p>
         }
     }
 

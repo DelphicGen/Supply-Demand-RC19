@@ -62,7 +62,7 @@ const Table = ({ columns, data, isLandingPage, pageToGo, donasi }) => {
                         {page.map((row, i) => {
                             prepareRow(row)
                             return (
-                            <tr {...row.getRowProps()} className={`border-b-2 ${isLandingPage ? 'border-r-4' : 'border-r-2'} border-l-4`}>
+                            <tr {...row.getRowProps()} className={`border-b-2 border-r-4 border-l-4`}>
                                 {
                                     row.cells.map(cell => {
                                         if(cell.column.Header === 'No'){
