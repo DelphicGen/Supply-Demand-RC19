@@ -157,7 +157,7 @@ const DonasiSaya = () => {
     }, [auth.token, sendRequest])
 
     const update = (data) => {
-        console.log(data)
+        // console.log(data)
         localStorage.setItem('selected', JSON.stringify(data))
         history.push('/dashboard/donasi-saya/update')
     }

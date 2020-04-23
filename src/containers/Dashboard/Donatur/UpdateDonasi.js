@@ -41,8 +41,8 @@ const UpdateDonasi = (props) => {
 
     const [unitList, setUnitList] = useState([])
     const [itemList, setItemList] = useState([])
-    const [selectedItemIndex, setSelectedItemIndex] = useState([])
-    const [selectedUnitIndex, setSelectedUnitIndex] = useState([])
+    // const [selectedItemIndex, setSelectedItemIndex] = useState([])
+    // const [selectedUnitIndex, setSelectedUnitIndex] = useState([])
     const [disable, setDisable] = useState(true)
       
     
@@ -189,7 +189,7 @@ const UpdateDonasi = (props) => {
                                                     id={'quantity'}
                                                     type={'text'}
                                                     value={ item.quantity }
-                                                    placeholder={`Masukkan kuantitas barang donasi`}
+                                                    placeholder={``}
                                                     onChange={(event) => inputHandler(event, index)}
                                                     onBlur={() => handleBlur(index)} 
                                                 />

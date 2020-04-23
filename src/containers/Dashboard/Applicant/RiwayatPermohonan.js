@@ -27,11 +27,24 @@ const RiwayatPermohonan = () => {
             },
             {
                 Header: 'Nama Barang',
-                accessor: 'item'
+                accessor: data => {
+                    // console.log(data)
+                    let output = []
+                    // data.map(item => {
+                        output.push(data.item.name)
+                    // })
+                    return output.join(', ')
+                }
             },
             {
                 Header: 'Stok',
-                accessor: 'quantity'
+                accessor: data => {
+                    let output = []
+                    // data.map(data => {
+                        output.push(`${Math.round(data.quantity)} ${data.unit.name}`)
+                    // })
+                    return output.join(', ')
+                }
             },
             {
                 Header: 'Keterangan',
@@ -45,30 +58,11 @@ const RiwayatPermohonan = () => {
     )
 
     const [dataTable, setDataTable] = useState([])
-    const [unitList, setUnitList] = useState([])
-    const [itemList, setItemList] = useState([])
+    // const [unitList, setUnitList] = useState([])
+    // const [itemList, setItemList] = useState([])
 
     useEffect(() => {
         const fetchItems = () => {
-            // sendRequest(
-            //     `${process.env.REACT_APP_BACKEND_URL}/v1/units`,
-            //     'GET',
-            //     null,
-            //     {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
-            // ).then(responseData => {
-            //     setUnitList(responseData)
-            // })
-
-            // sendRequest(
-            //     `${process.env.REACT_APP_BACKEND_URL}/v1/items`,
-            //     'GET',
-            //     null,
-            //     {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
-            // ).then(responseData => {
-            //     setItemList(responseData)
-            // })
-
-
             sendRequest(
                 `${process.env.REACT_APP_BACKEND_URL}/v1/requests/user/${auth.id}`,
                 'GET',
@@ -76,53 +70,105 @@ const RiwayatPermohonan = () => {
                 { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
             ).then(responseData => {
                 console.log(responseData)
-                console.log('response data of request');
-
-
                 if (responseData) {
                     let temp = []
-                    if (responseData.data) {
-                        responseData.data.forEach(data => {
-                            data.requestItems.forEach(item => {
-                                //temp is each object of requestItems
-                                temp = [...temp, item]
-                            })
-                            // temp = [...temp, data.requestItems[0]]
-                            // temp = [data.donationItems[0]]
+                    if (responseData.data){
+                        responseData.data.forEach((data, index) => {
+                            if (data.requestItems && data.donationApplicant.id === auth.id) {
+                                if(data.requestItems.length === 1){
+                                    temp = [...temp, data.requestItems[0]]
+                                    temp[temp.length-1].requestId = responseData.data[index].id
+                                    if (!responseData.data[index].isFulfilled) {
+                                        temp[temp.length-1].keterangan = (
+                                            <div className="inline-block py-1 px-2 rounded-full text-red-800 bg-red-200">
+                                                Belum terkonfirmasi
+                                            </div>
+                                        )
+                                    } else {
+                                        temp[temp.length-1].keterangan = (
+                                            <div className="inline-block py-1 px-2 tracking-wide text-xs md:text-sm rounded-full text-green-500 bg-green-200">
+                                                Sedang diproses
+                                            </div>
+                                        )
+                                    }
 
-                            console.log(temp)
-                            console.log('print temp');
-                        })
+                                } else {
 
-                        // for each object requestItem add request id is the id of the reqeust at that time;
-                        temp.forEach((data, index) => data.request_id = responseData.data[index].id)
+                                    for(let i = 0; i < data.requestItems.length; i++){
+                                        temp = [...temp, data.requestItems[i]]
+                                        temp[temp.length-1].requestId = responseData.data[index].id
+                                        if (!responseData.data[index].isFulfilled) {
+                                            temp[temp.length-1].keterangan = (
+                                                <div className="inline-block py-1 px-2 rounded-full text-red-800 bg-red-200">
+                                                    Belum terkonfirmasi
+                                                </div>
+                                            )
+                                        } else {
+                                            temp[temp.length-1].keterangan = (
+                                                <div className="inline-block py-1 px-2 tracking-wide text-xs md:text-sm rounded-full text-green-500 bg-green-200">
+                                                    Sedang diproses
+                                                </div>
+                                            )
+                                        }
+                                    }
 
-                        //for each object rquest id; jika foreach object di main data[] which object.isFulfillled itu 
-                        temp.forEach((data, index) => {
-                            if (responseData.data[index].isFulfilled) {
-                                return (
-                                    data.keterangan = (
-                                        <div className="inline-block py-1 px-2 rounded-full text-green-600 bg-green-200 text-center">
-                                            Sudah Diproses
-                                        </div>
-                                    )
-                                )
-                            } else {
-                                //else yang isFullfiled is false; belum terfulfill aka belum diprocess; 
-                                return (
-                                    data.keterangan = (
-                                        <div className="inline-block py-1 px-2 rounded-full text-red-800 bg-red-200 text-center">
-                                            Belum Diproses
-                                        </div>
-                                    )
-                                )
+                                }
+                                // temp = temp.concat(data.requestItems)
                             }
                         })
+                        console.log(temp)
+            // sendRequest(
+            //     `${process.env.REACT_APP_BACKEND_URL}/v1/requests/user/${auth.id}`,
+            //     'GET',
+            //     null,
+            //     { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
+            // ).then(responseData => {
+            //     // console.log(responseData)
+            //     // console.log('response data of request');
+            //     if (responseData) {
+            //         let temp = []
+            //         if (responseData.data) {
+            //             responseData.data.forEach(data => {
+            //                 data.requestItems.forEach(item => {
+            //                     //temp is each object of requestItems
+            //                     temp = [...temp, item]
+            //                 })
+            //                 // temp = [...temp, data.requestItems[0]]
+            //                 // temp = [data.requestItems[0]]
+
+            //                 console.log(temp)
+            //                 console.log('print temp');
+            //             })
+
+            //             // for each object requestItem add request id is the id of the reqeust at that time;
+            //             temp.forEach((data, index) => data.request_id = responseData.data[index].id)
+
+            //             //for each object rquest id; jika foreach object di main data[] which object.isFulfillled itu 
+            //             temp.forEach((data, index) => {
+            //                 if (responseData.data[index].isFulfilled) {
+            //                     return (
+            //                         data.keterangan = (
+            //                             <div className="inline-block py-1 px-2 rounded-full text-green-600 bg-green-200 text-center">
+            //                                 Sudah Diproses
+            //                             </div>
+            //                         )
+            //                     )
+            //                 } else {
+            //                     //else yang isFullfiled is false; belum terfulfill aka belum diprocess; 
+            //                     return (
+            //                         data.keterangan = (
+            //                             <div className="inline-block py-1 px-2 rounded-full text-red-800 bg-red-200 text-center">
+            //                                 Belum Diproses
+            //                             </div>
+            //                         )
+            //                     )
+            //                 }
+            //             })
 
                         temp.forEach((data) => {
 
                             data.update = (
-                                <WhiteButton width={120} onClick={() => update(data)} donasi={true} >
+                                <WhiteButton width={120} onClick={() => update(data)} >
                                     <AddCircle className="text-blue-800 mr-2 text-sm" style={styles.container(mediaQuery)} /><span style={styles2.container(mediaQuery)} className="text-sm">UPDATE</span>
                                 </WhiteButton>
                             )
@@ -140,8 +186,7 @@ const RiwayatPermohonan = () => {
     }, [auth.token, sendRequest])
 
     const update = (data) => {
-        console.log(data)
-        console.log('this update data');
+        // console.log(data)
         localStorage.setItem('selected', JSON.stringify(data))
         // let i
         // let x
@@ -185,6 +230,7 @@ const RiwayatPermohonan = () => {
                 </div>
             </div>
         </React.Fragment>
+        
     )
 }
 
