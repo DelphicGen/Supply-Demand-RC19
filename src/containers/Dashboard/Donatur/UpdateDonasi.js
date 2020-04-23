@@ -34,8 +34,8 @@ const UpdateDonasi = (props) => {
 
     const [unitList, setUnitList] = useState([])
     const [itemList, setItemList] = useState([])
-    const [selectedItemIndex, setSelectedItemIndex] = useState([])
-    const [selectedUnitIndex, setSelectedUnitIndex] = useState([])
+    // const [selectedItemIndex, setSelectedItemIndex] = useState([])
+    // const [selectedUnitIndex, setSelectedUnitIndex] = useState([])
     const [disable, setDisable] = useState(true)
     
     
