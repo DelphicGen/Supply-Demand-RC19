@@ -174,7 +174,7 @@ const InputBantuan = () => {
             <div className={`absolute right-0 p-2 rounded-bl-lg ${submit ? 'inline-block' : 'hidden'} ${check ? 'bg-green-200 text-green-500' : 'bg-red-200 text-red-800'}`}>
                 <strong>{check ? 'Berhasil, donasi Anda berhasil disimpan!' : 'Terjadi error, silakan coba lagi!'}</strong>
             </div>
-            <div className="p-8 py-4 block md:hidden md:text-left lg:pl-5 md:pl-3 inline-block bg-blue-700 rounded-r-lg">
+            <div className="p-8 py-4 block md:hidden md:text-left lg:pl-5 md:pl-3 inline-block bg-blue-700 rounded-b-lg sm:rounded-b-none sm:rounded-r-lg w-full sm:w-auto">
                 <h5 className="font-semibold text-md text-white">Dashboard Donatur </h5>
                 <h2 className="font-semibold text-lg text-white">{auth.name}</h2>
             </div>
@@ -206,7 +206,6 @@ const InputBantuan = () => {
                                                             id={'quantity'}
                                                             type={'text'}
                                                             value={ item.quantity }
-                                                            placeholder={`Masukkan kuantitas barang donasi`}
                                                             onChange={(event) => inputHandler(event, index)}
                                                             onBlur={() => handleBlur(index)} 
                                                         />

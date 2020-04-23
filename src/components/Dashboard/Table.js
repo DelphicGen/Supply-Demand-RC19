@@ -62,7 +62,7 @@ const Table = ({ columns, data, isLandingPage, pageToGo, donasi }) => {
                         {page.map((row, i) => {
                             prepareRow(row)
                             return (
-                            <tr {...row.getRowProps()} className={`border-b-2 border-r-4 border-l-4`}>
+                            <tr {...row.getRowProps()} className={`border-b-2 ${donasi ? 'border-r-2' : 'border-r-4'} border-l-4`}>
                                 {
                                     row.cells.map(cell => {
                                         if(cell.column.Header === 'No'){
@@ -83,7 +83,7 @@ const Table = ({ columns, data, isLandingPage, pageToGo, donasi }) => {
                     </table>
                 </div>
 
-                <div className="pagination text-right mt-2">
+                <div className={`pagination text-right mt-2 ${donasi ? 'w-full md:w-11/12' : 'w-full'}`}>
                     <button onClick={() => previousPage()} disabled={!canPreviousPage} className="font-semibold text-sm bg-gray-400 px-2 text-blue-800 h-6">
                     {'<'}
                     </button>

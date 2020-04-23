@@ -46,7 +46,7 @@ const App = () => {
         <Route path="/dashboard/donasi-saya" component={DonasiSaya} exact />
         <Route path="/dashboard/info-demand" component={InfoDemand} exact />
         <Route path="/dashboard/input-bantuan" component={InputBantuan} exact />
-        <Route path="/dashboard/donasi-saya/update" component={UpdateDonasi} exact />
+        <Route path="/dashboard/update-donasi/:donationId" component={UpdateDonasi} exact />
         <Redirect to='/' />
       </Switch>
     )

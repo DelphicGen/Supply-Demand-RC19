@@ -68,16 +68,16 @@ const InfoDemand = () => {
 
     return (
         <React.Fragment>
-            <div className="p-8 py-4 block md:hidden md:text-left lg:pl-5 md:pl-3 inline-block bg-blue-700 rounded-r-lg">
-                <h5 className="font-semibold text-md text-white">{`Dashboard Donatur`} </h5>
+            <div className="p-8 py-4 block md:hidden md:text-left lg:pl-5 md:pl-3 inline-block bg-blue-700 rounded-b-lg sm:rounded-b-none sm:rounded-r-lg w-full sm:w-auto">
+                <h5 className="font-semibold text-md text-white">Dashboard Donatur</h5>
                 <h2 className="font-semibold text-lg text-white">{auth.name}</h2>
             </div>
-            <div className="md:pt-0 pt-10 md:pb-0 pb-24 flex">
+            <div className="flex flex-row">
                 <Sidebar role="Donatur" name={auth.name} links={links} />
-                <div className="flex w-full flex-col md:p-12 sm:ml-6" style={{paddingLeft: '5px', paddingRight: '5px'}}>
+                <div className="p-8 pb-24 md:p-12 pl-2 pr-2 w-full lg:w-11/12">
                     <Title>Info Demand</Title>
                     <div className="h-2"></div>
-                    {isLoading ? <LoadingSpinner /> : <Table columns={ columns } data={ dataDemand } />}
+                    {isLoading ? <LoadingSpinner /> : <Table columns={ columns } data={ dataDemand } donasi={true} />}
                 </div>
             </div>
         </React.Fragment>

@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState} from 'react'
 import {Link} from 'react-router-dom'
 import {AuthContext} from '../../context/auth-context'
 import {useForm} from '../../hooks/form-hook'
@@ -9,7 +9,6 @@ import ErrorModal from '../../components/UI/ErrorModal'
 import VirusSVG from '../../components/UI/VirusSVG'
 import AuthTitle from '../../components/UI/AuthTitle'
 import TextInput from '../../components/Form/TextInput'
-import ErrorText from '../../components/UI/ErrorText'
 import Button from '../../components/UI/Button'
 import LoadingSpinner from '../../components/UI/LoadingSpinner'
 
@@ -27,6 +26,7 @@ const LoginPage = (props) => {
 
     const auth = useContext(AuthContext)
     const {isLoading, error, sendRequest, clearError} = useHttpClient()
+    const [loginError, setLoginError] = useState(false)
 
     const loginSubmit = event => {
         event.preventDefault()
@@ -39,23 +39,31 @@ const LoginPage = (props) => {
             }),
             {'Accept': 'application/json', 'Content-Type': 'application/json'}
         ).then((responseData) => {
-            auth.login(responseData.jwt, responseData.user.role, responseData.user.name, responseData.user.id, responseData.user.contact_person, responseData.user.contact_number)
+            if(responseData.error){
+                setLoginError(responseData.error)
+            } else {
+                auth.login(responseData.jwt, responseData.user.role, responseData.user.name, responseData.user.id, responseData.user.contact_person, responseData.user.contact_number)
             
-            let redirectLink = '/dashboard/tambah-barang'
-            
-            if(responseData.user.role === 'DONATOR'){
-                redirectLink = '/dashboard/donasi-saya'
-            } else if(responseData.user.role === 'APPLICANT'){
-                redirectLink = '/dashboard/riwayat-kebutuhan'
+                let redirectLink = '/dashboard/alokasi-bantuan'
+                
+                if(responseData.user.role === 'DONATOR'){
+                    redirectLink = '/dashboard/donasi-saya'
+                } else if(responseData.user.role === 'APPLICANT'){
+                    redirectLink = '/dashboard/riwayat-kebutuhan'
+                }
+                props.history.push(redirectLink)
             }
-
-            props.history.push(redirectLink)
         })
+    }
+
+    const clearLoginError = () => {
+        setLoginError(null)
     }
 
     return (
         <React.Fragment>
             <ErrorModal error={error} onClear={clearError} />
+            <ErrorModal error={loginError} onClear={clearLoginError} />
             <form className="flex items-center justify-center h-screen flex-col" onSubmit={loginSubmit}>
                 <div className="flex flex-row items-center mb-3">
                     <VirusSVG />

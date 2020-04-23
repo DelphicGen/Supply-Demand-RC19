@@ -13,7 +13,7 @@ import Table from '../../../components/Dashboard/Table'
 import WhiteButton from '../../../components/UI/WhiteButton'
 import Title from '../../../components/Dashboard/Title'
 
-const DonasiSaya = () => {
+const DonasiSaya = (props) => {
     const auth = useContext(AuthContext)
     const { isLoading, error, sendRequest, clearError } = useHttpClient()
     const requestError = error && 'Gagal memuat data, silakan coba lagi.'
@@ -28,11 +28,8 @@ const DonasiSaya = () => {
         {
             Header: 'Nama Barang',
             accessor: data => {
-                // console.log(data)
                 let output = []
-                // data.map(item => {
                     output.push(data.item.name)
-                // })
                 return output.join(', ')
             }
         },
@@ -40,9 +37,7 @@ const DonasiSaya = () => {
             Header: 'Stok',
             accessor: data => {
                 let output = []
-                // data.map(data => {
                     output.push(`${Math.round(data.quantity)} ${data.unit.name}`)
-                // })
                 return output.join(', ')
             }
         },
@@ -66,7 +61,6 @@ const DonasiSaya = () => {
                 null,
                 { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
             ).then(responseData => {
-                console.log(responseData)
                 if (responseData) {
                     let temp = []
                     if (responseData.data){
@@ -111,35 +105,13 @@ const DonasiSaya = () => {
                                     }
 
                                 }
-                                // temp = temp.concat(data.donationItems)
                             }
                         })
-                        console.log(temp)
-                        // temp.forEach((data, index) => data.donation_id = responseData.data[index].id)
-                        // temp.forEach((data, index) => {
-                        //     if (responseData.data[index].isDonated) {
-                        //         return (
-                        //             data.keterangan = (
-                        //                 <div className="inline-block py-1 px-2 rounded-full text-red-800 bg-red-200">
-                        //                     Habis
-                        //                 </div>
-                        //             )
-                        //         )
-                        //     } else {
-                        //         return (
-                        //             data.keterangan = (
-                        //                 <div className="inline-block py-1 px-2 tracking-wide text-xs md:text-sm rounded-full text-green-500 bg-green-200">
-                        //                     Ready
-                        //                 </div>
-                        //             )
-                        //         )
-                        //     }
-                        // })
 
                         temp.forEach((data) => {
 
                             data.update = (
-                                <WhiteButton width={120} onClick={() => update(data)} donasi={true} >
+                                <WhiteButton width={120} onClick={() => update(data.donation_id)} donasi={true} >
                                     <AddCircle className="text-blue-800 mr-2 text-sm" style={styles.container(mediaQuery)} /><span style={styles2.container(mediaQuery)} className="text-sm">UPDATE</span>
                                 </WhiteButton>
                             )
@@ -156,15 +128,9 @@ const DonasiSaya = () => {
         }
     }, [auth.token, sendRequest])
 
-    const update = (data) => {
-        console.log(data)
-        localStorage.setItem('selected', JSON.stringify(data))
-        history.push('/dashboard/donasi-saya/update')
+    const update = (donationId) => {
+        props.history.push(`/dashboard/update-donasi/${donationId}`)
     }
-
-    // useEffect(() => {
-    //     console.log(dataTable)
-    // }, [dataTable])
 
     let content = <LoadingSpinner />
     if (!isLoading) {
@@ -182,9 +148,9 @@ const DonasiSaya = () => {
                 <h5 className="font-semibold text-md text-white">Dashboard Donatur</h5>
                 <h2 className="font-semibold text-lg text-white">{auth.name}</h2>
             </div>
-            <div className="md:pt-0 pt-10 md:pb-0 pb-24 flex">
+            <div className="flex flex-row">
                 <Sidebar role="Donatur" name={auth.name} links={links} />
-                <div className="flex w-full flex-col md:p-12 sm:ml-6" style={{ paddingLeft: '5px', paddingRight: '5px' }}>
+                <div className="p-8 pb-24 md:p-12 pl-2 pr-2 w-full lg:w-11/12">
                     <Title>Donasi Saya</Title>
                     <div className="h-2"></div>
                     {content}
