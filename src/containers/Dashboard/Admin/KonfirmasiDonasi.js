@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState, useContext, useCallback } from 'react'
 import { ArrowForward } from '@material-ui/icons'
 import { links } from '../../../components/Dashboard/adminLink'
 import { AuthContext } from '../../../context/auth-context'
@@ -32,9 +32,7 @@ const KonfirmasiDonasi = () => {
             Header: 'Nama Barang',
             accessor: data => {
                 let output = []
-                data.donationItems.map(donation => {
-                    output.push(donation.item.name)
-                })
+                data.donationItems.map(donation => output.push(donation.item.name))
                 return output.join(', ')
             }
         },
@@ -42,9 +40,7 @@ const KonfirmasiDonasi = () => {
             Header: 'Stok',
             accessor: data => {
                 let output = []
-                data.donationItems.map(donation => {
-                    output.push(`${Math.round(donation.quantity)} ${donation.unit.name}`)
-                })
+                data.donationItems.map(donation => output.push(`${Math.round(donation.quantity)} ${donation.unit.name}`))
                 return output.join(', ')
             }
         },
@@ -56,7 +52,7 @@ const KonfirmasiDonasi = () => {
 
     const [dataTable, setDataTable] = useState([])
 
-    const confirm = (donationId) => {
+    const confirm = useCallback((donationId) => {
         setAcceptLoading(true)
         return fetch(`${process.env.REACT_APP_BACKEND_URL}/v1/donations/${donationId}/accept`, {
             method: 'PUT',
@@ -77,7 +73,7 @@ const KonfirmasiDonasi = () => {
                 setAcceptLoading(false)
             }
         })
-    }
+    }, [auth.token])
 
     useEffect(() => {
         const fetchItems = () => {
@@ -121,7 +117,7 @@ const KonfirmasiDonasi = () => {
         if (auth.token) {
             fetchItems()
         }
-    }, [auth.token, sendRequest])
+    }, [auth.token, sendRequest, confirm])
 
     const clearAcceptError = () => {
         setAcceptError(null)

@@ -1,8 +1,9 @@
-import React, {useState, useMemo, useContext, useEffect} from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import { links } from '../../../components/Dashboard/donaturLink'
 import {AuthContext} from '../../../context/auth-context'
 import {useHttpClient} from '../../../hooks/http-hook'
 
+import ErrorModal from '../../../components/UI/ErrorModal'
 import LoadingSpinner from '../../../components/UI/LoadingSpinner'
 import Sidebar from '../../../components/Dashboard/SideBar'
 import Table from '../../../components/Dashboard/Table'
@@ -10,7 +11,7 @@ import Title from '../../../components/Dashboard/Title'
 
 const InfoDemand = () => {
     const auth = useContext(AuthContext)
-    const {isLoading, error, sendRequest} = useHttpClient()
+    const {isLoading, error, sendRequest, clearError} = useHttpClient()
     const columns = [
         {
             Header: 'No',
@@ -20,9 +21,7 @@ const InfoDemand = () => {
             Header: 'Nama Barang',
             accessor: data => {
                 let output = []
-                data.requestItems.map(request => {
-                    output.push(request.item.name)
-                })
+                data.requestItems.map(request => output.push(request.item.name))
                 return output.join(', ')
             }
         },
@@ -30,19 +29,13 @@ const InfoDemand = () => {
             Header: 'Kuantitas',
             accessor: data => {
                 let output = []
-                data.requestItems.map(request => {
-                    output.push(`${Math.round(request.quantity)} ${request.unit.name}`)
-                })
+                data.requestItems.map(request => output.push(`${Math.round(request.quantity)} ${request.unit.name}`))
                 return output.join(', ')
             }
         }
     ]
 
     const [dataDemand, setDataDemand] = useState([])
-    
-    // useEffect(() => {
-    //     console.log(dataDemand)
-    // }, [dataDemand])
     
     useEffect(() => {
         const fetchItems = () => {
@@ -68,6 +61,7 @@ const InfoDemand = () => {
 
     return (
         <React.Fragment>
+            <ErrorModal error={error} onClear={clearError} />
             <div className="p-8 py-4 block md:hidden md:text-left lg:pl-5 md:pl-3 inline-block bg-blue-700 rounded-b-lg sm:rounded-b-none sm:rounded-r-lg w-full sm:w-auto">
                 <h5 className="font-semibold text-md text-white">Dashboard Donatur</h5>
                 <h2 className="font-semibold text-lg text-white">{auth.name}</h2>

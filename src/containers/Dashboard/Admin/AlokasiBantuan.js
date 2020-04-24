@@ -1,9 +1,8 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState, useContext, useCallback } from 'react'
 import { ArrowForward } from '@material-ui/icons'
 import { links } from '../../../components/Dashboard/adminLink'
 import { AuthContext } from '../../../context/auth-context'
 import { useHttpClient } from '../../../hooks/http-hook'
-import { useMediaQuery } from '../../../hooks/medquery-hook'
 
 import ErrorModal from '../../../components/UI/ErrorModal'
 import Sidebar from '../../../components/Dashboard/SideBar'
@@ -25,16 +24,14 @@ const AlokasiBantuan = (props) => {
             accessor: 'date'
         },
         {
-            Header: 'Nama Lembaga',
+            Header: 'Lembaga Pemohon',
             accessor: 'applicantName'
         },
         {
             Header: 'Barang Kebutuhan',
             accessor: data => {
                 let output = []
-                data.requestItems.map(request => {
-                    output.push(request.item.name)
-                })
+                data.requestItems.map(request => output.push(request.item.name))
                 return output.join(', ')
             }
         },
@@ -46,9 +43,9 @@ const AlokasiBantuan = (props) => {
 
     const [dataTable, setDataTable] = useState([])
 
-    const allocate = (reqId) => {
+    const allocate = useCallback((reqId) => {
         props.history.push(`/dashboard/alokasi/${reqId}`)
-    }
+    }, [props.history])
 
     useEffect(() => {
         const fetchItems = () => {
@@ -95,7 +92,7 @@ const AlokasiBantuan = (props) => {
         if (auth.token) {
             fetchItems()
         }
-    }, [auth.token, sendRequest])
+    }, [auth.token, sendRequest, allocate])
 
     const clearAcceptError = () => {
         setAcceptError(null)

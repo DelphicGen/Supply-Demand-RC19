@@ -74,7 +74,7 @@ const UpdateDonasi = (props) => {
             setDonasi(donasiTemp)
         })
 
-    }, [auth.token, sendRequest])
+    }, [auth.token, sendRequest, donationId])
 
     useEffect(() => {
         let tempDisable = false
@@ -187,7 +187,7 @@ const UpdateDonasi = (props) => {
                                                             className={`mb-3 inline-block w-full bg-gray-400 text-gray-700 p-2 rounded-md tex-sm font-semibold tracking-wide outline-none focus:shadow-outline focus:text-blue-700`}
                                                             id="quantity"
                                                             type="number"
-                                                            value={item.quantity % 1 == 0 ? Math.round(item.quantity) : item.quantity}
+                                                            value={item.quantity % 1 === 0 ? Math.round(item.quantity) : item.quantity}
                                                             onChange={(event) => inputHandler(event, index)}
                                                             onBlur={() => handleBlur(index)}
                                                         />
@@ -233,12 +233,6 @@ const styles = {
     container: mediaQuery => ({
         fontSize: mediaQuery ? '15' : '25'
     })
-};
-
-const styles2 = {
-    container: mediaQuery => ({
-        fontSize: mediaQuery && '10px'
-    })
-};
+}
 
 export default UpdateDonasi

@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { useParams } from 'react-router-dom'
-import ImageUploader from "react-images-upload"
 
 import { links } from '../../../components/Dashboard/adminLink'
 import { AuthContext } from '../../../context/auth-context'
@@ -18,11 +17,8 @@ import DatePicker from '../../../components/UI/DatePicker2'
 import Select from '../../../components/UI/Select'
 
 const InputAlokasi = (props) => {
-  // const [pictures, setPictures] = useState([])
-  // const [file, setFile] = useState('')
   const requestId = useParams().requestId
   const [requestInfo, setRequestInfo] = useState()
-  const [imagePreviewUrl, setImagePreviewUrl] = useState('')
   const [submitError, setSubmitError] = useState()
   const [itemList, setItemList] = useState([])
   const [unitList, setUnitList] = useState([])
@@ -72,26 +68,6 @@ const InputAlokasi = (props) => {
     fetchRequest()
   }, [requestId, sendRequest])
 
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault()
-  // }
-
-  // const handleImageChange = (e) =>  {
-  //   e.preventDefault()
-
-  //   let reader = new FileReader()
-  //   let file = e.target.files[0]
-
-  //   reader.onloadend = () => {
-
-  //     setFile(file)
-  //     setImagePreviewUrl(reader.result)
-  //   }
-
-  //   reader.readAsDataURL(file)
-  // }
-
   const submitHandler = () => {
     sendRequest(
       `${process.env.REACT_APP_BACKEND_URL}/v1/allocations`,
@@ -110,14 +86,10 @@ const InputAlokasi = (props) => {
       { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
     ).then(responseData => {
       console.log(responseData)
-      if(responseData.error){
+      if (responseData.error) {
         setSubmitError(responseData.error)
       }
     })
-  }
-
-  const fileUploadButton = () => {
-    document.getElementById('fileButton').click()
   }
 
   const changeItem = (item_id) => {
@@ -141,15 +113,6 @@ const InputAlokasi = (props) => {
     })
   }
 
-
-
-  let $imagePreview = null
-  if (imagePreviewUrl) {
-    $imagePreview = (<img className={`bg-gray-400 text-gray-700 rounded-md w-full  `}
-      style={{ width: 400, maxHeight: 300 }}
-      src={imagePreviewUrl} />)
-  }
-
   const clearSubmitError = () => {
     setSubmitError(null)
   }
@@ -168,8 +131,13 @@ const InputAlokasi = (props) => {
             <React.Fragment>
               <div className="mb-6">
                 {requestInfo.requestItems.map(request => (
-                  <div key={request.id} className="pb-1 mb-2 border-gray-500 border-solid border-b-2 inline-block">
-                    <p className="font-medium text-sm capitalize">{request.item.name}<span className="ml-12 pr-12">{(request.quantity % 1 === 0) ? Math.round(request.quantity) : request.quantity} {request.unit.name}</span></p>
+                  <div className="block" key={request.id}>
+                    <div className="pb-1 mb-2 border-gray-500 border-solid border-b-2 inline-block">
+                      <p className="font-medium text-sm capitalize">
+                        <span className="inline-block w-20">{request.item.name}</span>
+                        <span className="ml-6 w-20 mr-5 inline-block">{(request.quantity % 1 === 0) ? Math.round(request.quantity) : request.quantity} {request.unit.name}</span>
+                      </p>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -204,7 +172,7 @@ const InputAlokasi = (props) => {
               <DatePicker
                 label="Tanggal Penyerahan"
                 divClassName="lg:w-6/12 w-full mt-2 lg:mt-0"
-                onSelectChange={changeDate}/>
+                onSelectChange={changeDate} />
             </div>
           </form>
 

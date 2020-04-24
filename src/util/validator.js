@@ -51,7 +51,7 @@ export const validate = (value, validators) => {
       isValid = isValid && value === validator.val
     }
     if (validator.type === VALIDATOR_TYPE_TEL){
-      isValid = isValid && /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g.test(value)
+      isValid = isValid && /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s./0-9]*$/g.test(value)
     }
     if (validator.type === VALIDATOR_TYPE_NUMBER){
       isValid = isValid && /^(-?\d+\.\d+)$|^(-?\d+)$/g.test(value)

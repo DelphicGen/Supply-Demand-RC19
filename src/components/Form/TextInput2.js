@@ -1,4 +1,4 @@
-import React, {useReducer, useEffect, useState} from 'react'
+import React, {useReducer, useEffect} from 'react'
 import {validate} from '../../util/validator'
 import { useMediaQuery } from '../../hooks/medquery-hook'
 import { Delete } from '@material-ui/icons'

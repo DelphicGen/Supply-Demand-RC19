@@ -9,17 +9,11 @@ const MaterialUIPickers = (props) => {
   const handleChange = (date) =>  {
     setStartDate(date)
     if(props.onSelectChange) props.onSelectChange(date)
-    // console.log('dari date picker');
-    // console.log(date);
-
   }
 
-  useEffect( 
-
-    () => {
+  useEffect(() => {
       if(props.onSelectChange) props.onSelectChange(startDate)
-      console.log(startDate);
-    }, []
+    }, [props, startDate]
     
   );
 

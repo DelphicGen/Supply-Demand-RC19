@@ -1,5 +1,5 @@
 import React from 'react'
-import { Favorite, Create, CardGiftcard } from '@material-ui/icons';
+import { Favorite, Create } from '@material-ui/icons';
 
 export const links = [
     {

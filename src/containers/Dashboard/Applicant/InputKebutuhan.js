@@ -20,8 +20,6 @@ const InputKebutuhan = (props) => {
     const mediaQuery = useMediaQuery('(max-width: 600px)')
     const [unitList, setUnitList] = useState([])
     const [itemList, setItemList] = useState([])
-    const [check, setCheck] = useState(false)
-    const [submit, setSubmit] = useState(false)
     const { isLoading, error, sendRequest, clearError } = useHttpClient()
     const [submitError, setSubmitError] = useState()
     const auth = useContext(AuthContext)
@@ -72,7 +70,7 @@ const InputKebutuhan = (props) => {
             setKebutuhan(kebutuhanTemp)
 
         })
-    }, [auth.token, sendRequest])
+    }, [auth.token, sendRequest, kebutuhan])
 
     const changeItem = (item_id, index) => {
         let kebutuhanTemp = [...kebutuhan]
@@ -134,13 +132,9 @@ const InputKebutuhan = (props) => {
         ).then(responseData => {
             console.log(responseData)
             if (responseData.date != null) {
-                setSubmit(true)
-                setCheck(true)
                 props.history.push('/dashboard/riwayat-kebutuhan')
             }
             else {
-                setSubmit(true)
-                setCheck(false)
                 setSubmitError('Gagal menginput kebutuhan. Mohon coba lagi.')
             }
         })
@@ -209,7 +203,7 @@ const InputKebutuhan = (props) => {
                                 })
                             }
                         </form>
-                        <WhiteButton width={120} onClick={moreNeeds} width={200}>
+                        <WhiteButton width={120} onClick={moreNeeds}>
                             <AddCircle className="text-blue-800 mr-2 text-sm" style={styles.container(mediaQuery)} /><span style={styles2.container(mediaQuery)} className="text-sm">TAMBAH</span>
                         </WhiteButton>
                     </div>

@@ -1,10 +1,9 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect, useCallback } from 'react'
 import { links } from '../../../components/Dashboard/donaturLink'
 import { AuthContext } from '../../../context/auth-context'
 import { useHttpClient } from '../../../hooks/http-hook'
 import { AddCircle } from '@material-ui/icons'
-import { useHistory } from 'react-router-dom'
-import { useMediaQuery } from '../../../hooks/medquery-hook';
+import { useMediaQuery } from '../../../hooks/medquery-hook'
 
 import ErrorModal from '../../../components/UI/ErrorModal'
 import Sidebar from '../../../components/Dashboard/SideBar'
@@ -17,7 +16,6 @@ const DonasiSaya = (props) => {
     const auth = useContext(AuthContext)
     const { isLoading, error, sendRequest, clearError } = useHttpClient()
     const requestError = error && 'Gagal memuat data, silakan coba lagi.'
-    const history = useHistory()
     const mediaQuery = useMediaQuery('(max-width: 600px)')
 
     const columns = [
@@ -52,6 +50,10 @@ const DonasiSaya = (props) => {
     ]
 
     const [dataTable, setDataTable] = useState([])
+
+    const update = useCallback((donationId) => {
+        props.history.push(`/dashboard/update-donasi/${donationId}`)
+    }, [props.history])
 
     useEffect(() => {
         const fetchItems = () => {
@@ -126,11 +128,7 @@ const DonasiSaya = (props) => {
         if (auth.token) {
             fetchItems()
         }
-    }, [auth.token, sendRequest])
-
-    const update = (donationId) => {
-        props.history.push(`/dashboard/update-donasi/${donationId}`)
-    }
+    }, [auth.token, sendRequest, auth.id, mediaQuery, update])
 
     let content = <LoadingSpinner />
     if (!isLoading) {

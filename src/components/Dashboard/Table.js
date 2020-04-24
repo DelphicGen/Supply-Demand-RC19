@@ -13,7 +13,6 @@ const Table = ({ columns, data, isLandingPage, pageToGo, donasi }) => {
         canPreviousPage,
         canNextPage,
         pageOptions,
-        pageCount,
         gotoPage,
         nextPage,
         previousPage,
@@ -23,7 +22,6 @@ const Table = ({ columns, data, isLandingPage, pageToGo, donasi }) => {
           data,
         },usePagination)
     
-    const mediaQuery = useMediaQuery('(max-width: 1260px)');
     const mediaQuery2 = useMediaQuery('(max-width: 768px)');
 
     useEffect(() => {
@@ -114,18 +112,10 @@ const Table = ({ columns, data, isLandingPage, pageToGo, donasi }) => {
     )
 }
 
-const styles = {
-    container: mediaQuery => ({
-        margin: mediaQuery && '0',
-        display: mediaQuery ? 'inline-block' : 'inline',
-        width: mediaQuery ? '100%' : '10%'
-    })
-};
-
 const styles2 = {
     container: mediaQuery => ({
         paddingLeft: mediaQuery && '0'
     })
-};
+}
 
 export default Table

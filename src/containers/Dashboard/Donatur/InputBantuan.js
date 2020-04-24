@@ -74,7 +74,7 @@ const InputBantuan = () => {
             setDonasi(donasiTemp)
 
         })
-    }, [auth.token, sendRequest])
+    }, [auth.token, sendRequest, donasi])
 
     const changeItem = (item_id, index) => {
         let donasiTemp = [...donasi]
@@ -225,7 +225,7 @@ const InputBantuan = () => {
                                 })
                             }
                         </form>
-                        <WhiteButton width={120} onClick={moreDonation} donasi={true} width={200}>
+                        <WhiteButton width={120} onClick={moreDonation} donasi={true}>
                             <AddCircle className="text-blue-800 mr-2 text-sm" style={styles.container(mediaQuery)} /><span style={styles2.container(mediaQuery)} className="text-sm">TAMBAH</span>
                         </WhiteButton>
                     </div>
