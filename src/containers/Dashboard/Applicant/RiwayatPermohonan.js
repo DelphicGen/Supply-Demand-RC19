@@ -52,9 +52,8 @@ const RiwayatPermohonan = () => {
 
     const [dataTable, setDataTable] = useState([])
 
-    const update = useCallback((data) => {
-        localStorage.setItem('selected', JSON.stringify(data))
-        history.push('/dashboard/riwayat-kebutuhan/update')
+    const update = useCallback((id) => {
+        history.push(`/dashboard/update-kebutuhan/${id}`)
     }, [history])
 
     useEffect(() => {
@@ -65,7 +64,6 @@ const RiwayatPermohonan = () => {
                 null,
                 { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
             ).then(responseData => {
-                console.log(responseData)
                 if (responseData) {
                     let temp = []
                     if (responseData.data){
@@ -115,12 +113,11 @@ const RiwayatPermohonan = () => {
                         temp.forEach((data) => {
 
                             data.update = (
-                                <WhiteButton width={120} onClick={() => update(data)} >
+                                <WhiteButton width={120} onClick={() => update(data.requestId)} >
                                     <AddCircle className="text-blue-800 mr-2 text-sm" style={styles.container(mediaQuery)} /><span style={styles2.container(mediaQuery)} className="text-sm">UPDATE</span>
                                 </WhiteButton>
                             )
                         })
-
                         setDataTable(temp)
                     }
                 }

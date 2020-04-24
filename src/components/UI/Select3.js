@@ -6,7 +6,7 @@ const Select3 = props  => {
         <div className={`flex flex-col ${props.divClassName}`}>
             <select
                 value={props.value}
-                className={`w-full bg-gray-400 mb-3 bg-gray-400 text-gray-700 font-semibold outline-none p-2 rounded-md w-20 text-center capitalize`} 
+                className={`w-full bg-gray-400 mb-3 bg-gray-400 text-gray-700 font-semibold outline-none p-2 rounded-md w-20 text-center text-sm capitalize`} 
                 style={{width: props.width, maxWidth: props.maxWidth, height: 40}} 
                 onChange={e => {
                     props.changeUnit(e.target.value, props.index)

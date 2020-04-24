@@ -14,7 +14,6 @@ const NewPassword = React.lazy(() => import('./containers/Auth/NewPassword'))
 const InputAlokasi = React.lazy(() => import('./containers/Dashboard/Admin/InputAlokasi'))
 const TambahBarang = React.lazy(() => import('./containers/Dashboard/Admin/TambahBarang'))
 const AlokasiBantuan = React.lazy(() => import('./containers/Dashboard/Admin/AlokasiBantuan'))
-const KonfirmasiDonasi = React.lazy(() => import('./containers/Dashboard/Admin/KonfirmasiDonasi'))
 
 const InputKebutuhan = React.lazy(() => import('./containers/Dashboard/Applicant/InputKebutuhan'))
 const RiwayatPermohonan = React.lazy(() => import('./containers/Dashboard/Applicant/RiwayatPermohonan'))
@@ -57,7 +56,7 @@ const App = () => {
         <Route path="/" component={LandingPage} exact />
         <Route path="/dashboard/input-kebutuhan" component={InputKebutuhan} exact />
         <Route path="/dashboard/riwayat-kebutuhan" component={RiwayatPermohonan} exact />
-        <Route path="/dashboard/riwayat-kebutuhan/update" component={UpdateKebutuhan} exact />
+        <Route path="/dashboard/update-kebutuhan/:requestId" component={UpdateKebutuhan} exact />
         <Redirect to='/' />
       </Switch>
     )
@@ -69,7 +68,6 @@ const App = () => {
         <Route path="/dashboard/alokasi-bantuan" component={AlokasiBantuan} exact />
         <Route path="/dashboard/alokasi/:requestId" component={InputAlokasi} exact />
         <Route path="/dashboard/tambah-barang" component={TambahBarang} exact />
-        <Route path="/dashboard/konfirmasi-donasi" component={KonfirmasiDonasi} exact />
         <Redirect to='/' />
       </Switch>
     )

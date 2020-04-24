@@ -67,7 +67,6 @@ const RegisterPage = (props) => {
             }),
             { 'Accept': 'application/json', 'Content-Type': 'application/json' }
         ).then((responseData) => {
-            console.log(responseData)
             auth.login(responseData.jwt, responseData.user.role, responseData.user.name, responseData.user.id, responseData.user.contact_person, responseData.user.contact_number)
             let redirectLink = '/dashboard/tambah-barang'
 

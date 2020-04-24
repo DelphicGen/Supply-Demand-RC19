@@ -35,7 +35,6 @@ const InputBantuan = () => {
     const [disable, setDisable] = useState(true)
 
     useEffect(() => {
-        console.log(donasi)
         let tempDisable = false
         for(let i = 0; i < donasi.length; i++){
             if(donasi[i].quantity.length === 0){
@@ -74,7 +73,7 @@ const InputBantuan = () => {
             setDonasi(donasiTemp)
 
         })
-    }, [auth.token, sendRequest, donasi])
+    }, [auth.token, sendRequest])
 
     const changeItem = (item_id, index) => {
         let donasiTemp = [...donasi]
@@ -129,7 +128,7 @@ const InputBantuan = () => {
             delete tempItem['touch']
             donation.donationItems.push(tempItem)
         })
-        console.log(donation)
+
         sendRequest(
             `${process.env.REACT_APP_BACKEND_URL}/v1/donations`,
             'POST',
@@ -138,7 +137,6 @@ const InputBantuan = () => {
             ),
             {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
         ).then(responseData => {
-            console.log(responseData)
             if(responseData.id.length > 0){
                 // inputHandler("quantity", '', false)
                 setDonasi([{

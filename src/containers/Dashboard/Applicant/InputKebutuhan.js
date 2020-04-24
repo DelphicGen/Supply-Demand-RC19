@@ -70,7 +70,7 @@ const InputKebutuhan = (props) => {
             setKebutuhan(kebutuhanTemp)
 
         })
-    }, [auth.token, sendRequest, kebutuhan])
+    }, [auth.token, sendRequest])
 
     const changeItem = (item_id, index) => {
         let kebutuhanTemp = [...kebutuhan]
@@ -123,14 +123,12 @@ const InputKebutuhan = (props) => {
             delete tempItem['touch']
             needs.requestItems.push(tempItem)
         })
-        console.log(needs)
         sendRequest(
             `${process.env.REACT_APP_BACKEND_URL}/v1/requests`,
             'POST',
             JSON.stringify(needs),
             { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
         ).then(responseData => {
-            console.log(responseData)
             if (responseData.date != null) {
                 props.history.push('/dashboard/riwayat-kebutuhan')
             }

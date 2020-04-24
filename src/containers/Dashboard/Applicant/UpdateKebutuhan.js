@@ -1,10 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react'
+import {useParams} from 'react-router-dom'
 import { links } from '../../../components/Dashboard/pemohonLink'
 import { AuthContext } from '../../../context/auth-context'
 import { useHttpClient } from '../../../hooks/http-hook'
-import { useMediaQuery } from '../../../hooks/medquery-hook';
 import { useHistory } from 'react-router-dom'
-import { Delete } from '@material-ui/icons'
 
 import Select3 from '../../../components/UI/Select3'
 import Sidebar from '../../../components/Dashboard/SideBar'
@@ -15,8 +14,7 @@ import Select2 from '../../../components/UI/Select2'
 import ErrorModal from '../../../components/UI/ErrorModal'
 
 const UpdateRiwayat = (props) => {
-    const mediaQuery = useMediaQuery('(max-width: 600px)')
-    let data = JSON.parse(localStorage.getItem('selected'))
+    const requestId = useParams().requestId
     const auth = useContext(AuthContext)
     let history = useHistory()
     const { isLoading, error, sendRequest, clearError } = useHttpClient()
@@ -33,9 +31,8 @@ const UpdateRiwayat = (props) => {
     const [unitList, setUnitList] = useState([])
     const [itemList, setItemList] = useState([])
     const [disable, setDisable] = useState(true)
+    const [updateError, setUpdateError] = useState()
     useEffect(() => {
-        console.log(data);
-        console.log('isi object data from the row table');
         sendRequest(
             `${process.env.REACT_APP_BACKEND_URL}/v1/units`,
             'GET',
@@ -55,12 +52,11 @@ const UpdateRiwayat = (props) => {
         })
 
         sendRequest(
-            `${process.env.REACT_APP_BACKEND_URL}/v1/requests/${data.requestId}`,
+            `${process.env.REACT_APP_BACKEND_URL}/v1/requests/${requestId}`,
             'GET',
             null,
             { 'Accept': 'application/json', 'Content-Type': 'application/json' }
         ).then(responseData => {
-            console.log(responseData)
             let kebutuhanTemp = [...responseData.requestItems]
             kebutuhanTemp.forEach((item, i) => {
                 kebutuhanTemp[i].item = kebutuhanTemp[i].item.id
@@ -69,11 +65,9 @@ const UpdateRiwayat = (props) => {
             })
             setKebutuhan(kebutuhanTemp)
         })
-    }, [auth.token, sendRequest, data])
+    }, [auth.token, sendRequest, requestId])
 
     useEffect(() => {
-        console.log(kebutuhan)
-        console.log(data)
         let tempDisable = false
         for (let i = 0; i < kebutuhan.length; i++) {
             if (kebutuhan[i].quantity.length === 0) {
@@ -82,7 +76,7 @@ const UpdateRiwayat = (props) => {
             }
         }
         setDisable(tempDisable)
-    }, [kebutuhan, data])
+    }, [kebutuhan])
 
     const changeItem = (item_id, index) => {
         let kebutuhanTemp = [...kebutuhan]
@@ -108,12 +102,6 @@ const UpdateRiwayat = (props) => {
         setKebutuhan(tempKebutuhan)
     }
 
-    const deleteItem = (index) => {
-        let needsTemp = [...kebutuhan]
-        needsTemp.splice(index, 1)
-        setKebutuhan(needsTemp)
-    }
-
     const submitHandler = () => {
         let needs = {
             requestItems: [
@@ -129,25 +117,32 @@ const UpdateRiwayat = (props) => {
             delete tempItem['unit']
             needs.requestItems.push(tempItem)
         })
-        console.log(needs)
         sendRequest(
-            `${process.env.REACT_APP_BACKEND_URL}/v1/requests/${data.requestId}`,
+            `${process.env.REACT_APP_BACKEND_URL}/v1/requests/${requestId}`,
             'PUT',
             JSON.stringify(needs),
             { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
         ).then(responseData => {
-            console.log(responseData)
-            history.goBack()
+            if(responseData.error){
+                setUpdateError('Maaf, kebutuhan yang sudah dimasukkan ke dalam sistem tidak dapat dihapus.')
+            } else {
+                history.goBack()
+            }
         })
+    }
+
+    const clearUpdateError = () => {
+        setUpdateError(null)
     }
 
     return (
         <React.Fragment>
             <ErrorModal error={error} onClear={clearError} />
+            <ErrorModal error={updateError} onClear={clearUpdateError} />
             <div className="flex flex-row h-full w-full">
                 <Sidebar role="" name="PEMOHON" links={links} />
                 <div>
-                    <div className="flex w-full flex-col p-8 md:p-10">
+                    <div className="flex w-full flex-col p-8 md:p-10 md:pb-0">
                         <Title>Informasi Kebutuhan</Title>
                         <form className="mt-4">
                             {
@@ -170,7 +165,7 @@ const UpdateRiwayat = (props) => {
                                                             className={`mb-3 inline-block w-full bg-gray-400 text-gray-700 p-2 rounded-md tex-sm font-semibold tracking-wide outline-none focus:shadow-outline focus:text-blue-700`}
                                                             id={'quantity'}
                                                             type={'text'}
-                                                            value={item.quantity}
+                                                            value={(item.quantity % 1 === 0) ? Math.floor(item.quantity) : item.quantity}
                                                             placeholder={``}
                                                             onChange={(event) => inputHandler(event, index)}
                                                             onBlur={() => handleBlur(index)}
@@ -185,8 +180,6 @@ const UpdateRiwayat = (props) => {
                                                         value={item.unit}
                                                         index={index}
                                                     />
-                                                    <Delete className="text-gray-700 mr-2 ml-5 mt-2 text-sm lg:relative absolute top-0 right-0" style={styles.container(mediaQuery)} onClick={() => deleteItem(index)} />
-
                                                 </div>
                                             </div>
                                         </div>
@@ -212,10 +205,5 @@ const UpdateRiwayat = (props) => {
         </React.Fragment>
     )
 }
-const styles = {
-    container: mediaQuery => ({
-        fontSize: mediaQuery ? '15' : '25'
-    })
-};
 
 export default UpdateRiwayat

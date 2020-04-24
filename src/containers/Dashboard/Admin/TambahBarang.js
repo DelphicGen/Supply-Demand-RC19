@@ -106,7 +106,6 @@ const TambahBarang = () => {
             }
             setDeleteLoading(false)
         }).catch(err => {
-            console.log(err)
             setDeleteLoading(false)
         })
     }, [auth.token])

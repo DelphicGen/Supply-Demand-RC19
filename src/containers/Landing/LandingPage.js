@@ -20,11 +20,27 @@ const LandingPage = () => {
         },
         {
             Header: 'Nama Barang',
-            accessor: 'name'
+            accessor: data => {
+                let output = []
+                data.donationItems.map(donation => output.push(donation.item.name))
+                return output.join(', ')
+            }
         },
         {
             Header: 'Kuantitas',
-            accessor: data => `${Math.round(data.quantity)} ${data.unit}`
+            accessor: data => {
+                let output = []
+                data.donationItems.map(donation => output.push(`${donation.quantity % 1 === 0 ? Math.floor(donation.quantity) : donation.quantity} ${donation.unit.name}`))
+                return output.join(', ')
+            }
+        },
+        {
+            Header: 'Donatur',
+            accessor: 'donator'
+        },
+        {
+            Header: 'Kontak',
+            accessor: 'contact'
         }
     ]
 
@@ -48,6 +64,14 @@ const LandingPage = () => {
                 data.requestItems.map(request => output.push(`${Math.round(request.quantity)} ${request.unit.name}`))
                 return output.join(', ')
             }
+        },
+        {
+            Header: 'Lembaga Pemohon',
+            accessor: 'applicant'
+        },
+        {
+            Header: 'Kontak',
+            accessor: 'contact'
         }
     ]
 
@@ -79,20 +103,26 @@ const LandingPage = () => {
             let temp = []
             if (responseData.data) {
                 responseData.data.forEach(data => {
-                    temp = [...temp, { requestItems: data.requestItems }]
+                    temp = [...temp, { requestItems: data.requestItems, applicant: data.donationApplicant.name, contact: data.donationApplicant.contact_number }]
                 })
                 setDataDemand(temp)
             }
         }, [sendRequest])
 
         sendRequest(
-            `${process.env.REACT_APP_BACKEND_URL}/v1/stocks?page=1&size=10000`,
+            `${process.env.REACT_APP_BACKEND_URL}/v1/donations?page=1&size=10000`,
             'GET',
             null,
             { 'Accept': 'application/json', 'Content-Type': 'application/json' }
         ).then(responseData => {
-            if (responseData) {
-                setDataStock(responseData.data)
+            let temp = []
+            if(responseData.data){
+                responseData.data.forEach(data => {
+                    if(data.donationItems){
+                        temp = [...temp, {donationItems: data.donationItems, donator: data.donator.name, contact: data.donator.contact_number}]
+                    }
+                })
+                setDataStock(temp)
             }
         })
     }, [sendRequest])
