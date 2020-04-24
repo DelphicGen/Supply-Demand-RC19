@@ -11,7 +11,6 @@ import Table from '../../../components/Dashboard/Table'
 import WhiteButton from '../../../components/UI/WhiteButton'
 import Title from '../../../components/Dashboard/Title'
 import LoadingSpinner from '../../../components/UI/LoadingSpinner'
-// import UpdateDonasi from './UpdateDonasi'
 
 const RiwayatPermohonan = () => {
     const auth = useContext(AuthContext)
@@ -28,11 +27,8 @@ const RiwayatPermohonan = () => {
             {
                 Header: 'Nama Barang',
                 accessor: data => {
-                    // console.log(data)
                     let output = []
-                    // data.map(item => {
                         output.push(data.item.name)
-                    // })
                     return output.join(', ')
                 }
             },
@@ -40,9 +36,7 @@ const RiwayatPermohonan = () => {
                 Header: 'Stok',
                 accessor: data => {
                     let output = []
-                    // data.map(data => {
                         output.push(`${Math.round(data.quantity)} ${data.unit.name}`)
-                    // })
                     return output.join(', ')
                 }
             },
@@ -58,8 +52,6 @@ const RiwayatPermohonan = () => {
     )
 
     const [dataTable, setDataTable] = useState([])
-    // const [unitList, setUnitList] = useState([])
-    // const [itemList, setItemList] = useState([])
 
     useEffect(() => {
         const fetchItems = () => {
@@ -113,57 +105,8 @@ const RiwayatPermohonan = () => {
                                     }
 
                                 }
-                                // temp = temp.concat(data.requestItems)
                             }
                         })
-                        console.log(temp)
-            // sendRequest(
-            //     `${process.env.REACT_APP_BACKEND_URL}/v1/requests/user/${auth.id}`,
-            //     'GET',
-            //     null,
-            //     { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
-            // ).then(responseData => {
-            //     // console.log(responseData)
-            //     // console.log('response data of request');
-            //     if (responseData) {
-            //         let temp = []
-            //         if (responseData.data) {
-            //             responseData.data.forEach(data => {
-            //                 data.requestItems.forEach(item => {
-            //                     //temp is each object of requestItems
-            //                     temp = [...temp, item]
-            //                 })
-            //                 // temp = [...temp, data.requestItems[0]]
-            //                 // temp = [data.requestItems[0]]
-
-            //                 console.log(temp)
-            //                 console.log('print temp');
-            //             })
-
-            //             // for each object requestItem add request id is the id of the reqeust at that time;
-            //             temp.forEach((data, index) => data.request_id = responseData.data[index].id)
-
-            //             //for each object rquest id; jika foreach object di main data[] which object.isFulfillled itu 
-            //             temp.forEach((data, index) => {
-            //                 if (responseData.data[index].isFulfilled) {
-            //                     return (
-            //                         data.keterangan = (
-            //                             <div className="inline-block py-1 px-2 rounded-full text-green-600 bg-green-200 text-center">
-            //                                 Sudah Diproses
-            //                             </div>
-            //                         )
-            //                     )
-            //                 } else {
-            //                     //else yang isFullfiled is false; belum terfulfill aka belum diprocess; 
-            //                     return (
-            //                         data.keterangan = (
-            //                             <div className="inline-block py-1 px-2 rounded-full text-red-800 bg-red-200 text-center">
-            //                                 Belum Diproses
-            //                             </div>
-            //                         )
-            //                     )
-            //                 }
-            //             })
 
                         temp.forEach((data) => {
 
@@ -186,23 +129,7 @@ const RiwayatPermohonan = () => {
     }, [auth.token, sendRequest])
 
     const update = (data) => {
-        // console.log(data)
         localStorage.setItem('selected', JSON.stringify(data))
-        // let i
-        // let x
-        // console.log(list1)
-        // for([i, x] of itemList.entries()){
-        //     if(x.name === data.item){
-        //         localStorage.setItem('selectedItemIndex', JSON.stringify({itemIndex: i}))
-        //         break;
-        //     }
-        // }
-        // for([i, x] of unitList.entries()){
-        //     if(x.name === data.unit){
-        //         localStorage.setItem('selectedUnitIndex', JSON.stringify({unitIndex: i}))
-        //         break;
-        //     }
-        // }
         history.push('/dashboard/riwayat-kebutuhan/update')
     }
 
@@ -217,8 +144,8 @@ const RiwayatPermohonan = () => {
 
     return (
         <React.Fragment>
-            <div className="p-8 py-4 block md:hidden md:text-left lg:pl-5 md:pl-3 inline-block bg-blue-700 rounded-r-lg">
-                <h5 className="font-semibold text-md text-white">{`Dashboard Pemohon`} </h5>
+            <div className="p-8 py-4 block md:hidden md:text-left lg:pl-5 md:pl-3 inline-block bg-blue-700 rounded-b-lg sm:rounded-b-none sm:rounded-r-lg w-full sm:w-auto">
+                <h5 className="font-semibold text-md text-white">Dashboard Pemohon</h5>
                 <h2 className="font-semibold text-lg text-white">{auth.name}</h2>
             </div>
             <div className="flex flex-row">

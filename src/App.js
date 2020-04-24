@@ -18,7 +18,7 @@ const KonfirmasiDonasi = React.lazy(() => import('./containers/Dashboard/Admin/K
 
 const InputKebutuhan = React.lazy(() => import('./containers/Dashboard/Applicant/InputKebutuhan'))
 const RiwayatPermohonan = React.lazy(() => import('./containers/Dashboard/Applicant/RiwayatPermohonan'))
-const UpdateRiwayat = React.lazy(() => import('./containers/Dashboard/Applicant/UpdateRiwayat'))
+const UpdateKebutuhan = React.lazy(() => import('./containers/Dashboard/Applicant/UpdateKebutuhan'))
 
 const DonasiSaya = React.lazy(() => import('./containers/Dashboard/Donatur/DonasiSaya'))
 const InfoDemand = React.lazy(() => import('./containers/Dashboard/Donatur/InfoDemand'))
@@ -57,7 +57,7 @@ const App = () => {
         <Route path="/" component={LandingPage} exact />
         <Route path="/dashboard/input-kebutuhan" component={InputKebutuhan} exact />
         <Route path="/dashboard/riwayat-kebutuhan" component={RiwayatPermohonan} exact />
-        <Route path="/dashboard/riwayat-kebutuhan/update" component={UpdateRiwayat} exact />
+        <Route path="/dashboard/riwayat-kebutuhan/update" component={UpdateKebutuhan} exact />
         <Redirect to='/' />
       </Switch>
     )

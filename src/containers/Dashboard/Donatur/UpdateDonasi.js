@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import {useParams} from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { links } from '../../../components/Dashboard/donaturLink'
 import { AuthContext } from '../../../context/auth-context'
 import { useHttpClient } from '../../../hooks/http-hook'
@@ -18,7 +18,7 @@ import Select2 from '../../../components/UI/Select2'
 const UpdateDonasi = (props) => {
     const donationId = useParams().donationId
     const mediaQuery = useMediaQuery('(max-width: 600px)')
-    const [donationInfo, setDonationInfo] = useState()
+    const [submitError, setSubmitError] = useState()
     const auth = useContext(AuthContext)
     let history = useHistory()
     const { isLoading, error, sendRequest, clearError } = useHttpClient()
@@ -37,9 +37,9 @@ const UpdateDonasi = (props) => {
     // const [selectedItemIndex, setSelectedItemIndex] = useState([])
     // const [selectedUnitIndex, setSelectedUnitIndex] = useState([])
     const [disable, setDisable] = useState(true)
-    
-    
-    
+
+
+
     useEffect(() => {
         sendRequest(
             `${process.env.REACT_APP_BACKEND_URL}/v1/units`,
@@ -78,8 +78,8 @@ const UpdateDonasi = (props) => {
 
     useEffect(() => {
         let tempDisable = false
-        for(let i = 0; i < donasi.length; i++){
-            if(donasi[i].quantity.length === 0){
+        for (let i = 0; i < donasi.length; i++) {
+            if (donasi[i].quantity.length === 0) {
                 tempDisable = true
                 break
             }
@@ -138,65 +138,80 @@ const UpdateDonasi = (props) => {
             'PUT',
             JSON.stringify(donation),
             { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
-        ).then(() => {
-            history.goBack()
+        ).then((responseData) => {
+            if(responseData.error){
+                setSubmitError('Maaf, donasi yang sudah dimasukkan ke dalam sistem tidak dapat dihapus.')
+            } else {
+                history.goBack()
+            }
         })
     }
 
-    return(
-        <div className="flex flex-row h-full w-full">
-            <Sidebar role="Donatur" name={auth.name} links={links} />
+    const clearSubmitError = () => {
+        setSubmitError(null)
+    }
 
-            <div>
+    return (
+        <React.Fragment>
+            <ErrorModal error={error} onClear={clearError} />
+            <ErrorModal error={submitError} onClear={clearSubmitError} />
+            <div className="p-8 py-4 block md:hidden md:text-left lg:pl-5 md:pl-3 inline-block bg-blue-700 rounded-b-lg sm:rounded-b-none sm:rounded-r-lg w-full sm:w-auto">
+                <h5 className="font-semibold text-md text-white">Dashboard Donatur</h5>
+                <h2 className="font-semibold text-lg text-white">{auth.name}</h2>
+            </div>
+            <div className="flex flex-row h-full w-full">
+                <Sidebar role="Donatur" name={auth.name} links={links} />
 
-                <div className="flex w-full flex-col p-8 md:p-10">
-                    <Title>Informasi Barang</Title>
-                    <form className="mt-4">
-                    {
-                        donasi.map((item, index) => {
-                            return(
-                                <div key={index} className="flex flex-col lg:flex-row w-full mb-5 lg:border-none lg:shadow-none border-gray-700 rounded-md shadow-xl lg:p-0 p-4 relative">
-                                    <Select2
-                                        label="Jenis Barang"
-                                        divClassName="mr-3 lg:w-6/12 w-full mt-2 lg:mt-0"
-                                        list={ itemList }
-                                        changeItem={ changeItem }
-                                        value={ item.item }
-                                        index={ index }
-                                    />
-                                    <div className={`flex flex-col lg:w-1/2 w-full`}>
-                                        <label className="text-gray-700 tracking-wide font-medium text-sm md:text-base my-1">Kuantitas</label>
-                                        <div className="flex">
-                                            <div className="w-1/2">
-                                                <input
-                                                    className={`mb-3 inline-block w-full bg-gray-400 text-gray-700 p-2 rounded-md tex-sm font-semibold tracking-wide outline-none focus:shadow-outline focus:text-blue-700`} 
-                                                    id={'quantity'}
-                                                    type={'text'}
-                                                    value={ item.quantity % 1 == 0 ? Math.round(item.quantity) : item.quantity }
-                                                    onChange={(event) => inputHandler(event, index)}
-                                                    onBlur={() => handleBlur(index)} 
-                                                />
+                <div>
 
-                                                {item.quantity.length === 0 && item.touch === true && <p className="text-xs text-red-800 font-medium tracking-wider mb-3">Mohon masukkan kuantitas barang.</p>}
-                                            </div>
-                                            <Select3
-                                                divClassName="ml-2 w-1/2 inline-block"
-                                                list={ unitList }
-                                                changeUnit={ changeUnit } 
-                                                value={ item.unit }
-                                                index={ index }
+                    <div className="flex w-full flex-col p-8 md:p-10 md:pb-0">
+                        <Title>Informasi Barang</Title>
+                        <form className="mt-4">
+                            {
+                                donasi.map((item, index) => {
+                                    return (
+                                        <div key={index} className="flex flex-col lg:flex-row w-full mb-5 lg:border-none lg:shadow-none border-gray-700 rounded-md shadow-xl lg:p-0 p-4 relative">
+                                            <Select2
+                                                label="Jenis Barang"
+                                                divClassName="mr-3 lg:w-6/12 w-full mt-2 lg:mt-0"
+                                                list={itemList}
+                                                changeItem={changeItem}
+                                                value={item.item}
+                                                index={index}
                                             />
-                                            <Delete className="text-gray-700 mr-2 ml-5 mt-2 text-sm lg:relative absolute top-0 right-0 cursor-pointer" style={styles.container(mediaQuery)} onClick={() => deleteItem(index)} />
-                                            
+                                            <div className={`flex flex-col lg:w-1/2 w-full`}>
+                                                <label className="text-gray-700 tracking-wide font-medium text-sm md:text-base my-1">Kuantitas</label>
+                                                <div className="flex">
+                                                    <div className="w-1/2">
+                                                        <input
+                                                            className={`mb-3 inline-block w-full bg-gray-400 text-gray-700 p-2 rounded-md tex-sm font-semibold tracking-wide outline-none focus:shadow-outline focus:text-blue-700`}
+                                                            id="quantity"
+                                                            type="number"
+                                                            value={item.quantity % 1 == 0 ? Math.round(item.quantity) : item.quantity}
+                                                            onChange={(event) => inputHandler(event, index)}
+                                                            onBlur={() => handleBlur(index)}
+                                                        />
+
+                                                        {item.quantity.length === 0 && item.touch === true && <p className="text-xs text-red-800 font-medium tracking-wider mb-3">Mohon masukkan kuantitas barang.</p>}
+                                                    </div>
+                                                    <Select3
+                                                        divClassName="ml-2 w-1/2 inline-block"
+                                                        list={unitList}
+                                                        changeUnit={changeUnit}
+                                                        value={item.unit}
+                                                        index={index}
+                                                    />
+                                                    <Delete className="text-gray-700 mr-2 ml-5 mt-2 text-sm lg:relative absolute top-0 right-0 cursor-pointer" style={styles.container(mediaQuery)} onClick={() => deleteItem(index)} />
+
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                            )
-                        })
-                    }
-                    </form>
-                </div>
-                <div className="md:ml-10 ml-8">
+                                    )
+                                })
+                            }
+                        </form>
+                    </div>
+                    <div className="md:ml-10 ml-8">
                         <Button
                             width={200}
                             type="submit"
@@ -204,12 +219,13 @@ const UpdateDonasi = (props) => {
                             disabled={disable}
                         >
                             {
-                                isLoading ? <LoadingSpinner color="white" style={{transform: 'translateY(-3px)'}} /> : 'SUBMIT'
-                            } 
+                                isLoading ? <LoadingSpinner color="white" style={{ transform: 'translateY(-3px)' }} /> : 'SUBMIT'
+                            }
                         </Button>
                     </div>
+                </div>
             </div>
-        </div>
+        </React.Fragment>
     )
 }
 
