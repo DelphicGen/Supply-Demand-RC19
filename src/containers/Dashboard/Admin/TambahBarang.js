@@ -1,11 +1,11 @@
-import React, {useEffect, useState, useContext, useCallback} from 'react'
-import {AddCircle, Delete} from '@material-ui/icons'
-import {links} from '../../../components/Dashboard/adminLink'
-import {AuthContext} from '../../../context/auth-context'
-import {useForm} from '../../../hooks/form-hook'
-import {useHttpClient} from '../../../hooks/http-hook'
-import {useMediaQuery} from '../../../hooks/medquery-hook'
-import {VALIDATOR_REQUIRE} from '../../../util/validator'
+import React, { useEffect, useState, useContext, useCallback } from 'react'
+import { AddCircle, Delete } from '@material-ui/icons'
+import { links } from '../../../components/Dashboard/adminLink'
+import { AuthContext } from '../../../context/auth-context'
+import { useForm } from '../../../hooks/form-hook'
+import { useHttpClient } from '../../../hooks/http-hook'
+import { useMediaQuery } from '../../../hooks/medquery-hook'
+import { VALIDATOR_REQUIRE } from '../../../util/validator'
 
 import ErrorModal from '../../../components/UI/ErrorModal'
 import Sidebar from '../../../components/Dashboard/SideBar'
@@ -30,7 +30,7 @@ const TambahBarang = () => {
             Header: '',
             accessor: 'delete'
         }
-    ]  
+    ]
     const unitColumns = [
         {
             Header: 'No',
@@ -50,9 +50,11 @@ const TambahBarang = () => {
     const [units, setUnits] = useState([])
     const [itemPage, setItemPage] = useState(0)
     const [unitPage, setUnitPage] = useState(0)
+    const [itemError, setItemError] = useState()
+    const [unitError, setUnitError] = useState()
     const [deleteLoading, setDeleteLoading] = useState(false)
     const [deleteError, setDeleteError] = useState(false)
-	const [table, setTable] = useState('item')
+    const [table, setTable] = useState('item')
     const [formState, inputHandler] = useForm({
         itemName: {
             value: '',
@@ -63,7 +65,7 @@ const TambahBarang = () => {
             isValid: false
         }
     }, false)
-    const {isLoading, error, sendRequest, clearError} = useHttpClient()
+    const { isLoading, error, sendRequest, clearError } = useHttpClient()
     const auth = useContext(AuthContext)
 
     const deleteItem = useCallback(id => {
@@ -71,14 +73,14 @@ const TambahBarang = () => {
         return fetch(`${process.env.REACT_APP_BACKEND_URL}/v1/items/${id}`, {
             method: 'DELETE',
             headers: {
-                'Accept': 'application/json', 
-                'Content-Type': 'application/json', 
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${auth.token}`
             }
         }).then((res) => {
             return res.text()
         }).then(text => {
-            if(!text.length){
+            if (!text.length) {
                 setItems(prevItem => prevItem.filter(item => item.id !== id))
             } else {
                 setDeleteError('Maaf, barang tidak dapat dihapus karena masalah koneksi internet atau sedang digunakan dalam proses supply atau demand.')
@@ -92,14 +94,14 @@ const TambahBarang = () => {
         return fetch(`${process.env.REACT_APP_BACKEND_URL}/v1/units/${id}`, {
             method: 'DELETE',
             headers: {
-                'Accept': 'application/json', 
-                'Content-Type': 'application/json', 
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${auth.token}`
             }
         }).then((res) => {
             return res.text()
         }).then(text => {
-            if(!text.length){
+            if (!text.length) {
                 setUnits(prevUnit => prevUnit.filter(unit => unit.id !== id))
             } else {
                 setDeleteError('Maaf, satuan tidak dapat dihapus karena masalah koneksi internet atau sedang digunakan dalam proses supply atau demand.')
@@ -111,52 +113,52 @@ const TambahBarang = () => {
     }, [auth.token])
 
     useEffect(() => {
-       const fetchItems = () => {
-           sendRequest(
-            `${process.env.REACT_APP_BACKEND_URL}/v1/items`,
-            'GET',
-            null,
-            {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
-           ).then(responseData => {
-               if(responseData){
-                responseData.forEach(data => data.delete = (
-                    <WhiteButton width={120} onClick={() => deleteItem(data.id)}>
-                        <Delete className="text-blue-800 mr-2" fontSize="inherit" /><span className="text-sm pt-1">HAPUS</span>
-                    </WhiteButton>
-                ))
-                setItems(responseData)
-               }
-           })
-       }
+        const fetchItems = () => {
+            sendRequest(
+                `${process.env.REACT_APP_BACKEND_URL}/v1/items`,
+                'GET',
+                null,
+                { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
+            ).then(responseData => {
+                if (responseData) {
+                    responseData.forEach(data => data.delete = (
+                        <WhiteButton width={120} onClick={() => deleteItem(data.id)}>
+                            <Delete className="text-blue-800 mr-2" fontSize="inherit" /><span className="text-sm pt-1">HAPUS</span>
+                        </WhiteButton>
+                    ))
+                    setItems(responseData)
+                }
+            })
+        }
 
-       if(auth.token){
+        if (auth.token) {
             fetchItems()
-       }
+        }
     }, [auth.token, sendRequest, deleteItem])
 
     useEffect(() => {
         const fetchUnits = () => {
             sendRequest(
-             `${process.env.REACT_APP_BACKEND_URL}/v1/units`,
-             'GET',
-             null,
-             {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
+                `${process.env.REACT_APP_BACKEND_URL}/v1/units`,
+                'GET',
+                null,
+                { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
             ).then(responseData => {
-                if(responseData){
-                 responseData.forEach(data => data.delete = (
-                     <WhiteButton width={120} onClick={() => deleteUnit(data.id)}>
-                         <Delete className="text-blue-800 mr-2" fontSize="inherit" /><span className="text-sm pt-1">HAPUS</span>
-                     </WhiteButton>
-                 ))
-                 setUnits(responseData)
+                if (responseData) {
+                    responseData.forEach(data => data.delete = (
+                        <WhiteButton width={120} onClick={() => deleteUnit(data.id)}>
+                            <Delete className="text-blue-800 mr-2" fontSize="inherit" /><span className="text-sm pt-1">HAPUS</span>
+                        </WhiteButton>
+                    ))
+                    setUnits(responseData)
                 }
             })
         }
- 
-        if(auth.token){
-             fetchUnits()
+
+        if (auth.token) {
+            fetchUnits()
         }
-     }, [auth.token, sendRequest, deleteUnit])
+    }, [auth.token, sendRequest, deleteUnit])
 
     const addItem = event => {
         event.preventDefault()
@@ -166,18 +168,22 @@ const TambahBarang = () => {
             JSON.stringify({
                 name: formState.inputs.itemName.value
             }),
-            {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
+            { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
         ).then(responseData => {
-            setItems(prevItem => prevItem.concat({
-                id: responseData.id,
-                name: responseData.name,
-                delete: (
-                    <WhiteButton width={120} onClick={() => deleteItem(responseData.id)}>
-                        <Delete className="text-blue-800 mr-2" fontSize="inherit" /><span className="text-sm pt-1">HAPUS</span>
-                    </WhiteButton>
-                )
-            }))
-            setItemPage(items.length)
+            if (responseData.error) {
+                setItemError(responseData.error)
+            } else {
+                setItems(prevItem => prevItem.concat({
+                    id: responseData.id,
+                    name: responseData.name,
+                    delete: (
+                        <WhiteButton width={120} onClick={() => deleteItem(responseData.id)}>
+                            <Delete className="text-blue-800 mr-2" fontSize="inherit" /><span className="text-sm pt-1">HAPUS</span>
+                        </WhiteButton>
+                    )
+                }))
+                setItemPage(items.length)
+            }
         })
     }
 
@@ -189,22 +195,26 @@ const TambahBarang = () => {
             JSON.stringify({
                 name: formState.inputs.unit.value
             }),
-            {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
+            { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
         ).then(responseData => {
-            setUnits(prevUnit => prevUnit.concat({
-                id: responseData.id,
-                name: responseData.name,
-                delete: (
-                    <WhiteButton width={120} onClick={() => deleteUnit(responseData.id)}>
-                        <Delete className="text-blue-800 mr-2" fontSize="inherit" /><span className="text-sm pt-1">HAPUS</span>
-                    </WhiteButton>
-                )
-            }))
-            setUnitPage(units.length)
+            if(responseData.error){
+                setUnitError(responseData.error)
+            } else {
+                setUnits(prevUnit => prevUnit.concat({
+                    id: responseData.id,
+                    name: responseData.name,
+                    delete: (
+                        <WhiteButton width={120} onClick={() => deleteUnit(responseData.id)}>
+                            <Delete className="text-blue-800 mr-2" fontSize="inherit" /><span className="text-sm pt-1">HAPUS</span>
+                        </WhiteButton>
+                    )
+                }))
+                setUnitPage(units.length)
+            }
         })
     }
-	
-	const radioChangeHandler = (event) => {
+
+    const radioChangeHandler = (event) => {
         setTable(event.target.value)
     }
 
@@ -212,10 +222,20 @@ const TambahBarang = () => {
         setDeleteError(null)
     }
 
-    return(
+    const clearItemError = () => {
+        setItemError(null)
+    }
+
+    const clearUnitError = () => {
+        setUnitError(null)
+    }
+
+    return (
         <React.Fragment>
             <ErrorModal error={error} onClear={clearError} />
             <ErrorModal error={deleteError} onClear={clearDeleteError} />
+            <ErrorModal error={itemError} onClear={clearItemError} />
+            <ErrorModal error={unitError} onClear={clearUnitError} />
             <div className="flex flex-row">
                 <Sidebar role="" name="ADMIN" links={links} />
 
@@ -234,11 +254,11 @@ const TambahBarang = () => {
                             errorText="Mohon masukkan nama barang."
                             width={300} />
                         <WhiteButton width={125} type="submit" className="md:mt-3">
-                            {!isLoading ? 
+                            {!isLoading ?
                                 <React.Fragment>
                                     <AddCircle className="text-blue-800 mr-2" fontSize="inherit" /> <span className="text-sm pt-1">TAMBAH</span>
-                                </React.Fragment> : 
-                                <LoadingSpinner style={{transform: 'translateY(-3px)'}} />
+                                </React.Fragment> :
+                                <LoadingSpinner style={{ transform: 'translateY(-3px)' }} />
                             }
                         </WhiteButton>
                     </form>
@@ -257,8 +277,8 @@ const TambahBarang = () => {
                             errorText="Mohon masukkan satuan."
                             width={300} />
                         <WhiteButton width={125} type="submit" className="md:mt-3">
-                            {(isLoading || deleteLoading) ? 
-                                <LoadingSpinner style={{transform: 'translateY(-3px)'}} /> :
+                            {(isLoading || deleteLoading) ?
+                                <LoadingSpinner style={{ transform: 'translateY(-3px)' }} /> :
                                 <React.Fragment>
                                     <AddCircle className="text-blue-800 mr-2" fontSize="inherit" /> <span className="text-sm pt-1">TAMBAH</span>
                                 </React.Fragment>
@@ -266,7 +286,7 @@ const TambahBarang = () => {
                         </WhiteButton>
                     </form>
                     }
-                    
+
                     <div className="flex flex-row my-3">
                         <RadioInput
                             changed={radioChangeHandler}

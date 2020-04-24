@@ -12,7 +12,7 @@ const Select = (props) => {
 
   return (
     <div className={`flex flex-col ${props.divClassName}`}>
-      <label htmlFor={props.id} className="text-gray-700 tracking-wide font-medium text-sm md:text-base my-1">{props.label}</label>
+      {props.landingPage && <label htmlFor={props.id} className="text-gray-700 tracking-wide font-medium text-sm md:text-base my-1">{props.label}</label>}
       <select
         value={props.value || selectedData}
         className={`w-full bg-gray-400 mb-3 bg-gray-400 text-gray-700 p-2 rounded-md w-20 text-center font-semibold text-sm capitalize`}
@@ -20,7 +20,7 @@ const Select = (props) => {
         onChange={handleChange}>
         if(props.arrayList) {
           props.arrayList.map((item, index) => (
-            <option key={item.id} value={item.name} className="text-gray-700 font-semibold text-sm outline-none capitalize" >
+            <option key={props.landingPage ? item : item.id} value={item.name} className="text-gray-700 font-semibold text-sm outline-none capitalize" >
               {item.name}
             </option>
           ))

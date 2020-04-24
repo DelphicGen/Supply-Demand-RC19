@@ -5,6 +5,7 @@ import { useHttpClient } from '../../hooks/http-hook'
 import LoadingSpinner from '../../components/UI/LoadingSpinner'
 import ErrorModal from '../../components/UI/ErrorModal'
 import logo from '../../images/LandingPage.png'
+import Select from '../../components/UI/Select'
 import Button from '../../components/UI/Button'
 import RadioTextInput from '../../components/Form/RadioTextInput'
 import WhiteButton from '../../components/UI/WhiteButton'
@@ -75,6 +76,10 @@ const LandingPage = () => {
         }
     ]
 
+    const [selectedStock, setSelectedStock] = useState()
+    const [selectedDemand, setSelectedDemand] = useState()
+    const [stockItem, setStockItem] = useState([])
+    const [demandItem, setDemandItem] = useState([])
     const [dataDemand, setDataDemand] = useState([])
     const [dataStock, setDataStock] = useState([])
     const { isLoading, error, sendRequest, clearError } = useHttpClient()
@@ -100,11 +105,18 @@ const LandingPage = () => {
             null,
             { 'Accept': 'application/json', 'Content-Type': 'application/json' }
         ).then(responseData => {
+            let demand = []
             let temp = []
             if (responseData.data) {
                 responseData.data.forEach(data => {
                     temp = [...temp, { requestItems: data.requestItems, applicant: data.donationApplicant.name, contact: data.donationApplicant.contact_number }]
+                    data.requestItems.forEach(item => {
+                        if (!demand.includes(item.item.name)) {
+                            demand.push(item.item.name)
+                        }
+                    })
                 })
+                setDemandItem(demand)
                 setDataDemand(temp)
             }
         }, [sendRequest])
@@ -116,21 +128,36 @@ const LandingPage = () => {
             { 'Accept': 'application/json', 'Content-Type': 'application/json' }
         ).then(responseData => {
             let temp = []
-            if(responseData.data){
+            let stock = []
+            if (responseData.data) {
                 responseData.data.forEach(data => {
-                    if(data.donationItems){
-                        temp = [...temp, {donationItems: data.donationItems, donator: data.donator.name, contact: data.donator.contact_number}]
+                    if (data.donationItems) {
+                        temp = [...temp, { donationItems: data.donationItems, donator: data.donator.name, contact: data.donator.contact_number }]
+                        data.donationItems.forEach(item => {
+                            if (!stock.includes(item.item.name)) {
+                                stock.push(item.item.name)
+                            }
+                        })
                     }
                 })
+                setStockItem(stock)
                 setDataStock(temp)
             }
         })
     }, [sendRequest])
 
+    const changeDemand = (demand) => {
+        setSelectedDemand(demand)
+    }
+
+    const changeStock = stock => {
+        setSelectedStock(stock)
+    }
+
     let content = <div className="w-full flex flex-row justify-center mb-3 pb-4">
         <LoadingSpinner />
     </div>
-    if(!isLoading){
+    if (!isLoading) {
         content = <Table columns={table === 'stok' ? stockColumns : demandColumns} data={table === 'kebutuhan' ? dataDemand : dataStock} isLandingPage={true} />
     }
 
@@ -173,7 +200,6 @@ const LandingPage = () => {
                     label="Data Stok"
                     value="stok" />
             </div>
-
             {content}
             <div className="bg-blue-800 text-white pb-3 pt-10 mt-20 lg:absolute lg:w-full lg:bottom-0">
                 <h5 className="text-sm text-center">Icon by JustIcon</h5>
