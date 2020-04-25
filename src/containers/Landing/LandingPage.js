@@ -108,7 +108,7 @@ const LandingPage = () => {
             null,
             { 'Accept': 'application/json', 'Content-Type': 'application/json' }
         ).then(responseData => {
-            let demand = []
+            let demand = ['All Item']
             let temp = []
             if (responseData.data) {
                 responseData.data.forEach(data => {
@@ -119,8 +119,7 @@ const LandingPage = () => {
                         }
                     })
                 })
-                let selected = responseData.data[0].requestItems[0].item.name
-                setFilteredDataDemand(temp.filter(tem => tem.requestItems.some(item => item.item.name === selected)))
+                setFilteredDataDemand(temp)
 
                 let objectDemand = demand.map(dem => ({ name: dem }))
                 setDemandItem(objectDemand)
@@ -135,7 +134,7 @@ const LandingPage = () => {
             { 'Accept': 'application/json', 'Content-Type': 'application/json' }
         ).then(responseData => {
             let temp = []
-            let stock = []
+            let stock = ['All Item']
             if (responseData.data) {
                 responseData.data.forEach(data => {
                     if (data.donationItems) {
@@ -147,9 +146,7 @@ const LandingPage = () => {
                         })
                     }
                 })
-                let selected = temp[0].donationItems[0].item.name
-                setFilteredDataStock(temp.filter(tem => tem.donationItems.some(item => item.item.name === selected)))
-
+                setFilteredDataStock(temp)
                 let objectStock = stock.map(st => ({ name: st }))
                 setStockItem(objectStock)
                 setDataStock(temp)
@@ -158,11 +155,19 @@ const LandingPage = () => {
     }, [sendRequest])
 
     const changeDemand = (demand) => {
-        setFilteredDataDemand(dataDemand.filter(data => data.requestItems.some(item => item.item.name === demand)))
+        if (demand === 'All Item') {
+            setFilteredDataDemand(dataDemand)
+        } else {
+            setFilteredDataDemand(dataDemand.filter(data => data.requestItems.some(item => item.item.name === demand)))
+        }
     }
 
     const changeStock = stock => {
-        setFilteredDataStock(dataStock.filter(data => data.donationItems.some(item => item.item.name === stock)))
+        if (stock === 'All Item') {
+            setFilteredDataStock(dataStock)
+        } else {
+            setFilteredDataStock(dataStock.filter(data => data.donationItems.some(item => item.item.name === stock)))
+        }
     }
 
     let content = <div className="w-full flex flex-row justify-center mb-3 pb-4">
