@@ -13,7 +13,7 @@ const Select2 = props  => {
                 }}>
             {props.list.map(item => {
                 return(
-                    <option key={item.id} value={item.id} className="text-gray-700 font-semibold text-sm outline-none capitalize">
+                    <option key={item.id} value={item.id} className="text-gray-700 font-semibold text-xs outline-none capitalize">
                         {item.name}
                     </option>
                 )

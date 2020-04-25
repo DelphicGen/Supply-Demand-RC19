@@ -42,12 +42,12 @@ const Table = ({ columns, data, isLandingPage, pageToGo, donasi }) => {
                                     headerGroup.headers.map(column => {
                                         if(column.Header === 'No'){
                                             return (
-                                                <th {...column.getHeaderProps()} className={`${donasi ? 'w-1/12 pl-2 md:pl-4 pr-0' : 'px-3 pl-4'} text-left text-xs md:text-sm font-medium md:font-semibold py-4`}>{column.render('Header')}</th>
+                                                <th {...column.getHeaderProps()} className={`${donasi ? 'w-1/12 px-2 md:pl-4 pr-0' : 'px-3 pl-4'} text-left text-xs md:text-sm font-medium md:font-semibold py-4`}>{column.render('Header')}</th>
                                             )
                                         }
                                         else{
                                             return (
-                                                <th {...column.getHeaderProps()} className={`${donasi ? 'w-1/12 pl-2 md:pl-4 pr-0' : 'px-3 pl-4'} text-left text-xs md:text-sm font-medium md:font-semibold`}>{column.render('Header')}</th>
+                                                <th {...column.getHeaderProps()} className={`${donasi ? 'w-1/12 px-2 md:pl-4 pr-0' : 'px-3 pl-4'} text-left text-xs md:text-sm font-medium md:font-semibold`}>{column.render('Header')}</th>
                                             )
                                         }
                                     })
@@ -64,13 +64,13 @@ const Table = ({ columns, data, isLandingPage, pageToGo, donasi }) => {
                                 {
                                     row.cells.map(cell => {
                                         if(cell.column.Header === 'No'){
-                                            return <td {...cell.getCellProps()} className={`pl-4 py-3 text-xs md:text-sm font-medium`}>{pageIndex * 10 + i+1}</td>        
+                                            return <td {...cell.getCellProps()} className={`pl-4 px-2 py-3 text-xs md:text-sm font-medium`}>{pageIndex * 10 + i+1}</td>        
                                         }
                                         else if(cell.column.Header === 'Update'){
-                                            return <td {...cell.getCellProps()} className={`pl-4 py-3`} style={styles2.container(mediaQuery2)}>{cell.render('Cell')}</td>    
+                                            return <td {...cell.getCellProps()} className={`pl-4 px-2 py-3`} style={styles2.container(mediaQuery2)}>{cell.render('Cell')}</td>    
                                         }
                                         else{
-                                            return <td {...cell.getCellProps()} className='pl-4 py-3 text-xs md:text-sm font-medium' style={{textTransform: 'capitalize'}}>{cell.render('Cell')}</td>
+                                            return <td {...cell.getCellProps()} className='pl-4 px-2 py-3 text-xs md:text-sm font-medium' style={{textTransform: 'capitalize'}}>{cell.render('Cell')}</td>
                                         }
                                     })
                                 }

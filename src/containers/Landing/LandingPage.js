@@ -76,12 +76,15 @@ const LandingPage = () => {
         }
     ]
 
-    const [selectedStock, setSelectedStock] = useState()
-    const [selectedDemand, setSelectedDemand] = useState()
     const [stockItem, setStockItem] = useState([])
     const [demandItem, setDemandItem] = useState([])
+
     const [dataDemand, setDataDemand] = useState([])
     const [dataStock, setDataStock] = useState([])
+
+    const [filteredDataDemand, setFilteredDataDemand] = useState([])
+    const [filteredDataStock, setFilteredDataStock] = useState([])
+
     const { isLoading, error, sendRequest, clearError } = useHttpClient()
 
     const radioChangeHandler = event => {
@@ -116,10 +119,14 @@ const LandingPage = () => {
                         }
                     })
                 })
-                setDemandItem(demand)
+                let selected = responseData.data[0].requestItems[0].item.name
+                setFilteredDataDemand(temp.filter(tem => tem.requestItems.some(item => item.item.name === selected)))
+
+                let objectDemand = demand.map(dem => ({ name: dem }))
+                setDemandItem(objectDemand)
                 setDataDemand(temp)
             }
-        }, [sendRequest])
+        })
 
         sendRequest(
             `${process.env.REACT_APP_BACKEND_URL}/v1/donations?page=1&size=10000`,
@@ -140,25 +147,29 @@ const LandingPage = () => {
                         })
                     }
                 })
-                setStockItem(stock)
+                let selected = temp[0].donationItems[0].item.name
+                setFilteredDataStock(temp.filter(tem => tem.donationItems.some(item => item.item.name === selected)))
+
+                let objectStock = stock.map(st => ({ name: st }))
+                setStockItem(objectStock)
                 setDataStock(temp)
             }
         })
     }, [sendRequest])
 
     const changeDemand = (demand) => {
-        setSelectedDemand(demand)
+        setFilteredDataDemand(dataDemand.filter(data => data.requestItems.some(item => item.item.name === demand)))
     }
 
     const changeStock = stock => {
-        setSelectedStock(stock)
+        setFilteredDataStock(dataStock.filter(data => data.donationItems.some(item => item.item.name === stock)))
     }
 
     let content = <div className="w-full flex flex-row justify-center mb-3 pb-4">
         <LoadingSpinner />
     </div>
     if (!isLoading) {
-        content = <Table columns={table === 'stok' ? stockColumns : demandColumns} data={table === 'kebutuhan' ? dataDemand : dataStock} isLandingPage={true} />
+        content = <Table columns={table === 'stok' ? stockColumns : demandColumns} data={table === 'kebutuhan' ? filteredDataDemand : filteredDataStock} isLandingPage={true} />
     }
 
     return (
@@ -200,6 +211,20 @@ const LandingPage = () => {
                     label="Data Stok"
                     value="stok" />
             </div>
+
+            {!isLoading && (
+                <React.Fragment>
+                    <Select
+                        onSelectChange={table === 'stok' ? changeStock : changeDemand}
+                        label='Filter'
+                        landingPage={true}
+                        divClassName="items-center mx-auto w-10/12 md:w-8/12 lg:w-7/12 mt-2 lg:mt-0"
+                        arrayList={table === 'kebutuhan' ? demandItem : stockItem}
+                    />
+                    <p className="mx-auto w-10/12 md:w-8/12 lg:w-7/12 text-gray-800 text-xs md:text-sm font-medium mb-2">Note : Item yang tidak ada di filter berarti kosong.</p>
+                </React.Fragment>
+            )}
+
             {content}
             <div className="bg-blue-800 text-white pb-3 pt-10 mt-20 lg:absolute lg:w-full lg:bottom-0">
                 <h5 className="text-sm text-center">Icon by JustIcon</h5>
