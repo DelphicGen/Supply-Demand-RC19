@@ -66,9 +66,6 @@ const Table = ({ columns, data, isLandingPage, pageToGo, donasi }) => {
                                         if(cell.column.Header === 'No'){
                                             return <td {...cell.getCellProps()} className={`pl-4 px-2 py-3 text-xs md:text-sm font-medium`}>{pageIndex * 10 + i+1}</td>        
                                         }
-                                        else if(cell.column.Header === 'Update'){
-                                            return <td {...cell.getCellProps()} className={`pl-4 px-2 py-3`} style={styles2.container(mediaQuery2)}>{cell.render('Cell')}</td>    
-                                        }
                                         else{
                                             return <td {...cell.getCellProps()} className='pl-4 px-2 py-3 text-xs md:text-sm font-medium' style={{textTransform: 'capitalize'}}>{cell.render('Cell')}</td>
                                         }

@@ -12,7 +12,7 @@ const Select = (props) => {
 
   return (
     <div className={`flex ${props.landingPage ? 'flex-row' : 'flex-col'} ${props.divClassName}`}>
-      <label htmlFor={props.id} className={props.landingPage ? 'mb-2 py-2 pl-0 pr-3 text-gray-800 font-semibold' : 'text-gray-700 tracking-wide font-medium text-sm md:text-base my-1'}>{props.label}</label>
+      <label htmlFor={props.id} className={props.landingPage ? 'mb-2 py-2 pl-0 pr-3 text-gray-800 font-semibold text-xs md:text-sm' : 'text-gray-700 tracking-wide font-medium text-sm md:text-base my-1'}>{props.label}</label>
       <select
         value={props.value || selectedData}
         className={`${props.landingPage ? 'w-auto mb-2' : 'w-full mb-3'} bg-gray-400 bg-gray-400 text-gray-700 p-2 rounded-md w-20 text-center font-semibold text-sm capitalize cursor-pointer outline-none focus:shadow-outline`}

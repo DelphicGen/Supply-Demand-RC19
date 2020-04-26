@@ -2,14 +2,13 @@ import React, { useState, useContext, useEffect, useCallback } from 'react'
 import { links } from '../../../components/Dashboard/donaturLink'
 import { AuthContext } from '../../../context/auth-context'
 import { useHttpClient } from '../../../hooks/http-hook'
-import { AddCircle } from '@material-ui/icons'
+import { Update } from '@material-ui/icons'
 import { useMediaQuery } from '../../../hooks/medquery-hook'
 
 import ErrorModal from '../../../components/UI/ErrorModal'
 import Sidebar from '../../../components/Dashboard/SideBar'
 import LoadingSpinner from '../../../components/UI/LoadingSpinner'
 import Table from '../../../components/Dashboard/Table'
-import WhiteButton from '../../../components/UI/WhiteButton'
 import Title from '../../../components/Dashboard/Title'
 
 const DonasiSaya = (props) => {
@@ -27,7 +26,7 @@ const DonasiSaya = (props) => {
             Header: 'Nama Barang',
             accessor: data => {
                 let output = []
-                    output.push(data.item.name)
+                output.push(data.item.name)
                 return output.join(', ')
             }
         },
@@ -35,7 +34,7 @@ const DonasiSaya = (props) => {
             Header: 'Stok',
             accessor: data => {
                 let output = []
-                    output.push(`${Math.round(data.quantity)} ${data.unit.name}`)
+                output.push(`${Math.round(data.quantity)} ${data.unit.name}`)
                 return output.join(', ')
             }
         },
@@ -47,10 +46,6 @@ const DonasiSaya = (props) => {
             Header: 'Update',
             accessor: 'update'
         }
-        // {
-        //     Header: 'Alokasi',
-        //     accessor: 'allocate'
-        // }
     ]
 
     const [dataTable, setDataTable] = useState([])
@@ -58,10 +53,6 @@ const DonasiSaya = (props) => {
     const update = useCallback((donationId) => {
         props.history.push(`/dashboard/update-donasi/${donationId}`)
     }, [props.history])
-
-    // const allocate = useCallback((reqId) => {
-    //     props.history.push(`/dashboard/alokasi/${reqId}`)
-    // }, [props.history])
 
     useEffect(() => {
         const fetchItems = () => {
@@ -73,21 +64,21 @@ const DonasiSaya = (props) => {
             ).then(responseData => {
                 if (responseData) {
                     let temp = []
-                    if (responseData.data){
+                    if (responseData.data) {
                         responseData.data.forEach((data, index) => {
                             if (data.donationItems && data.donator.id === auth.id) {
-                                if(data.donationItems.length === 1){
+                                if (data.donationItems.length === 1) {
 
                                     temp = [...temp, data.donationItems[0]]
-                                    temp[temp.length-1].donation_id = responseData.data[index].id
+                                    temp[temp.length - 1].donation_id = responseData.data[index].id
                                     if (responseData.data[index].isDonated) {
-                                        temp[temp.length-1].keterangan = (
+                                        temp[temp.length - 1].keterangan = (
                                             <div className="inline-block py-1 px-2 rounded-full text-red-800 bg-red-200">
                                                 Habis
                                             </div>
                                         )
                                     } else {
-                                        temp[temp.length-1].keterangan = (
+                                        temp[temp.length - 1].keterangan = (
                                             <div className="inline-block py-1 px-2 tracking-wide text-xs md:text-sm rounded-full text-green-500 bg-green-200">
                                                 Ready
                                             </div>
@@ -96,17 +87,17 @@ const DonasiSaya = (props) => {
 
                                 } else {
 
-                                    for(let i = 0; i < data.donationItems.length; i++){
+                                    for (let i = 0; i < data.donationItems.length; i++) {
                                         temp = [...temp, data.donationItems[i]]
-                                        temp[temp.length-1].donation_id = responseData.data[index].id
+                                        temp[temp.length - 1].donation_id = responseData.data[index].id
                                         if (responseData.data[index].isDonated) {
-                                            temp[temp.length-1].keterangan = (
+                                            temp[temp.length - 1].keterangan = (
                                                 <div className="inline-block py-1 px-2 rounded-full text-red-800 bg-red-200">
                                                     Habis
                                                 </div>
                                             )
                                         } else {
-                                            temp[temp.length-1].keterangan = (
+                                            temp[temp.length - 1].keterangan = (
                                                 <div className="inline-block py-1 px-2 tracking-wide text-xs md:text-sm rounded-full text-green-500 bg-green-200">
                                                     Ready
                                                 </div>
@@ -117,22 +108,15 @@ const DonasiSaya = (props) => {
                                 }
                             }
                         })
-                        
+
                         temp.forEach((data) => {
 
                             data.update = (
-                                <WhiteButton width={120} onClick={() => update(data.donation_id)} donasi={true} >
-                                    <AddCircle className="text-blue-800 mr-2 text-sm" style={styles.container(mediaQuery)} /><span style={styles2.container(mediaQuery)} className="text-sm">UPDATE</span>
-                                </WhiteButton>
+                                <div className="inline py-1 pb-2 md:pb-1 px-3 rounded-lg bg-blue-800 cursor-pointer" onClick={() => update(data.donation_id)}>
+                                    <Update fontSize="small" className="text-gray-100" style={{ transform: 'scale(0.95)' }} />
+                                </div>
                             )
                         })
-                        // temp.forEach((data) => {
-                        //     data.allocate = (
-                        //         <div className="inline py-1 px-3 rounded-lg bg-blue-800 cursor-pointer" onClick={() => allocate(data.requestId)}>
-                        //             <ArrowForward fontSize="small" className="text-gray-100 border-2 border-solid border-gray-100 rounded-full" style={{ transform: 'scale(0.8)' }} />
-                        //         </div>
-                        //     )
-                        // })
 
                         setDataTable(temp)
                     }
@@ -143,7 +127,7 @@ const DonasiSaya = (props) => {
         if (auth.token) {
             fetchItems()
         }
-    }, [auth.token, sendRequest, auth.id, mediaQuery, update])
+    }, [auth.token, sendRequest, auth.id, update])
 
     let content = <LoadingSpinner />
     if (!isLoading) {
