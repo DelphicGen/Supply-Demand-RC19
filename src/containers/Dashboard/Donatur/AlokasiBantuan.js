@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext, useCallback } from 'react'
-import { ArrowForward } from '@material-ui/icons'
 import { links } from '../../../components/Dashboard/adminLink'
+import { ArrowForward } from '@material-ui/icons'
 import { AuthContext } from '../../../context/auth-context'
 import { useHttpClient } from '../../../hooks/http-hook'
 
@@ -112,7 +112,6 @@ const AlokasiBantuan = (props) => {
                         <Table columns={columns} data={dataTable} />
                     }
                 </div>
-
             </div>
         </React.Fragment>
     )

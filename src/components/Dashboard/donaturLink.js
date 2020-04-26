@@ -1,5 +1,5 @@
 import React from 'react'
-import { Favorite, Create, CardGiftcard } from '@material-ui/icons';
+import { Favorite, Create, CardGiftcard, CardGiftcardOutlined } from '@material-ui/icons';
 
 export const links = [
     {
@@ -16,5 +16,10 @@ export const links = [
         link: '/dashboard/donasi-saya',
         icon: (<CardGiftcard className="text-white" fontSize="small" />),
         info: 'Donasi Saya'
+    },
+    {
+        link: '/dashboard/alokasi-bantuan',
+        icon: (<CardGiftcardOutlined className="text-white" fontSize="small" />),
+        info: 'Alokasi Bantuan'
     }
 ]

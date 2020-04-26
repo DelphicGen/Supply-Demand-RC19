@@ -47,6 +47,10 @@ const DonasiSaya = (props) => {
             Header: 'Update',
             accessor: 'update'
         }
+        // {
+        //     Header: 'Alokasi',
+        //     accessor: 'allocate'
+        // }
     ]
 
     const [dataTable, setDataTable] = useState([])
@@ -54,6 +58,10 @@ const DonasiSaya = (props) => {
     const update = useCallback((donationId) => {
         props.history.push(`/dashboard/update-donasi/${donationId}`)
     }, [props.history])
+
+    // const allocate = useCallback((reqId) => {
+    //     props.history.push(`/dashboard/alokasi/${reqId}`)
+    // }, [props.history])
 
     useEffect(() => {
         const fetchItems = () => {
@@ -109,7 +117,7 @@ const DonasiSaya = (props) => {
                                 }
                             }
                         })
-
+                        
                         temp.forEach((data) => {
 
                             data.update = (
@@ -118,6 +126,13 @@ const DonasiSaya = (props) => {
                                 </WhiteButton>
                             )
                         })
+                        // temp.forEach((data) => {
+                        //     data.allocate = (
+                        //         <div className="inline py-1 px-3 rounded-lg bg-blue-800 cursor-pointer" onClick={() => allocate(data.requestId)}>
+                        //             <ArrowForward fontSize="small" className="text-gray-100 border-2 border-solid border-gray-100 rounded-full" style={{ transform: 'scale(0.8)' }} />
+                        //         </div>
+                        //     )
+                        // })
 
                         setDataTable(temp)
                     }
