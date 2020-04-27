@@ -3,7 +3,6 @@ import { links } from '../../../components/Dashboard/donaturLink'
 import { AuthContext } from '../../../context/auth-context'
 import { useHttpClient } from '../../../hooks/http-hook'
 import { Update } from '@material-ui/icons'
-import { useMediaQuery } from '../../../hooks/medquery-hook'
 
 import ErrorModal from '../../../components/UI/ErrorModal'
 import Sidebar from '../../../components/Dashboard/SideBar'
@@ -15,7 +14,6 @@ const DonasiSaya = (props) => {
     const auth = useContext(AuthContext)
     const { isLoading, error, sendRequest, clearError } = useHttpClient()
     const requestError = error && 'Gagal memuat data, silakan coba lagi.'
-    const mediaQuery = useMediaQuery('(max-width: 600px)')
 
     const columns = [
         {
@@ -156,17 +154,5 @@ const DonasiSaya = (props) => {
         </React.Fragment>
     )
 }
-
-const styles = {
-    container: mediaQuery => ({
-        fontSize: mediaQuery ? '15' : '25'
-    })
-};
-
-const styles2 = {
-    container: mediaQuery => ({
-        fontSize: mediaQuery && '10px'
-    })
-};
 
 export default DonasiSaya

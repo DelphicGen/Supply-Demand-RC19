@@ -15,7 +15,7 @@ import LoadingSpinner from '../../../components/UI/LoadingSpinner'
 import Button from '../../../components/UI/Button'
 import Select2 from '../../../components/UI/Select2'
 
-const UpdateDonasi = (props) => {
+const UpdateDonasi = () => {
     const donationId = useParams().donationId
     const mediaQuery = useMediaQuery('(max-width: 600px)')
     const [submitError, setSubmitError] = useState()
@@ -140,7 +140,7 @@ const UpdateDonasi = (props) => {
             { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
         ).then((responseData) => {
             if(responseData.error){
-                setSubmitError('Maaf, donasi yang sudah dimasukkan ke dalam sistem tidak dapat dihapus.')
+                setSubmitError(responseData.error)
             } else {
                 history.goBack()
             }

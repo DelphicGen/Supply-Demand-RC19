@@ -4,7 +4,6 @@ import { AuthContext } from '../../../context/auth-context'
 import { useHttpClient } from '../../../hooks/http-hook'
 import { Update } from '@material-ui/icons'
 import { useHistory } from 'react-router-dom'
-import { useMediaQuery } from '../../../hooks/medquery-hook';
 
 import ErrorModal from '../../../components/UI/ErrorModal'
 import Sidebar from '../../../components/Dashboard/SideBar'
@@ -16,7 +15,6 @@ const RiwayatPermohonan = () => {
     const auth = useContext(AuthContext)
     const { isLoading, error, sendRequest, clearError } = useHttpClient()
     const history = useHistory()
-    const mediaQuery = useMediaQuery('(max-width: 600px)')
 
     const columns = [
         {
@@ -156,18 +154,6 @@ const RiwayatPermohonan = () => {
 
     )
 }
-
-const styles = {
-    container: mediaQuery => ({
-        fontSize: mediaQuery ? '15' : '25'
-    })
-};
-
-const styles2 = {
-    container: mediaQuery => ({
-        fontSize: mediaQuery && '10px'
-    })
-};
 
 
 export default RiwayatPermohonan

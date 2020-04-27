@@ -1,12 +1,7 @@
 import React from 'react'
-import { Favorite, Create, CardGiftcard, CardGiftcardOutlined } from '@material-ui/icons';
+import { Create, CardGiftcard, CardGiftcardOutlined } from '@material-ui/icons';
 
 export const links = [
-    {
-        link: '/dashboard/info-demand',
-        icon: (<Favorite className="text-white" fontSize="small" />),
-        info: 'Info Demand'
-    },
     {
         link: '/dashboard/input-bantuan',
         icon: (<Create className="text-white" fontSize="small" />),

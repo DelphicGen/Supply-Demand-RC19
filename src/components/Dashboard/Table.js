@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react'
 import { useTable, usePagination } from 'react-table'
-import {useMediaQuery} from '../../hooks/medquery-hook';
 import './Table.module.css'
 
 const Table = ({ columns, data, isLandingPage, pageToGo, donasi }) => {
@@ -21,8 +20,6 @@ const Table = ({ columns, data, isLandingPage, pageToGo, donasi }) => {
           columns,
           data,
         },usePagination)
-    
-    const mediaQuery2 = useMediaQuery('(max-width: 768px)');
 
     useEffect(() => {
         let page = Math.floor(pageToGo / 10) || 0
@@ -107,12 +104,6 @@ const Table = ({ columns, data, isLandingPage, pageToGo, donasi }) => {
             </div>
         </div>
     )
-}
-
-const styles2 = {
-    container: mediaQuery => ({
-        paddingLeft: mediaQuery && '0'
-    })
 }
 
 export default Table

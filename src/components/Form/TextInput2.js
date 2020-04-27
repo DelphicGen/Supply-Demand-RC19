@@ -71,8 +71,7 @@ const TextInput2 = props => {
                     value={props.value}
                     index={ props.index }
                 />
-                <Delete className="text-gray-700 mr-2 ml-5 mt-2 text-sm lg:relative absolute top-0 right-0" style={styles.container(mediaQuery)} onClick={() => props.deleteItem(props.index)} />
-                
+                {!props.hideDelete && <Delete className="text-gray-700 mr-2 ml-5 mt-2 text-sm lg:relative absolute top-0 right-0" style={styles.container(mediaQuery)} onClick={() => props.deleteItem(props.index)} />}
             </div>
         </div>
     )

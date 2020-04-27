@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext, useCallback } from 'react'
-import { links } from '../../../components/Dashboard/adminLink'
+import { links } from '../../../components/Dashboard/donaturLink'
 import { ArrowForward } from '@material-ui/icons'
 import { AuthContext } from '../../../context/auth-context'
 import { useHttpClient } from '../../../hooks/http-hook'
@@ -36,6 +36,14 @@ const AlokasiBantuan = (props) => {
             }
         },
         {
+            Header: 'Stok',
+            accessor: data => {
+                let output = []
+                data.requestItems.map(request => output.push(`${Math.round(request.quantity)} ${request.unit.name}`))
+                return output.join(', ')
+            }
+        },
+        {
             Header: 'Alokasi',
             accessor: 'allocate'
         }
@@ -55,6 +63,7 @@ const AlokasiBantuan = (props) => {
                 null,
                 { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
             ).then(responseData => {
+                console.log(responseData)
                 if (responseData) {
                     let temp = []
                     if (responseData.data) {
@@ -102,7 +111,7 @@ const AlokasiBantuan = (props) => {
             <ErrorModal error={error} onClear={clearError} />
             <ErrorModal error={acceptError} onClear={clearAcceptError} />
             <div className="flex flex-row">
-                <Sidebar role="" name="ADMIN" links={links} />
+                <Sidebar role="Donatur" name={auth.name} links={links} />
 
                 <div className="p-8 pb-24 md:p-12 w-full lg:w-11/12">
                     <Title>Alokasi Bantuan</Title>

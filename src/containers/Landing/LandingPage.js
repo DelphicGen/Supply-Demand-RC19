@@ -93,7 +93,7 @@ const LandingPage = () => {
 
     const auth = useContext(AuthContext)
 
-    let dashboardLink = '/dashboard/alokasi-bantuan'
+    let dashboardLink = '/dashboard/tambah-barang'
 
     if (auth.role === 'DONATOR') {
         dashboardLink = '/dashboard/donasi-saya'
@@ -102,57 +102,66 @@ const LandingPage = () => {
     }
 
     useEffect(() => {
-        sendRequest(
-            `${process.env.REACT_APP_BACKEND_URL}/v1/requests?page=1&size=10000`,
-            'GET',
-            null,
-            { 'Accept': 'application/json', 'Content-Type': 'application/json' }
-        ).then(responseData => {
-            let demand = ['All Item']
-            let temp = []
-            if (responseData.data) {
-                responseData.data.forEach(data => {
-                    temp = [...temp, { requestItems: data.requestItems, applicant: data.donationApplicant.name, contact: data.donationApplicant.contact_number }]
-                    data.requestItems.forEach(item => {
-                        if (!demand.includes(item.item.name)) {
-                            demand.push(item.item.name)
-                        }
-                    })
-                })
-                setFilteredDataDemand(temp)
-
-                let objectDemand = demand.map(dem => ({ name: dem }))
-                setDemandItem(objectDemand)
-                setDataDemand(temp)
-            }
-        })
-
-        sendRequest(
-            `${process.env.REACT_APP_BACKEND_URL}/v1/donations?page=1&size=10000`,
-            'GET',
-            null,
-            { 'Accept': 'application/json', 'Content-Type': 'application/json' }
-        ).then(responseData => {
-            let temp = []
-            let stock = ['All Item']
-            if (responseData.data) {
-                responseData.data.forEach(data => {
-                    if (data.donationItems) {
-                        temp = [...temp, { donationItems: data.donationItems, donator: data.donator.name, contact: data.donator.contact_number }]
-                        data.donationItems.forEach(item => {
-                            if (!stock.includes(item.item.name)) {
-                                stock.push(item.item.name)
+        const fetchDemand = () => {
+            sendRequest(
+                `${process.env.REACT_APP_BACKEND_URL}/v1/requests?page=1&size=10000`,
+                'GET',
+                null,
+                { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+            ).then(responseData => {
+                let demand = ['All Item']
+                let temp = []
+                if (responseData.data) {
+                    responseData.data.forEach(data => {
+                        temp = [...temp, { requestItems: data.requestItems, applicant: data.donationApplicant.name, contact: data.donationApplicant.contact_number }]
+                        data.requestItems.forEach(item => {
+                            if (!demand.includes(item.item.name)) {
+                                demand.push(item.item.name)
                             }
                         })
-                    }
-                })
-                setFilteredDataStock(temp)
-                let objectStock = stock.map(st => ({ name: st }))
-                setStockItem(objectStock)
-                setDataStock(temp)
-            }
-        })
-    }, [sendRequest])
+                    })
+                    setFilteredDataDemand(temp)
+
+                    let objectDemand = demand.map(dem => ({ name: dem }))
+                    setDemandItem(objectDemand)
+                    setDataDemand(temp)
+                }
+            })
+        }
+
+        const fetchStock = () => {
+            sendRequest(
+                `${process.env.REACT_APP_BACKEND_URL}/v1/donations?page=1&size=10000`,
+                'GET',
+                null,
+                { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+            ).then(responseData => {
+                let temp = []
+                let stock = ['All Item']
+                if (responseData.data) {
+                    responseData.data.forEach(data => {
+                        if (data.donationItems) {
+                            temp = [...temp, { donationItems: data.donationItems, donator: data.donator.name, contact: data.donator.contact_number }]
+                            data.donationItems.forEach(item => {
+                                if (!stock.includes(item.item.name)) {
+                                    stock.push(item.item.name)
+                                }
+                            })
+                        }
+                    })
+                    setFilteredDataStock(temp)
+                    let objectStock = stock.map(st => ({ name: st }))
+                    setStockItem(objectStock)
+                    setDataStock(temp)
+                }
+            })
+        }
+        if(table === 'stok' && dataStock.length === 0){
+            fetchStock()
+        } else if (table === 'kebutuhan' && dataDemand.length === 0){
+            fetchDemand()
+        }
+    }, [sendRequest, table, dataStock, dataDemand])
 
     const changeDemand = (demand) => {
         if (demand === 'All Item') {

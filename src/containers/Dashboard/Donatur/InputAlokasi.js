@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { links } from '../../../components/Dashboard/adminLink'
+import { links } from '../../../components/Dashboard/donaturLink'
 import { AuthContext } from '../../../context/auth-context'
 import { useForm } from '../../../hooks/form-hook'
 import { useHttpClient } from '../../../hooks/http-hook'
@@ -16,7 +16,7 @@ import Button from '../../../components/UI/Button'
 import DatePicker from '../../../components/UI/DatePicker2'
 import Select from '../../../components/UI/Select'
 
-const InputAlokasi = (props) => {
+const InputAlokasi = () => {
   const requestId = useParams().requestId
   const [requestInfo, setRequestInfo] = useState()
   const [submitError, setSubmitError] = useState()
@@ -38,6 +38,10 @@ const InputAlokasi = (props) => {
   }, false)
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
   const auth = useContext(AuthContext)
+
+  useEffect(() => {
+    console.log(items.date_num)
+  }, [items.date_num])
 
   useEffect(() => {
     const fetchRequest = () => {
@@ -73,7 +77,7 @@ const InputAlokasi = (props) => {
       `${process.env.REACT_APP_BACKEND_URL}/v1/allocations`,
       'POST',
       JSON.stringify({
-        requestId: requestId,
+        requestID: requestId,
         date: items.date_num,
         items: [
           {
@@ -122,7 +126,7 @@ const InputAlokasi = (props) => {
       <ErrorModal error={submitError} onClear={clearSubmitError} />
       <div className="flex flex-row h-full w-full">
 
-        <Sidebar role="" name="ADMIN" links={links} />
+        <Sidebar role="Donatur" name={auth.name} links={links} />
         <div className="flex w-full flex-col p-8 md:p-12 md:pr-16">
           <h3 className="font-bold text-sm lg:text-base mb-2 text-gray-800 capitalize">Penerima : {requestInfo && requestInfo.donationApplicant.name}</h3>
           <p className="text-gray-800 mb-2 text-sm">Daftar Kebutuhan :</p>
@@ -162,6 +166,7 @@ const InputAlokasi = (props) => {
                 validators={[VALIDATOR_REQUIRE(), VALIDATOR_NUMBER()]}
                 onInput={inputHandler}
                 changeUnit={changeUnit}
+                hideDelete={true}
                 errorText="Mohon masukkan kuantitas barang dengan benar."
                 list={unitList}
               />
