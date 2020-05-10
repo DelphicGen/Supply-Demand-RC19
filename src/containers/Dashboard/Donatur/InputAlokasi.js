@@ -40,10 +40,6 @@ const InputAlokasi = () => {
   const auth = useContext(AuthContext)
 
   useEffect(() => {
-    console.log(items.date_num)
-  }, [items.date_num])
-
-  useEffect(() => {
     const fetchRequest = () => {
       sendRequest(`${process.env.REACT_APP_BACKEND_URL}/v1/requests/${requestId}`,
         'GET',
@@ -89,6 +85,7 @@ const InputAlokasi = () => {
       }),
       { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
     ).then(responseData => {
+      console.log(responseData)
       if (responseData.error) {
         setSubmitError(responseData.error)
       }

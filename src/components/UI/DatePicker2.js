@@ -1,10 +1,10 @@
 import "react-datepicker/dist/react-datepicker.css"
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import DatePicker from "react-datepicker"
 
 const DatePicker2 = (props) => {
 
-  const [startDate, setStartDate] = useState(new Date())
+  const [startDate, setStartDate] = useState()
 
   const handleChange = (date) => {
     setStartDate(date)

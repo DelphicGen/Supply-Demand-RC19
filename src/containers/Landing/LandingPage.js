@@ -113,18 +113,18 @@ const LandingPage = () => {
                 let temp = []
                 if (responseData.data) {
                     responseData.data.forEach(data => {
-                        temp = [...temp, { requestItems: data.requestItems, applicant: data.donationApplicant.name, contact: data.donationApplicant.contact_number }]
+                        temp = [...temp, { requestItems: data.requestItems, applicant: data.donationApplicant.name, contact: data.donationApplicant.contact_number, isFulfilled: data.isFulfilled }]
                         data.requestItems.forEach(item => {
                             if (!demand.includes(item.item.name)) {
                                 demand.push(item.item.name)
                             }
                         })
                     })
-                    setFilteredDataDemand(temp)
+                    setFilteredDataDemand(temp.filter(tmp => !tmp.isFulfilled))
 
                     let objectDemand = demand.map(dem => ({ name: dem }))
                     setDemandItem(objectDemand)
-                    setDataDemand(temp)
+                    setDataDemand(temp.filter(tmp => !tmp.isFulfilled))
                 }
             })
         }
@@ -141,7 +141,7 @@ const LandingPage = () => {
                 if (responseData.data) {
                     responseData.data.forEach(data => {
                         if (data.donationItems) {
-                            temp = [...temp, { donationItems: data.donationItems, donator: data.donator.name, contact: data.donator.contact_number }]
+                            temp = [...temp, { donationItems: data.donationItems, donator: data.donator.name, contact: data.donator.contact_number, isFulfilled: data.isFulfilled }]
                             data.donationItems.forEach(item => {
                                 if (!stock.includes(item.item.name)) {
                                     stock.push(item.item.name)
@@ -149,10 +149,10 @@ const LandingPage = () => {
                             })
                         }
                     })
-                    setFilteredDataStock(temp)
+                    setFilteredDataStock(temp.filter(tmp => !tmp.isFulfilled))
                     let objectStock = stock.map(st => ({ name: st }))
                     setStockItem(objectStock)
-                    setDataStock(temp)
+                    setDataStock(temp.filter(tmp => !tmp.isFulfilled))
                 }
             })
         }
@@ -179,11 +179,42 @@ const LandingPage = () => {
         }
     }
 
+    let filterSelect = null
+
+    if(!isLoading){
+        if((table === 'kebutuhan' && filteredDataDemand.length > 0) || (table === 'stok' && filteredDataStock.length > 0)){
+            filterSelect = (
+                <React.Fragment>
+                    <Select
+                        onSelectChange={table === 'stok' ? changeStock : changeDemand}
+                        label='Filter'
+                        landingPage={true}
+                        divClassName="items-center mx-auto w-10/12 md:w-8/12 lg:w-7/12 mt-2 lg:mt-0"
+                        arrayList={table === 'kebutuhan' ? demandItem : stockItem}
+                    />
+                    <p className="mx-auto w-10/12 md:w-8/12 lg:w-7/12 text-gray-800 text-xs md:text-sm font-medium mb-2">Note : Item yang tidak ada di filter berarti kosong.</p>
+                </React.Fragment>
+            )
+        }
+    }
+
     let content = <div className="w-full flex flex-row justify-center mb-3 pb-4">
         <LoadingSpinner />
     </div>
     if (!isLoading) {
-        content = <Table columns={table === 'stok' ? stockColumns : demandColumns} data={table === 'kebutuhan' ? filteredDataDemand : filteredDataStock} isLandingPage={true} />
+        if(table === 'stok'){
+            if(filteredDataStock.length === 0){
+                content = <p className="text-center text-sm md:text-base font-semibold">Maaf, saat ini stok bantuan kosong.</p>
+            } else {
+                content = <Table columns={stockColumns} data={filteredDataStock} isLandingPage={true} />
+            }
+        } else {
+            if(filteredDataDemand.length === 0){
+                content = <p className="text-center text-sm md:text-base font-semibold">Saat ini tidak ada data kebutuhan.</p>
+            } else {
+                content = <Table columns={demandColumns} data={filteredDataDemand} isLandingPage={true} />
+            }
+        }
     }
 
     return (
@@ -225,20 +256,7 @@ const LandingPage = () => {
                     label="Data Stok"
                     value="stok" />
             </div>
-
-            {!isLoading && (
-                <React.Fragment>
-                    <Select
-                        onSelectChange={table === 'stok' ? changeStock : changeDemand}
-                        label='Filter'
-                        landingPage={true}
-                        divClassName="items-center mx-auto w-10/12 md:w-8/12 lg:w-7/12 mt-2 lg:mt-0"
-                        arrayList={table === 'kebutuhan' ? demandItem : stockItem}
-                    />
-                    <p className="mx-auto w-10/12 md:w-8/12 lg:w-7/12 text-gray-800 text-xs md:text-sm font-medium mb-2">Note : Item yang tidak ada di filter berarti kosong.</p>
-                </React.Fragment>
-            )}
-
+            {filterSelect}
             {content}
             <div className="bg-blue-800 text-white pb-3 pt-10 mt-20 lg:absolute lg:w-full lg:bottom-0">
                 <h5 className="text-sm text-center">Icon by JustIcon</h5>
