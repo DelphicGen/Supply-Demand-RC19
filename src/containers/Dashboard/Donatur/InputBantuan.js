@@ -228,7 +228,7 @@ const InputBantuan = () => {
                         </WhiteButton>
                     </div>
 
-                    <div className="md:ml-10 ml-8">
+                    <div className="md:ml-10 ml-8 pb-32">
                         <Button
                             width={200}
                             type="submit"

@@ -11,9 +11,8 @@ const RegisterPage = React.lazy(() => import('./containers/Auth/RegisterPage'))
 const ResetPass = React.lazy(() => import('./containers/Auth/ResetPass'))
 const NewPassword = React.lazy(() => import('./containers/Auth/NewPassword'))
 
-const InputAlokasi = React.lazy(() => import('./containers/Dashboard/Donatur/InputAlokasi'))
 const TambahBarang = React.lazy(() => import('./containers/Dashboard/Admin/TambahBarang'))
-const AlokasiBantuan = React.lazy(() => import('./containers/Dashboard/Donatur/AlokasiBantuan'))
+const KonfirmasiDonasi = React.lazy(() => import('./containers/Dashboard/Admin/KonfirmasiDonasi'))
 
 const InputKebutuhan = React.lazy(() => import('./containers/Dashboard/Applicant/InputKebutuhan'))
 const RiwayatPermohonan = React.lazy(() => import('./containers/Dashboard/Applicant/RiwayatPermohonan'))
@@ -22,6 +21,8 @@ const UpdateKebutuhan = React.lazy(() => import('./containers/Dashboard/Applican
 const DonasiSaya = React.lazy(() => import('./containers/Dashboard/Donatur/DonasiSaya'))
 const InputBantuan = React.lazy(() => import('./containers/Dashboard/Donatur/InputBantuan'))
 const UpdateDonasi = React.lazy(() => import('./containers/Dashboard/Donatur/UpdateDonasi'))
+const InputAlokasi = React.lazy(() => import('./containers/Dashboard/Donatur/InputAlokasi'))
+const AlokasiBantuan = React.lazy(() => import('./containers/Dashboard/Donatur/AlokasiBantuan'))
 
 const App = () => {
   const auth = useContext(AuthContext)
@@ -66,6 +67,7 @@ const App = () => {
       <Switch>
         <Route path="/" component={LandingPage} exact />
         <Route path="/dashboard/tambah-barang" component={TambahBarang} exact />
+        <Route path="/dashboard/konfirmasi-donasi" component={KonfirmasiDonasi} exact />
         <Redirect to='/' />
       </Switch>
     )

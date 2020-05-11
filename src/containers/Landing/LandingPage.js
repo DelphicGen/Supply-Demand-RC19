@@ -112,6 +112,7 @@ const LandingPage = () => {
                 let demand = ['All Item']
                 let temp = []
                 if (responseData.data) {
+                    console.log(responseData.data)
                     responseData.data.forEach(data => {
                         temp = [...temp, { requestItems: data.requestItems, applicant: data.donationApplicant.name, contact: data.donationApplicant.contact_number, isFulfilled: data.isFulfilled }]
                         data.requestItems.forEach(item => {

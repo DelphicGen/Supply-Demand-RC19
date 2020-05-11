@@ -16,7 +16,7 @@ import Button from '../../../components/UI/Button'
 import DatePicker from '../../../components/UI/DatePicker2'
 import Select from '../../../components/UI/Select'
 
-const InputAlokasi = () => {
+const InputAlokasi = (props) => {
   const requestId = useParams().requestId
   const [requestInfo, setRequestInfo] = useState()
   const [submitError, setSubmitError] = useState()
@@ -86,6 +86,7 @@ const InputAlokasi = () => {
       { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
     ).then(responseData => {
       console.log(responseData)
+      props.history.push('/dashboard/alokasi-bantuan')
       if (responseData.error) {
         setSubmitError(responseData.error)
       }
@@ -177,7 +178,7 @@ const InputAlokasi = () => {
             </div>
           </form>
 
-          <div className="flex flex-col w-full lg:mb-5">
+          <div className="flex flex-col w-full lg:mb-5 pb-20">
             <Button
               onClick={submitHandler}
               width={200}

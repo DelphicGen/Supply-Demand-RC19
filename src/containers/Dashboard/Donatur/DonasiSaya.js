@@ -69,6 +69,9 @@ const DonasiSaya = (props) => {
 
                                     temp = [...temp, data.donationItems[0]]
                                     temp[temp.length - 1].donation_id = responseData.data[index].id
+                                    temp[temp.length - 1].isAccepted = responseData.data[index].isAccepted
+                                    temp[temp.length - 1].isDonated = responseData.data[index].isDonated
+
                                     if (responseData.data[index].isDonated) {
                                         temp[temp.length - 1].keterangan = (
                                             <div className="inline-block py-1 px-2 rounded-full text-red-800 bg-red-200">
@@ -76,11 +79,19 @@ const DonasiSaya = (props) => {
                                             </div>
                                         )
                                     } else {
-                                        temp[temp.length - 1].keterangan = (
-                                            <div className="inline-block py-1 px-2 tracking-wide text-xs md:text-sm rounded-full text-green-500 bg-green-200">
-                                                Ready
-                                            </div>
-                                        )
+                                        if (responseData.data[index].isAccepted) {
+                                            temp[temp.length - 1].keterangan = (
+                                                <div className="inline-block py-1 px-2 tracking-wide text-xs md:text-sm rounded-full text-green-500 bg-green-200">
+                                                    Ready
+                                                </div>
+                                            )
+                                        } else {
+                                            temp[temp.length - 1].keterangan = (
+                                                <div className="inline-block py-1 px-2 tracking-wide text-xs md:text-sm rounded-full text-center text-orange-500 bg-orange-200">
+                                                    Belum terkonfirmasi
+                                                </div>
+                                            )
+                                        }
                                     }
 
                                 } else {
@@ -88,6 +99,8 @@ const DonasiSaya = (props) => {
                                     for (let i = 0; i < data.donationItems.length; i++) {
                                         temp = [...temp, data.donationItems[i]]
                                         temp[temp.length - 1].donation_id = responseData.data[index].id
+                                        temp[temp.length - 1].isAccepted = responseData.data[index].isAccepted
+                                        temp[temp.length - 1].isDonated = responseData.data[index].isDonated
                                         if (responseData.data[index].isDonated) {
                                             temp[temp.length - 1].keterangan = (
                                                 <div className="inline-block py-1 px-2 rounded-full text-red-800 bg-red-200">
@@ -95,11 +108,19 @@ const DonasiSaya = (props) => {
                                                 </div>
                                             )
                                         } else {
-                                            temp[temp.length - 1].keterangan = (
-                                                <div className="inline-block py-1 px-2 tracking-wide text-xs md:text-sm rounded-full text-green-500 bg-green-200">
-                                                    Ready
-                                                </div>
-                                            )
+                                            if (responseData.data[index].isAccepted) {
+                                                temp[temp.length - 1].keterangan = (
+                                                    <div className="inline-block py-1 px-2 tracking-wide text-xs md:text-sm rounded-full text-green-500 bg-green-200">
+                                                        Ready
+                                                    </div>
+                                                )
+                                            } else {
+                                                temp[temp.length - 1].keterangan = (
+                                                    <div className="inline-block py-1 px-2 tracking-wide text-xs md:text-sm rounded-full text-center text-orange-500 bg-orange-200">
+                                                        Belum terkonfirmasi
+                                                    </div>
+                                                )
+                                            }
                                         }
                                     }
 
@@ -115,7 +136,6 @@ const DonasiSaya = (props) => {
                                 </div>
                             )
                         })
-
                         setDataTable(temp)
                     }
                 }
@@ -132,7 +152,7 @@ const DonasiSaya = (props) => {
         if (dataTable.length > 0) {
             content = <Table columns={columns} data={dataTable} donasi={true} />
         } else {
-            content = <p className="text-sm font-semibold">Anda belum melakukan donasi.</p>
+            content = <p className="text-sm font-semibold text-gray-800">Anda belum melakukan donasi.</p>
         }
     }
 
