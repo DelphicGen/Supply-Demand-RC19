@@ -83,8 +83,8 @@ const RegisterPage = (props) => {
     return (
         <React.Fragment>
             <ErrorModal error={error} onClear={clearError} />
-            <form onSubmit={registerSubmit} className="flex items-center justify-center h-screen flex-col">
-                <div className="flex flex-row items-center mb-3">
+            <form onSubmit={registerSubmit} className="flex items-center justify-center h-full lg:h-screen flex-col">
+                <div className="flex flex-row items-center mb-3 mt-3 lg:mt-0">
                     <VirusSVG />
                     <AuthTitle>Daftar</AuthTitle>
                 </div>
@@ -179,7 +179,7 @@ const RegisterPage = (props) => {
                     disabled={!formState.isValid || !roleValid}>{isLoading ? <LoadingSpinner color="white" style={{ transform: 'translateY(-3px)' }} /> : 'DAFTAR'}</Button>
 
                 {error && <ErrorText>{error}</ErrorText>}
-                <Link to="/login" className="block mt-3 text-center text-xs md:text-sm font-semibold text-gray-700 tracking-wider hover:text-gray-600">Sudah punya akun? <span className="hover:underline">Login</span></Link>
+                <Link to="/login" className="block mt-3 mb-5 text-center text-xs md:text-sm font-semibold text-gray-700 tracking-wider hover:text-gray-600">Sudah punya akun? <span className="hover:underline">Login</span></Link>
             </form>
         </React.Fragment>
     )

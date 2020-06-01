@@ -22,7 +22,7 @@ const Button = props => {
     if(props.to){
         return (
             <Link to={props.to}
-                className="px-4 py-3 bg-white rounded-md focus:outline-none shadow-xl text-blue-800 text-lg font-bold tracking-widest transform hover:scale-95 hover:shadow-none duration-300"
+                className="px-4 py-2 bg-white rounded-md focus:outline-none text-blue-800 text-xs font-semibold tracking-widest transform hover:scale-95 hover:shadow-md duration-300 border border-solid border-blue-800"
                 style={styles.container(mediaQuery)}
             >
                 {props.children}
