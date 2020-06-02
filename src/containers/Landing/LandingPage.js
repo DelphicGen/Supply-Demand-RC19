@@ -233,7 +233,7 @@ const LandingPage = () => {
                                     to='donasi'
                                     spy={true}
                                     smooth={true}
-                                    duration={500}
+                                    duration={750}
                                 >
                                     <Button scroll={true}>INFO DONASI</Button>
                                 </Link>
@@ -244,7 +244,7 @@ const LandingPage = () => {
                                     to='data'
                                     spy={true}
                                     smooth={true}
-                                    duration={500}
+                                    duration={750}
                                 >
                                     <Button scroll={true}>PENGAJUAN BANTUAN</Button>
                                 </Link>

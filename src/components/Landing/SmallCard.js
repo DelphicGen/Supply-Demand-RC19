@@ -6,7 +6,7 @@ const SmallCard = props => {
     const mediaQuery = useMediaQuery('(min-width: 768px)')
 
     return (
-        <div className="bg-white mx-auto md:mx-2 mb-3 md:mb-4 rounded-lg shadow-lg" style={styles.container(mediaQuery)}>
+        <div className="bg-gray-100 mx-auto md:mx-2 mb-3 md:mb-4 rounded-lg shadow-lg" style={styles.container(mediaQuery)}>
             <div className="flex flex-row flex-wrap items-end" style={styles2.container(mediaQuery)}>
                 <h5 className="p-5 font-bold text-blue-800 text-md md:text-xl">{props.title}</h5>
             </div>
@@ -46,7 +46,7 @@ const SmallCard = props => {
 
 const styles = {
     container: mediaQuery => ({
-        width: mediaQuery ? '288px' : '80%',
+        width: mediaQuery ? '280px' : '80%',
         height: mediaQuery ? '335px' : 'auto'
     })
 }

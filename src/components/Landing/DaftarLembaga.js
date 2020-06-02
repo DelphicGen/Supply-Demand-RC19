@@ -86,7 +86,7 @@ const listLembaga1 = [
 ]
 
 const DaftarLembaga = props => (
-    <div className="flex flex-row flex-wrap w-11/12 justify-center mx-auto">
+    <div className="w-11/12 mx-auto md:grid md:justify-center" style={{gridTemplateColumns: 'repeat( auto-fill, minmax(256px, 292px) )'}}>
         {listLembaga1.map(lembaga => (
             <SmallCard
                 key={lembaga.title}

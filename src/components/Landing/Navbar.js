@@ -35,7 +35,7 @@ const Navbar = props => {
                     to='top'
                     spy={true}
                     smooth={true}
-                    duration={500}
+                    duration={750}
                     className='cursor-pointer flex flex-row items-center'
                 >
                     <img style={{ height: '45px', width: '45px' }} src={logo} alt="doctor-with-mask" />
