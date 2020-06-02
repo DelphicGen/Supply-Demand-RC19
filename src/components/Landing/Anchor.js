@@ -3,7 +3,7 @@ import Scroll from 'react-scroll'
 const Link = Scroll.Link
 
 const Anchor = props => (
-    <div>
+    <div className="mb-1 md:mb-0">
         <Link
             onClick={props.onClick}
             to={props.to}

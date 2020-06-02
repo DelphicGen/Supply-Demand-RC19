@@ -7,10 +7,10 @@ const SideDrawer = props => {
         <CSSTransition
             in={props.show}
             timeout={300}
-            classNames="slide-in-left"
+            classNames="slide-in-down"
             mountOnEnter
             unmountOnExit>
-            <aside className="fixed left-0 top-0 h-screen w-8/12 bg-gray-100 text-center flex flex-col justify-center" style={{zIndex: 1000}} onClick={props.onClick}>{props.children}</aside>
+            <aside className="fixed left-0 w-screen w-8/12 pt-20 pb-6 bg-gray-100 text-center flex flex-col justify-center items-center z-30 rounded-b-lg" style={{boxShadow: '0 6px 8px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.06)', height: '17rem'}} onClick={props.onClick}>{props.children}</aside>
         </CSSTransition>
     )
     return ReactDOM.createPortal(content, document.getElementById('drawer-hook'))

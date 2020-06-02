@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { HamburgerVortexReverse } from 'react-animated-burgers'
 import Scroll from 'react-scroll'
 
@@ -6,13 +6,14 @@ import logo from '../../images/LandingPage.png'
 import Anchors from './Anchors'
 import AuthButtonNav from './AuthButtonNav'
 import SideDrawer from './SideDrawer'
-import Backdrop from '../UI/Backdrop'
 import './Navbar.css'
 
 const Link = Scroll.Link
 
 const Navbar = props => {
     const [drawerVisible, setDrawerVisible] = useState(false)
+    const [navVisible, setNavVisible] = useState(true)
+    const [prevScrollPos, setPrevScrollPos] = useState(window.pageYOffset)
 
     const toggleButton = () => {
         setDrawerVisible(prev => !prev)
@@ -21,16 +22,30 @@ const Navbar = props => {
     const closeDrawer = () => {
         setDrawerVisible(false)
     }
+
+    const handleScroll = useCallback(() => {
+        const currentScrollPos = window.pageYOffset
+        const visible = prevScrollPos > currentScrollPos
+
+        setNavVisible(visible)
+        setPrevScrollPos(currentScrollPos)
+    }, [prevScrollPos])
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll)
+
+        return () => window.removeEventListener('scroll', handleScroll)
+    }, [handleScroll])
+
     return (
         <React.Fragment>
-            {drawerVisible && <Backdrop onClick={closeDrawer} />}
             <SideDrawer show={drawerVisible} onClick={closeDrawer}>
                 <Anchors onClick={closeDrawer} />
                 <div className="mt-5">
                     <AuthButtonNav />
                 </div>
             </SideDrawer>
-            <div className="fixed w-full flex flex-row px-5 py-3 items-center justify-between bg-gray-100 rounded-b-lg z-40" style={{ boxShadow: '0 6px 8px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' }}>
+            <div className="fixed w-full top-0 flex flex-row px-5 py-3 items-center justify-between bg-gray-100 rounded-b-lg z-40 transition ease-in duration-300" style={{ boxShadow: !drawerVisible && '0 6px 8px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.06)', transform: !navVisible && 'translateY(-90px)'  }}>
                 <Link
                     to='top'
                     spy={true}

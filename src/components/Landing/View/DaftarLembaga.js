@@ -1,6 +1,6 @@
 import React from 'react'
 
-import SmallCard from './SmallCard'
+import SmallCard from '../SmallCard'
 
 const listLembaga1 = [
     {

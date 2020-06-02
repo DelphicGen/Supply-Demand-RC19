@@ -13,9 +13,10 @@ import Table from '../../components/Dashboard/Table'
 import Navbar from '../../components/Landing/Navbar'
 
 // Divs
-import InfoDonasi from '../../components/Landing/InfoDonasi'
-import PengajuanBantuan from '../../components/Landing/PengajuanBantuan'
-import Contact from '../../components/Landing/Contact'
+import InfoDonasi from '../../components/Landing/View/InfoDonasi'
+import PengajuanBantuan from '../../components/Landing/View/PengajuanBantuan'
+import Contact from '../../components/Landing/View/Contact'
+import Credit from '../../components/Landing/View/Credit'
 
 const Link = Scroll.Link
 
@@ -221,6 +222,7 @@ const LandingPage = () => {
         <React.Fragment>
             <ErrorModal error={error} onClear={clearError} />
             <Navbar />
+
             <Element id='top' name='top'>
                 <div className="flex items-center justify-center pt-32 pb-10 lg:flex-row flex-col">
                     <img style={{ height: '280px', width: '280px' }} src={logo} alt="doctor-with-mask" />
@@ -295,9 +297,11 @@ const LandingPage = () => {
                 <Contact />
             </Element>
 
-            {/* <div className="bg-blue-800 text-white pb-3 pt-10 mt-20 lg:absolute lg:w-full lg:bottom-0">
-                <h5 className="text-sm text-center">Icon by JustIcon</h5>
-            </div> */}
+            <Credit />
+
+            <div className="bg-gray-200 py-2">
+                <h5 className="text-sm text-center text-blue-800 font-semibold">Icon by JustIcon</h5>
+            </div>
         </React.Fragment>
     )
 }

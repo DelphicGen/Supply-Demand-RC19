@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import BigCard from './BigCard'
-import BigCardList from './BigCardList'
+import BigCard from '../BigCard'
+import BigCardList from '../BigCardList'
 import DaftarLembaga from './DaftarLembaga'
 
 const InfoDonasi = () => (
