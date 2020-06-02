@@ -59,7 +59,7 @@ const TextInput = props => {
             <label htmlFor={props.id} className="text-gray-700 tracking-wide font-medium text-sm md:text-base my-1">{props.label}</label>
             <div className="relative w-full">
                 <input
-                    className={`mb-3 w-full bg-gray-400 text-gray-700 p-2 pr-10 tex-sm font-semibold tracking-wide rounded-md outline-none focus:shadow-outline focus:text-blue-700 ${props.className}`}
+                    className={`mb-3 w-full bg-gray-400 text-gray-700 p-2 pr-10 tex-sm font-semibold tracking-wide rounded-md outline-none focus:shadow-outline focus:text-blue-800 ${props.className}`}
                     style={{width: props.width, maxWidth: props.maxWidth}} 
                     id={props.id}
                     type={hidden ? 'password' : 'text'}
@@ -68,7 +68,7 @@ const TextInput = props => {
                     onChange={changeHandler}
                     onBlur={touchHandler} />
                 <RemoveRedEye 
-                    className={`${hidden ? 'text-gray-700' : 'text-blue-700'} absolute cursor-pointer`} 
+                    className={`${hidden ? 'text-gray-700' : 'text-blue-800'} absolute cursor-pointer`} 
                     fontSize="default"
                     style={{right: 10, top: 8}}
                     onClick={() => setHidden(prev => !prev)} />
@@ -83,7 +83,7 @@ const TextInput = props => {
             <label htmlFor={props.id} className="text-gray-700 tracking-wide font-medium text-sm md:text-base my-1">{props.label}</label>
             <div className="relative" style={props.dashboardWidth || {width: 'auto'}}>
                 <input
-                    className={`mb-3 w-full bg-gray-400 text-gray-700 p-2 rounded-md tex-sm font-semibold tracking-wide outline-none focus:shadow-outline focus:text-blue-700 ${props.className}`}
+                    className={`mb-3 w-full bg-gray-400 text-gray-700 p-2 rounded-md tex-sm font-semibold tracking-wide outline-none focus:shadow-outline focus:text-blue-800 ${props.className}`}
                     style={{width: props.width, maxWidth: props.maxWidth}} 
                     id={props.id}
                     type={props.type}
@@ -94,7 +94,7 @@ const TextInput = props => {
 
                 {inputState.value !== '' && (
                     <Clear
-                        className={`${hidden ? 'text-gray-700' : 'text-blue-700'} absolute cursor-pointer`} 
+                        className={`${hidden ? 'text-gray-700' : 'text-blue-800'} absolute cursor-pointer`} 
                         fontSize="small"
                         style={props.customClear || {right: 8, top: 10}}
                         onClick={clearHandler} />

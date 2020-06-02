@@ -162,7 +162,7 @@ const UpdateRiwayat = (props) => {
                                                 <div className="flex">
                                                     <div className="w-1/2">
                                                         <input
-                                                            className={`mb-3 inline-block w-full bg-gray-400 text-gray-700 p-2 rounded-md tex-sm font-semibold tracking-wide outline-none focus:shadow-outline focus:text-blue-700`}
+                                                            className={`mb-3 inline-block w-full bg-gray-400 text-gray-700 p-2 rounded-md tex-sm font-semibold tracking-wide outline-none focus:shadow-outline focus:text-blue-800`}
                                                             id={'quantity'}
                                                             type={'text'}
                                                             value={(item.quantity % 1 === 0) ? Math.floor(item.quantity) : item.quantity}

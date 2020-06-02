@@ -148,7 +148,7 @@ const InputKebutuhan = (props) => {
             <ErrorModal error={error} onClear={clearError} />
             <ErrorModal error={submitError} onClear={clearSubmitError} />
             <div className="p-8 py-4 block md:hidden md:text-left lg:pl-5 md:pl-3 inline-block bg-blue-700 rounded-b-lg sm:rounded-b-none sm:rounded-r-lg w-full sm:w-auto">
-                <h5 className="font-semibold text-md text-white">Dashboard Pemohon</h5>
+                <h5 className="font-semibold text-base text-white">Dashboard Pemohon</h5>
                 <h2 className="font-semibold text-lg text-white">{auth.name}</h2>
             </div>
             <div className="flex flex-row h-full w-full">
@@ -174,7 +174,7 @@ const InputKebutuhan = (props) => {
                                                 <div className="flex">
                                                     <div className="w-1/2">
                                                         <input
-                                                            className={`mb-3 inline-block w-full bg-gray-400 text-gray-700 p-2 rounded-md tex-sm font-semibold tracking-wide outline-none focus:shadow-outline focus:text-blue-700`}
+                                                            className={`mb-3 inline-block w-full bg-gray-400 text-gray-700 p-2 rounded-md tex-sm font-semibold tracking-wide outline-none focus:shadow-outline focus:text-blue-800`}
                                                             id={'quantity'}
                                                             type={'text'}
                                                             value={item.quantity}

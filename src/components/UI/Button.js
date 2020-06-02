@@ -11,7 +11,7 @@ const Button = props => {
             maxHeight: 41
         })
     }
-    if(props.to){
+    if(props.to || props.scroll){
         return (
             <Link 
                 to={props.to} 

@@ -160,7 +160,7 @@ const DonasiSaya = (props) => {
         <React.Fragment>
             <ErrorModal error={requestError} onClear={clearError} />
             <div className="p-8 py-4 block md:hidden md:text-left lg:pl-5 md:pl-3 inline-block bg-blue-700 rounded-b-lg sm:rounded-b-none sm:rounded-r-lg w-full sm:w-auto">
-                <h5 className="font-semibold text-md text-white">Dashboard Donatur</h5>
+                <h5 className="font-semibold text-base text-white">Dashboard Donatur</h5>
                 <h2 className="font-semibold text-lg text-white">{auth.name}</h2>
             </div>
             <div className="flex flex-row">

@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import { Element } from 'react-scroll'
 import { useHttpClient } from '../../hooks/http-hook'
+import Scroll from 'react-scroll'
 
 import LoadingSpinner from '../../components/UI/LoadingSpinner'
+import Button from '../../components/UI/Button'
 import ErrorModal from '../../components/UI/ErrorModal'
 import logo from '../../images/LandingPage.png'
 import Select from '../../components/UI/Select'
 import RadioTextInput from '../../components/Form/RadioTextInput'
 import Table from '../../components/Dashboard/Table'
-import Navbar from '../../components/UI/Navbar'
+import Navbar from '../../components/Landing/Navbar'
+
+// Divs
+import InfoDonasi from '../../components/Landing/InfoDonasi'
+
+const Link = Scroll.Link
 
 const LandingPage = () => {
 
@@ -182,7 +189,7 @@ const LandingPage = () => {
                         divClassName="items-center mx-auto w-10/12 md:w-8/12 lg:w-7/12 mt-2 lg:mt-0"
                         arrayList={table === 'kebutuhan' ? demandItem : stockItem}
                     />
-                    <p className="mx-auto w-10/12 md:w-8/12 lg:w-7/12 text-gray-800 text-xs md:text-sm font-medium mb-2">Note : Item yang tidak ada di filter berarti kosong.</p>
+                    <p className="mx-auto w-10/12 md:w-8/12 lg:w-7/12 text-gray-700 text-xs md:text-sm font-medium mb-2">Note : Item yang tidak ada di filter berarti kosong.</p>
                 </React.Fragment>
             )
         }
@@ -217,14 +224,38 @@ const LandingPage = () => {
                     <img style={{ height: '280px', width: '280px' }} src={logo} alt="doctor-with-mask" />
                     <div className="md:pl-10 px-10">
                         <p className="text-blue-800 md:mt-0 mt-4 font-bold md:text-4xl text-3xl lg:text-left text-center">Peduli Corona</p>
-                        <p className="text-center md:text-justify tracking-wide text-xs md:text-sm font-normal md:font-semibold max-w-md md:max-w-xl leading-relaxed mb-6 mt-4">Peduli Corona adalah website penyaluran kebutuhan supply and demand bantuan alat kesehatan Covid-19 untuk RS, Puskesmas, serta fasIilitas dan yayasan kesehatan di Daerah Istimewa Yogyakarta. Website ini dikembangkan oleh Tim Relawan Covid 19 dan Sambatan Jogja.</p>
-                        <p className="text-center md:text-justify text-sm max-w-xl leading-relaxed">Ingin berdonasi?</p>
+                        <p className="text-center md:text-justify tracking-wide text-gray-800 text-xs md:text-sm font-normal max-w-sm md:max-w-xl leading-relaxed mb-6 mt-4">Peduli Corona adalah website penyaluran kebutuhan supply and demand bantuan alat kesehatan Covid-19 untuk RS, Puskesmas, serta fasIilitas dan yayasan kesehatan di Daerah Istimewa Yogyakarta. Website ini dikembangkan oleh Tim Relawan Covid 19 dan Sambatan Jogja.</p>
+
+                        <div className="flex flex-row flex-wrap justify-center md:justify-start">
+                            <div className="mb-4 sm:mr-4">
+                                <p className="text-center md:text-left text-gray-800 font-semibold text-xs md:text-sm leading-relaxed mb-3">Ingin berdonasi?</p>
+                                <Link
+                                    to='donasi'
+                                    spy={true}
+                                    smooth={true}
+                                    duration={500}
+                                >
+                                    <Button scroll={true}>INFO DONASI</Button>
+                                </Link>
+                            </div>
+                            <div className="">
+                                <p className="text-center md:text-left text-gray-800 font-semibold text-xs md:text-sm leading-relaxed mb-3">Ingin mengajukan bantuan?</p>
+                                <Link
+                                    to='data'
+                                    spy={true}
+                                    smooth={true}
+                                    duration={500}
+                                >
+                                    <Button scroll={true}>PENGAJUAN BANTUAN</Button>
+                                </Link>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </Element>
 
             <Element id='data' name='data'>
-                <p className="text-blue-800 md:mt-0 mt-8 md:mt-16 lg:mt-20 font-bold text-xl md:text-2xl lg:text-3xl text-center">Data Kebutuhan dan Bantuan</p>
+                <p className="text-blue-800 md:mt-0 mt-8 md:mt-16 lg:mt-20 font-bold text-xl md:text-2xl text-center">Data Kebutuhan dan Bantuan</p>
                 <div className="flex flex-row items-center justify-center mt-2 mb-4">
                     <RadioTextInput
                         changed={radioChangeHandler}
@@ -244,13 +275,19 @@ const LandingPage = () => {
                     <div className="mt-1 w-2/3 max-w-sm lg:max-w-xl opacity-50 bg-gray-500" style={{ height: 2 }}></div>
                 </div>
 
-                {filterSelect}
-                {content}
+                <div className="pb-16">
+                    {filterSelect}
+                    {content}
+                </div>
             </Element>
 
-            <div className="bg-blue-800 text-white pb-3 pt-10 mt-20 lg:absolute lg:w-full lg:bottom-0">
+            <Element id='donasi' name='donasi'>
+                <InfoDonasi />
+            </Element>
+
+            {/* <div className="bg-blue-800 text-white pb-3 pt-10 mt-20 lg:absolute lg:w-full lg:bottom-0">
                 <h5 className="text-sm text-center">Icon by JustIcon</h5>
-            </div>
+            </div> */}
         </React.Fragment>
     )
 }

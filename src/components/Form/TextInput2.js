@@ -51,7 +51,7 @@ const TextInput2 = props => {
             <div className="flex">
                 <div className="w-1/2">
                     <input
-                        className={`mb-3 inline-block w-full bg-gray-400 text-gray-700 p-2 rounded-md tex-sm font-semibold tracking-wide outline-none focus:shadow-outline focus:text-blue-700 ${props.className}`}
+                        className={`mb-3 inline-block w-full bg-gray-400 text-gray-700 p-2 rounded-md tex-sm font-semibold tracking-wide outline-none focus:shadow-outline focus:text-blue-800 ${props.className}`}
                         style={{width: props.width, maxWidth: props.maxWidth}} 
                         id={props.id}
                         type={props.type}

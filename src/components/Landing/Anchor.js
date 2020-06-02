@@ -10,7 +10,7 @@ const Anchor = props => (
             spy={true}
             smooth={true}
             duration={500}
-            className='text-xs text-gray-700 font-semibold mr-4 lg:mr-8 cursor-pointer hover:text-blue-700'
+            className='text-xs text-gray-700 font-semibold mr-4 lg:mr-8 cursor-pointer hover:text-blue-800'
         >
             {props.children}
         </Link>
