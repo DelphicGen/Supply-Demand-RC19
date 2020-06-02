@@ -6,11 +6,11 @@ const SmallCard = props => {
     const mediaQuery = useMediaQuery('(min-width: 768px)')
 
     return (
-        <div className="bg-gray-100 mx-auto md:mx-2 mb-3 md:mb-4 rounded-lg shadow-lg" style={styles.container(mediaQuery)}>
+        <div className="bg-white mx-auto md:mx-2 mb-3 md:mb-4 rounded-lg shadow-lg" style={styles.container(mediaQuery)}>
             <div className="flex flex-row flex-wrap items-end" style={styles2.container(mediaQuery)}>
                 <h5 className="p-5 font-bold text-blue-800 text-md md:text-xl">{props.title}</h5>
             </div>
-            <div className="bg-gray-500 w-full h-px"></div>
+            <div className="bg-gray-700 w-full h-px"></div>
             <div className="p-5">
                 <div className="flex flex-row mb-6">
                     <CreditCard className="text-gray-800" fontSize="small" />

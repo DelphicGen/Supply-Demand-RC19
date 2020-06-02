@@ -14,6 +14,8 @@ import Navbar from '../../components/Landing/Navbar'
 
 // Divs
 import InfoDonasi from '../../components/Landing/InfoDonasi'
+import PengajuanBantuan from '../../components/Landing/PengajuanBantuan'
+import Contact from '../../components/Landing/Contact'
 
 const Link = Scroll.Link
 
@@ -241,7 +243,7 @@ const LandingPage = () => {
                             <div className="">
                                 <p className="text-center md:text-left text-gray-800 font-semibold text-xs md:text-sm leading-relaxed mb-3">Ingin mengajukan bantuan?</p>
                                 <Link
-                                    to='data'
+                                    to='bantuan'
                                     spy={true}
                                     smooth={true}
                                     duration={750}
@@ -283,6 +285,14 @@ const LandingPage = () => {
 
             <Element id='donasi' name='donasi'>
                 <InfoDonasi />
+            </Element>
+
+            <Element id='bantuan' name='bantuan'>
+                <PengajuanBantuan />
+            </Element>
+
+            <Element id="kontak" name="kontak">
+                <Contact />
             </Element>
 
             {/* <div className="bg-blue-800 text-white pb-3 pt-10 mt-20 lg:absolute lg:w-full lg:bottom-0">

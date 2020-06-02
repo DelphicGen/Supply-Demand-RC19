@@ -5,8 +5,8 @@ const Anchors = props => (
     <React.Fragment>
         <Anchor to='data' onClick={props.onClick}>DATA</Anchor>
         <Anchor to='donasi' onClick={props.onClick}>INFO DONASI</Anchor>
-        <Anchor to='data' onClick={props.onClick}>PENGAJUAN BANTUAN</Anchor>
-        <Anchor to='data' onClick={props.onClick}>KONTAK</Anchor>
+        <Anchor to='bantuan' onClick={props.onClick}>PENGAJUAN BANTUAN</Anchor>
+        <Anchor to='kontak' onClick={props.onClick}>KONTAK</Anchor>
     </React.Fragment>
 )
 
