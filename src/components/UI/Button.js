@@ -26,13 +26,13 @@ const Button = props => {
     if (props.scroll) {
         return (
             <span
-                className="inline px-4 py-2 bg-blue-800 rounded-md focus:outline-none text-gray-200 mr-2 text-xs font-semibold tracking-widest transform hover:scale-95 hover:shadow-md duration-300"
-                style={!props.width ? styles.container(mediaQuery) : { width: props.width }}
+                className="inline px-4 py-2 bg-blue-800 rounded-md focus:outline-none text-gray-200 text-xs font-semibold tracking-widest transform hover:scale-95 hover:shadow-md duration-300"
             >
                 {props.children}
             </span>
         )
     }
+
     return (
         <button
             className={`mt-8 p-2 bg-blue-800 rounded-md flex items-center justify-center focus:outline-none shadow-xl text-gray-200 text-lg font-bold tracking-widest duration-300 ${props.disabled ? 'cursor-not-allowed opacity-50 text-white' : 'hover:bg-indigo-900 focus:bg-purple-900'}`}

@@ -231,7 +231,7 @@ const LandingPage = () => {
                         <p className="text-center md:text-justify tracking-wide text-gray-800 text-xs md:text-sm font-normal max-w-sm md:max-w-xl leading-relaxed mb-6 mt-4">Peduli Corona adalah website penyaluran kebutuhan supply and demand bantuan alat kesehatan Covid-19 untuk RS, Puskesmas, serta fasIilitas dan yayasan kesehatan di Daerah Istimewa Yogyakarta. Website ini dikembangkan oleh Tim Relawan Covid 19 dan Sambatan Jogja.</p>
 
                         <div className="flex flex-row flex-wrap justify-center md:justify-start">
-                            <div className="mb-4 sm:mr-4">
+                            <div className="mb-4 sm:mr-6">
                                 <p className="text-center md:text-left text-gray-800 font-semibold text-xs md:text-sm leading-relaxed mb-3">Ingin berdonasi?</p>
                                 <Link
                                     to='donasi'
