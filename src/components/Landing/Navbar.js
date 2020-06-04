@@ -39,7 +39,7 @@ const Navbar = props => {
 
     return (
         <React.Fragment>
-            <SideDrawer show={drawerVisible} onClick={closeDrawer}>
+            <SideDrawer show={drawerVisible} navVisible={navVisible} onClick={closeDrawer}>
                 <Anchors onClick={closeDrawer} />
                 <div className="mt-5">
                     <AuthButtonNav />

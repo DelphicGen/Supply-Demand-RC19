@@ -5,7 +5,7 @@ import { CSSTransition } from 'react-transition-group'
 const SideDrawer = props => {
     const content = (
         <CSSTransition
-            in={props.show}
+            in={props.show && props.navVisible}
             timeout={300}
             classNames="slide-in-down"
             mountOnEnter
