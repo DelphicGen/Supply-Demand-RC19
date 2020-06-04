@@ -85,7 +85,6 @@ const InputAlokasi = (props) => {
       }),
       { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
     ).then(responseData => {
-      console.log(responseData)
       props.history.push('/dashboard/alokasi-bantuan')
       if (responseData.error) {
         setSubmitError(responseData.error)
