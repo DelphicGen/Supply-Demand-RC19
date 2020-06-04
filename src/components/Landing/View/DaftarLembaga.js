@@ -70,18 +70,6 @@ const listLembaga1 = [
             name: 'Onny ACT',
             number: '+62 813-2771-8919'
         }
-    },
-    {
-        title: 'WE CARE WE SHARE',
-        bank: 'Bank BRI',
-        account: {
-            number: '0464420675',
-            name: ' Pande Made Kintan R'
-        },
-        contact: {
-            name: 'Farrel Ie Sonjo Legawa⁩',
-            number: '+62 811-103-752'
-        }
     }
 ]
 

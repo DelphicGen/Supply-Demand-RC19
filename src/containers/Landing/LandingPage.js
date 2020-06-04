@@ -228,7 +228,11 @@ const LandingPage = () => {
                     <img style={{ height: '280px', width: '280px' }} src={logo} alt="doctor-with-mask" />
                     <div className="md:pl-10 px-10">
                         <p className="text-blue-800 md:mt-0 mt-4 font-bold md:text-4xl text-3xl lg:text-left text-center">Peduli Corona</p>
-                        <p className="text-center md:text-justify tracking-wide text-gray-800 text-xs md:text-sm font-normal max-w-sm md:max-w-xl leading-relaxed mb-6 mt-4">Peduli Corona adalah website penyaluran kebutuhan supply and demand bantuan alat kesehatan Covid-19 untuk RS, Puskesmas, serta fasIilitas dan yayasan kesehatan di Daerah Istimewa Yogyakarta. Website ini dikembangkan oleh Tim Relawan Covid 19 dan Sambatan Jogja.</p>
+                        <p className="text-center md:text-justify tracking-wide text-gray-800 text-xs md:text-sm font-normal max-w-sm md:max-w-xl leading-relaxed mb-6 mt-4">
+                        Peduli Corona adalah website penyaluran kebutuhan dan stok <i>(supply and demand)</i> bantuan alat kesehatan Covid-19 untuk 
+                        RS, Puskesmas, serta fasIilitas dan yayasan kesehatan di Daerah Istimewa Yogyakarta. Website ini dikembangkan oleh 
+                        Tim Relawan Covid 19 dan Sambatan Jogja.
+                        </p>
 
                         <div className="flex flex-row flex-wrap justify-center md:justify-start">
                             <div className="mb-4 sm:mr-6">

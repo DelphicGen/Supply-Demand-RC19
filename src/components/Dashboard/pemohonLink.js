@@ -1,5 +1,5 @@
 import React from 'react'
-import { Favorite, Create } from '@material-ui/icons';
+import { Favorite, CardGiftcard } from '@material-ui/icons';
 
 export const links = [
     {
@@ -9,8 +9,8 @@ export const links = [
     },
     {
         link: '/dashboard/riwayat-kebutuhan',
-        icon: (<Create className="text-white" fontSize="small" />),
-        info: 'Riwayat Kebutuhan'
+        icon: (<CardGiftcard className="text-white" fontSize="small" />),
+        info: 'Riwayat Permohonan'
     },
    
 ]
