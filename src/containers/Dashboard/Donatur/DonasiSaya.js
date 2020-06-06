@@ -41,6 +41,10 @@ const DonasiSaya = (props) => {
             }
         },
         {
+            Header: 'Keterangan',
+            accessor: 'keterangan'
+        },
+        {
             Header: 'Aksi',
             accessor: 'action'
         }
@@ -52,7 +56,8 @@ const DonasiSaya = (props) => {
         props.history.push(`/dashboard/update-donasi/${donationId}`)
     }, [props.history])
 
-    const deleteDonation = useCallback(id => {
+    const deleteDonation = useCallback((id) => {
+        // console.log(donationId, id)
         setDeleteLoading(true)
         return fetch(`${process.env.REACT_APP_BACKEND_URL}/v1/donations/${id}`, {
             method: 'DELETE',
@@ -81,6 +86,7 @@ const DonasiSaya = (props) => {
                 null,
                 { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
             ).then(responseData => {
+                console.log(responseData)
                 if (responseData) {
                     let temp = []
                     if (responseData.data) {
@@ -100,28 +106,39 @@ const DonasiSaya = (props) => {
                                     //         </div>
                                     //     )
                                     // } else {
-                                    //     if (responseData.data[index].isAccepted) {
-                                    //         temp[temp.length - 1].keterangan = (
-                                    //             <div className="inline-block py-1 px-2 tracking-wide text-xs md:text-sm rounded-full text-green-500 bg-green-200">
-                                    //                 Ready
-                                    //             </div>
-                                    //         )
-                                    //     } else {
-                                    //         temp[temp.length - 1].keterangan = (
-                                    //             <div className="inline-block py-1 px-2 tracking-wide text-xs md:text-sm rounded-full text-center text-orange-500 bg-orange-200">
-                                    //                 Belum terkonfirmasi
-                                    //             </div>
-                                    //         )
-                                    //     }
+                                        if (responseData.data[index].isAccepted) {
+                                            temp[temp.length - 1].keterangan = (
+                                                <div className="inline-block py-1 px-2 tracking-wide text-xs md:text-sm rounded-full text-green-500 bg-green-200">
+                                                    Ready
+                                                </div>
+                                            )
+                                        } else {
+                                            temp[temp.length - 1].keterangan = (
+                                                <div className="inline-block py-1 px-2 tracking-wide text-xs md:text-sm rounded-full text-center text-orange-500 bg-orange-200">
+                                                    Belum terkonfirmasi
+                                                </div>
+                                            )
+                                        }
                                     // }
 
                                 } else {
+                                    let tempName = '';
+                                    let tempUnit = '';
+                                    temp = [...temp, data.donationItems[0]]
+                                    temp[temp.length - 1].donation_id = responseData.data[index].id
+                                    temp[temp.length - 1].isAccepted = responseData.data[index].isAccepted
+                                    temp[temp.length - 1].isDonated = responseData.data[index].isDonated
 
                                     for (let i = 0; i < data.donationItems.length; i++) {
-                                        temp = [...temp, data.donationItems[i]]
-                                        temp[temp.length - 1].donation_id = responseData.data[index].id
-                                        temp[temp.length - 1].isAccepted = responseData.data[index].isAccepted
-                                        temp[temp.length - 1].isDonated = responseData.data[index].isDonated
+                                        // temp = [...temp, data.donationItems[i]]
+                                        // temp[temp.length - 1].donation_id = responseData.data[index].id
+                                        // temp[temp.length - 1].isAccepted = responseData.data[index].isAccepted
+                                        // temp[temp.length - 1].isDonated = responseData.data[index].isDonated
+
+                                        tempName += i === data.donationItems.length -1 ? `${data.donationItems[i].item.name}` : `${data.donationItems[i].item.name}, `
+                                        tempUnit += i === data.donationItems.length -1 ? `${data.donationItems[i].quantity} ${data.donationItems[i].unit.name}` : `${data.donationItems[i].quantity} ${data.donationItems[i].unit.name} ,`
+
+                                        // temp[temp.length - 1].id = responseData.data[index].id
                                         // if (responseData.data[index].isDonated) {
                                         //     temp[temp.length - 1].keterangan = (
                                         //         <div className="inline-block py-1 px-2 rounded-full text-red-800 bg-red-200">
@@ -129,22 +146,24 @@ const DonasiSaya = (props) => {
                                         //         </div>
                                         //     )
                                         // } else {
-                                        //     if (responseData.data[index].isAccepted) {
-                                        //         temp[temp.length - 1].keterangan = (
-                                        //             <div className="inline-block py-1 px-2 tracking-wide text-xs md:text-sm rounded-full text-green-500 bg-green-200">
-                                        //                 Ready
-                                        //             </div>
-                                        //         )
-                                        //     } else {
-                                        //         temp[temp.length - 1].keterangan = (
-                                        //             <div className="inline-block py-1 px-2 tracking-wide text-xs md:text-sm rounded-full text-center text-orange-500 bg-orange-200">
-                                        //                 Belum terkonfirmasi
-                                        //             </div>
-                                        //         )
-                                        //     }
+                                            if (responseData.data[index].isAccepted) {
+                                                temp[temp.length - 1].keterangan = (
+                                                    <div className="inline-block py-1 px-2 tracking-wide text-xs md:text-sm rounded-full text-green-500 bg-green-200">
+                                                        Sudah terkonfirmasi
+                                                    </div>
+                                                )
+                                            } else {
+                                                temp[temp.length - 1].keterangan = (
+                                                    <div className="inline-block py-1 px-2 tracking-wide text-xs md:text-sm rounded-full text-center text-orange-500 bg-orange-200">
+                                                        Belum terkonfirmasi
+                                                    </div>
+                                                )
+                                            }
                                         // }
                                     }
-
+                                    temp[temp.length - 1].item.name = tempName
+                                    temp[temp.length - 1].quantity = tempUnit
+                                    temp[temp.length - 1].unit.name = ''
                                 }
                             }
                         })
@@ -169,6 +188,7 @@ const DonasiSaya = (props) => {
                                 </div>
                             )
                         })
+                        console.log(temp)
                         setDataTable(temp)
                     }
                 }

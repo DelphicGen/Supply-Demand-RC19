@@ -105,3 +105,7 @@ export default App
 
 // email: applicant@applicant.com
 // pass: applicant-supply-demand-covid19
+
+// Pake akun ini aja kalo debug
+// Donatur : levi@ackerman.com, pass: leviackerman
+// Applicant : mikasa@ackerman.com, pass: mikasaackerman

@@ -20,6 +20,10 @@ const Table = ({ columns, data, isLandingPage, pageToGo, donasi }) => {
           columns,
           data,
         },usePagination)
+    
+    useEffect(() => {
+        console.log(data)
+    }, [])
 
     useEffect(() => {
         let page = Math.floor(pageToGo / 10) || 0
