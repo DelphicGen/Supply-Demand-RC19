@@ -26,17 +26,26 @@ const DonasiSaya = (props) => {
         {
             Header: 'Nama Barang',
             accessor: data => {
+                // let output = []
+                // output.push(data.item.name)
+                // return output.join(', ')
                 let output = []
-                output.push(data.item.name)
+                data.donationItems.map(request => output.push(request.item.name))
                 return output.join(', ')
             }
         },
         {
             Header: 'Stok',
             accessor: data => {
+                // let output = []
+                // let quantity = data.quantity % 1 === 0 ? Math.round(data.quantity) : data.quantity
+                // output.push(`${quantity} ${data.unit.name}`)
+                // return output.join(', ')
                 let output = []
-                let quantity = data.quantity % 1 === 0 ? Math.round(data.quantity) : data.quantity
-                output.push(`${quantity} ${data.unit.name}`)
+                data.donationItems.map(request => {
+                    let quantity = request.quantity % 1 === 0 ? Math.round(request.quantity) : request.quantity
+                    return output.push(`${quantity} ${request.unit.name}`)
+                })
                 return output.join(', ')
             }
         },
@@ -92,9 +101,9 @@ const DonasiSaya = (props) => {
                     if (responseData.data) {
                         responseData.data.forEach((data, index) => {
                             if (data.donationItems && data.donator.id === auth.id) {
-                                if (data.donationItems.length === 1) {
+                                // if (data.donationItems.length === 1) {
 
-                                    temp = [...temp, data.donationItems[0]]
+                                    temp = [...temp, {donationItems: data.donationItems, requestId: data.id}]
                                     temp[temp.length - 1].donation_id = responseData.data[index].id
                                     temp[temp.length - 1].isAccepted = responseData.data[index].isAccepted
                                     temp[temp.length - 1].isDonated = responseData.data[index].isDonated
@@ -121,50 +130,50 @@ const DonasiSaya = (props) => {
                                         }
                                     // }
 
-                                } else {
-                                    let tempName = '';
-                                    let tempUnit = '';
-                                    temp = [...temp, data.donationItems[0]]
-                                    temp[temp.length - 1].donation_id = responseData.data[index].id
-                                    temp[temp.length - 1].isAccepted = responseData.data[index].isAccepted
-                                    temp[temp.length - 1].isDonated = responseData.data[index].isDonated
+                                // } else {
+                                //     let tempName = '';
+                                //     let tempUnit = '';
+                                //     temp = [...temp, data.donationItems[0]]
+                                //     temp[temp.length - 1].donation_id = responseData.data[index].id
+                                //     temp[temp.length - 1].isAccepted = responseData.data[index].isAccepted
+                                //     temp[temp.length - 1].isDonated = responseData.data[index].isDonated
 
-                                    for (let i = 0; i < data.donationItems.length; i++) {
-                                        // temp = [...temp, data.donationItems[i]]
-                                        // temp[temp.length - 1].donation_id = responseData.data[index].id
-                                        // temp[temp.length - 1].isAccepted = responseData.data[index].isAccepted
-                                        // temp[temp.length - 1].isDonated = responseData.data[index].isDonated
+                                //     for (let i = 0; i < data.donationItems.length; i++) {
+                                //         // temp = [...temp, data.donationItems[i]]
+                                //         // temp[temp.length - 1].donation_id = responseData.data[index].id
+                                //         // temp[temp.length - 1].isAccepted = responseData.data[index].isAccepted
+                                //         // temp[temp.length - 1].isDonated = responseData.data[index].isDonated
 
-                                        tempName += i === data.donationItems.length -1 ? `${data.donationItems[i].item.name}` : `${data.donationItems[i].item.name}, `
-                                        tempUnit += i === data.donationItems.length -1 ? `${data.donationItems[i].quantity} ${data.donationItems[i].unit.name}` : `${data.donationItems[i].quantity} ${data.donationItems[i].unit.name} ,`
+                                //         tempName += i === data.donationItems.length -1 ? `${data.donationItems[i].item.name}` : `${data.donationItems[i].item.name}, `
+                                //         tempUnit += i === data.donationItems.length -1 ? `${data.donationItems[i].quantity} ${data.donationItems[i].unit.name}` : `${data.donationItems[i].quantity} ${data.donationItems[i].unit.name} ,`
 
-                                        // temp[temp.length - 1].id = responseData.data[index].id
-                                        // if (responseData.data[index].isDonated) {
-                                        //     temp[temp.length - 1].keterangan = (
-                                        //         <div className="inline-block py-1 px-2 rounded-full text-red-800 bg-red-200">
-                                        //             Habis
-                                        //         </div>
-                                        //     )
-                                        // } else {
-                                            if (responseData.data[index].isAccepted) {
-                                                temp[temp.length - 1].keterangan = (
-                                                    <div className="inline-block py-1 px-2 tracking-wide text-xs md:text-sm rounded-full text-green-500 bg-green-200">
-                                                        Sudah terkonfirmasi
-                                                    </div>
-                                                )
-                                            } else {
-                                                temp[temp.length - 1].keterangan = (
-                                                    <div className="inline-block py-1 px-2 tracking-wide text-xs md:text-sm rounded-full text-center text-orange-500 bg-orange-200">
-                                                        Belum terkonfirmasi
-                                                    </div>
-                                                )
-                                            }
-                                        // }
-                                    }
-                                    temp[temp.length - 1].item.name = tempName
-                                    temp[temp.length - 1].quantity = tempUnit
-                                    temp[temp.length - 1].unit.name = ''
-                                }
+                                //         // temp[temp.length - 1].id = responseData.data[index].id
+                                //         // if (responseData.data[index].isDonated) {
+                                //         //     temp[temp.length - 1].keterangan = (
+                                //         //         <div className="inline-block py-1 px-2 rounded-full text-red-800 bg-red-200">
+                                //         //             Habis
+                                //         //         </div>
+                                //         //     )
+                                //         // } else {
+                                //             if (responseData.data[index].isAccepted) {
+                                //                 temp[temp.length - 1].keterangan = (
+                                //                     <div className="inline-block py-1 px-2 tracking-wide text-xs md:text-sm rounded-full text-green-500 bg-green-200">
+                                //                         Sudah terkonfirmasi
+                                //                     </div>
+                                //                 )
+                                //             } else {
+                                //                 temp[temp.length - 1].keterangan = (
+                                //                     <div className="inline-block py-1 px-2 tracking-wide text-xs md:text-sm rounded-full text-center text-orange-500 bg-orange-200">
+                                //                         Belum terkonfirmasi
+                                //                     </div>
+                                //                 )
+                                //             }
+                                //         // }
+                                //     }
+                                //     temp[temp.length - 1].item.name = tempName
+                                //     temp[temp.length - 1].quantity = tempUnit
+                                //     temp[temp.length - 1].unit.name = ''
+                                // }
                             }
                         })
 
