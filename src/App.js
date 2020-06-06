@@ -98,5 +98,8 @@ export default App
 // email: donatur3@donatur.com
 // pass: donatur-supply-demand-covid19
 
+// email: donatur4@donatur.com
+// pass: donatur-supply-demand-covid19
+
 // email: applicant@applicant.com
 // pass: applicant-supply-demand-covid19
