@@ -26,7 +26,7 @@ const Button = props => {
     if (props.scroll) {
         return (
             <span
-                className="inline px-4 py-2 bg-blue-800 rounded-md focus:outline-none text-gray-200 text-xs font-semibold tracking-widest transform hover:scale-95 hover:shadow-md duration-300"
+                className="inline px-4 py-2 bg-blue-800 rounded-md focus:outline-none text-gray-200 text-xs font-semibold tracking-widest transform hover:scale-95 hover:shadow-md duration-300 cursor-pointer"
             >
                 {props.children}
             </span>

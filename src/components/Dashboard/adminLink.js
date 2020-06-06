@@ -1,5 +1,5 @@
 import React from 'react'
-import { CheckBox, ConfirmationNumber } from '@material-ui/icons'
+import { CheckBox, ConfirmationNumber, CardGiftcard } from '@material-ui/icons'
 
 export const links = [
     {
@@ -11,5 +11,10 @@ export const links = [
         link: '/dashboard/konfirmasi-donasi',
         icon: (<ConfirmationNumber className="text-white" fontSize="small" />),
         info: 'Konfirmasi Donasi'
+    },
+    {
+        link: '/dashboard/riwayat-alokasi',
+        icon: (<CardGiftcard className="text-white" fontSize="small" />),
+        info: 'Riwayat Alokasi'
     }
 ]

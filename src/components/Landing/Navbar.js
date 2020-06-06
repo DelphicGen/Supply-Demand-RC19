@@ -28,8 +28,11 @@ const Navbar = props => {
         const visible = prevScrollPos > currentScrollPos
 
         setNavVisible(visible)
+        if(drawerVisible){
+            setDrawerVisible(false)
+        }
         setPrevScrollPos(currentScrollPos)
-    }, [prevScrollPos])
+    }, [prevScrollPos, drawerVisible])
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll)
@@ -39,7 +42,7 @@ const Navbar = props => {
 
     return (
         <React.Fragment>
-            <SideDrawer show={drawerVisible} navVisible={navVisible} onClick={closeDrawer}>
+            <SideDrawer show={drawerVisible} onClick={closeDrawer}>
                 <Anchors onClick={closeDrawer} />
                 <div className="mt-5">
                     <AuthButtonNav />
