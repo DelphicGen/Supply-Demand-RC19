@@ -1,12 +1,13 @@
 import React, { Suspense, useContext } from 'react'
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
-import { createStore } from 'redux'
+import { createStore, combineReducers } from 'redux'
 import { Provider } from 'react-redux'
 
 import { AuthContext } from './context/auth-context'
 import './tailwind.css'
 
 import itemReducer from './store/reducer/item'
+import donatorReducer from './store/reducer/donator'
 
 import LoadingSpinner from './components/UI/LoadingSpinner'
 const LandingPage = React.lazy(() => import('./containers/Landing/LandingPage'))
@@ -29,7 +30,12 @@ const UpdateDonasi = React.lazy(() => import('./containers/Dashboard/Donatur/Upd
 const InputAlokasi = React.lazy(() => import('./containers/Dashboard/Donatur/InputAlokasi'))
 const AlokasiBantuan = React.lazy(() => import('./containers/Dashboard/Donatur/AlokasiBantuan'))
 
-const store = createStore(itemReducer)
+const rootReducer = combineReducers({
+  items: itemReducer,
+  donator: donatorReducer
+})
+
+const store = createStore(rootReducer)
 
 const App = () => {
   const auth = useContext(AuthContext)

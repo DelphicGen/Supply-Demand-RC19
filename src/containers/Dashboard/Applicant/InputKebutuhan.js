@@ -25,8 +25,8 @@ const InputKebutuhan = (props) => {
     const auth = useContext(AuthContext)
     const [disable, setDisable] = useState(true)
 
-    const unitList = useSelector(state => state.unit)
-    const itemList = useSelector(state => state.item)
+    const unitList = useSelector(state => state.items.unit)
+    const itemList = useSelector(state => state.items.item)
     const dispatch = useDispatch()
 
     const [kebutuhan, setKebutuhan] = useState([

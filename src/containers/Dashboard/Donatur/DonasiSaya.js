@@ -1,9 +1,12 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { links } from '../../../components/Dashboard/donaturLink'
 import { AuthContext } from '../../../context/auth-context'
 import { useHttpClient } from '../../../hooks/http-hook'
 import { Update, Delete } from '@material-ui/icons'
 import ReactTooltip from 'react-tooltip'
+
+import * as donatorActions from '../../../store/action/donator'
 
 import ErrorModal from '../../../components/UI/ErrorModal'
 import Sidebar from '../../../components/Dashboard/SideBar'
@@ -26,9 +29,6 @@ const DonasiSaya = (props) => {
         {
             Header: 'Nama Barang',
             accessor: data => {
-                // let output = []
-                // output.push(data.item.name)
-                // return output.join(', ')
                 let output = []
                 data.donationItems.map(request => output.push(request.item.name))
                 return output.join(', ')
@@ -37,10 +37,6 @@ const DonasiSaya = (props) => {
         {
             Header: 'Stok',
             accessor: data => {
-                // let output = []
-                // let quantity = data.quantity % 1 === 0 ? Math.round(data.quantity) : data.quantity
-                // output.push(`${quantity} ${data.unit.name}`)
-                // return output.join(', ')
                 let output = []
                 data.donationItems.map(request => {
                     let quantity = request.quantity % 1 === 0 ? Math.round(request.quantity) : request.quantity
@@ -59,7 +55,10 @@ const DonasiSaya = (props) => {
         }
     ]
 
-    const [dataTable, setDataTable] = useState([])
+    const dataTable = useSelector(state => state.donator.donationItems)
+    const isSubmit = useSelector(state => state.donator.isSubmit)
+    const isDonationFetched = useSelector(state => state.donator.isDonationFetched)
+    const dispatch = useDispatch()
 
     const update = useCallback((donationId) => {
         props.history.push(`/dashboard/update-donasi/${donationId}`)
@@ -78,13 +77,14 @@ const DonasiSaya = (props) => {
             return res.text()
         }).then(text => {
             if (!text.length) {
-                setDataTable(prevData => prevData.filter(data => data.donation_id !== id))
+                const filteredData = dataTable.filter(data => data.donation_id !== id)
+                dispatch(donatorActions.setDonationIsFetched(filteredData))
             } else {
                 setDeleteError('Maaf, barang ini sudah dikonfirmasi admin sehingga tidak bisa dihapus.')
             }
             setDeleteLoading(false)
         })
-    }, [auth.token])
+    }, [auth.token, dispatch])
 
     useEffect(() => {
         const fetchItems = () => {
@@ -99,79 +99,24 @@ const DonasiSaya = (props) => {
                     if (responseData.data) {
                         responseData.data.forEach((data, index) => {
                             if (data.donationItems && data.donator.id === auth.id) {
-                                // if (data.donationItems.length === 1) {
+                                temp = [...temp, { donationItems: data.donationItems, requestId: data.id }]
+                                temp[temp.length - 1].donation_id = responseData.data[index].id
+                                temp[temp.length - 1].isAccepted = responseData.data[index].isAccepted
+                                temp[temp.length - 1].isDonated = responseData.data[index].isDonated
 
-                                    temp = [...temp, {donationItems: data.donationItems, requestId: data.id}]
-                                    temp[temp.length - 1].donation_id = responseData.data[index].id
-                                    temp[temp.length - 1].isAccepted = responseData.data[index].isAccepted
-                                    temp[temp.length - 1].isDonated = responseData.data[index].isDonated
-
-                                    // if (responseData.data[index].isDonated) {
-                                    //     temp[temp.length - 1].keterangan = (
-                                    //         <div className="inline-block py-1 px-2 rounded-full text-red-800 bg-red-200">
-                                    //             Habis
-                                    //         </div>
-                                    //     )
-                                    // } else {
-                                        if (responseData.data[index].isAccepted) {
-                                            temp[temp.length - 1].keterangan = (
-                                                <div className="inline-block py-1 px-2 tracking-wide text-xs md:text-sm rounded-full text-green-500 bg-green-200">
-                                                    Ready
-                                                </div>
-                                            )
-                                        } else {
-                                            temp[temp.length - 1].keterangan = (
-                                                <div className="inline-block py-1 px-2 tracking-wide text-xs md:text-sm rounded-full text-center text-orange-500 bg-orange-200">
-                                                    Belum terkonfirmasi
-                                                </div>
-                                            )
-                                        }
-                                    // }
-
-                                // } else {
-                                //     let tempName = '';
-                                //     let tempUnit = '';
-                                //     temp = [...temp, data.donationItems[0]]
-                                //     temp[temp.length - 1].donation_id = responseData.data[index].id
-                                //     temp[temp.length - 1].isAccepted = responseData.data[index].isAccepted
-                                //     temp[temp.length - 1].isDonated = responseData.data[index].isDonated
-
-                                //     for (let i = 0; i < data.donationItems.length; i++) {
-                                //         // temp = [...temp, data.donationItems[i]]
-                                //         // temp[temp.length - 1].donation_id = responseData.data[index].id
-                                //         // temp[temp.length - 1].isAccepted = responseData.data[index].isAccepted
-                                //         // temp[temp.length - 1].isDonated = responseData.data[index].isDonated
-
-                                //         tempName += i === data.donationItems.length -1 ? `${data.donationItems[i].item.name}` : `${data.donationItems[i].item.name}, `
-                                //         tempUnit += i === data.donationItems.length -1 ? `${data.donationItems[i].quantity} ${data.donationItems[i].unit.name}` : `${data.donationItems[i].quantity} ${data.donationItems[i].unit.name} ,`
-
-                                //         // temp[temp.length - 1].id = responseData.data[index].id
-                                //         // if (responseData.data[index].isDonated) {
-                                //         //     temp[temp.length - 1].keterangan = (
-                                //         //         <div className="inline-block py-1 px-2 rounded-full text-red-800 bg-red-200">
-                                //         //             Habis
-                                //         //         </div>
-                                //         //     )
-                                //         // } else {
-                                //             if (responseData.data[index].isAccepted) {
-                                //                 temp[temp.length - 1].keterangan = (
-                                //                     <div className="inline-block py-1 px-2 tracking-wide text-xs md:text-sm rounded-full text-green-500 bg-green-200">
-                                //                         Sudah terkonfirmasi
-                                //                     </div>
-                                //                 )
-                                //             } else {
-                                //                 temp[temp.length - 1].keterangan = (
-                                //                     <div className="inline-block py-1 px-2 tracking-wide text-xs md:text-sm rounded-full text-center text-orange-500 bg-orange-200">
-                                //                         Belum terkonfirmasi
-                                //                     </div>
-                                //                 )
-                                //             }
-                                //         // }
-                                //     }
-                                //     temp[temp.length - 1].item.name = tempName
-                                //     temp[temp.length - 1].quantity = tempUnit
-                                //     temp[temp.length - 1].unit.name = ''
-                                // }
+                                if (responseData.data[index].isAccepted) {
+                                    temp[temp.length - 1].keterangan = (
+                                        <div className="inline-block py-1 px-2 tracking-wide text-xs md:text-sm rounded-full text-green-500 bg-green-200">
+                                            Ready
+                                        </div>
+                                    )
+                                } else {
+                                    temp[temp.length - 1].keterangan = (
+                                        <div className="inline-block py-1 px-2 tracking-wide text-xs md:text-sm rounded-full text-center text-orange-500 bg-orange-200">
+                                            Belum terkonfirmasi
+                                        </div>
+                                    )
+                                }
                             }
                         })
 
@@ -195,19 +140,20 @@ const DonasiSaya = (props) => {
                                 </div>
                             )
                         })
-                        setDataTable(temp)
+                        dispatch(donatorActions.setDonationIsFetched(temp))
+                        dispatch(donatorActions.setSubmitted(false))
                     }
                 }
             })
         }
 
-        if (auth.token) {
+        if (auth.token && (isSubmit || !isDonationFetched)) {
             fetchItems()
         }
-    }, [auth.token, sendRequest, auth.id, update, deleteDonation])
+    }, [auth.token, sendRequest, auth.id, update, deleteDonation, dispatch, isSubmit, isDonationFetched])
 
     let content = <LoadingSpinner />
-    if (!isLoading) {
+    if (!isLoading && dataTable) {
         if (dataTable.length > 0) {
             content = <Table columns={columns} data={dataTable} donasi={true} />
         } else {

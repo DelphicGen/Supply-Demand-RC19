@@ -1,5 +1,5 @@
 import React from 'react'
-import { Create, CardGiftcard, CardGiftcardOutlined } from '@material-ui/icons';
+import { Create, CardGiftcard, DoubleArrowRounded } from '@material-ui/icons';
 
 export const links = [
     {
@@ -14,7 +14,7 @@ export const links = [
     },
     {
         link: '/dashboard/alokasi-bantuan',
-        icon: (<CardGiftcardOutlined className="text-white" fontSize="small" />),
+        icon: (<DoubleArrowRounded className="text-white" fontSize="small" />),
         info: 'Alokasi Bantuan'
     }
 ]

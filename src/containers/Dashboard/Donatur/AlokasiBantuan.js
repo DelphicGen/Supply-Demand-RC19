@@ -1,8 +1,11 @@
 import React, { useEffect, useState, useContext, useCallback } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { links } from '../../../components/Dashboard/donaturLink'
 import { ArrowForward } from '@material-ui/icons'
 import { AuthContext } from '../../../context/auth-context'
 import { useHttpClient } from '../../../hooks/http-hook'
+
+import * as donatorActions from '../../../store/action/donator'
 
 import ErrorModal from '../../../components/UI/ErrorModal'
 import Sidebar from '../../../components/Dashboard/SideBar'
@@ -20,12 +23,12 @@ const AlokasiBantuan = (props) => {
             accessor: 'no'
         },
         {
-            Header: 'Tanggal',
-            accessor: 'date'
-        },
-        {
             Header: 'Lembaga Pemohon',
             accessor: 'applicantName'
+        },
+        {
+            Header: 'Kontak',
+            accessor: 'applicantNumber'
         },
         {
             Header: 'Barang Kebutuhan',
@@ -49,7 +52,9 @@ const AlokasiBantuan = (props) => {
         }
     ]
 
-    const [dataTable, setDataTable] = useState([])
+    const dataTable = useSelector(state => state.donator.allocationItems)
+    const isAllocationFetched = useSelector(state => state.donator.isAllocationFetched)
+    const dispatch = useDispatch()
 
     const allocate = useCallback((reqId) => {
         props.history.push(`/dashboard/alokasi/${reqId}`)
@@ -69,6 +74,7 @@ const AlokasiBantuan = (props) => {
                         responseData.data.forEach(data => {
                             temp = [...temp, {
                                 requestId: data.id,
+                                applicantNumber: data.donationApplicant.contact_number,
                                 applicantId: data.donationApplicant.id,
                                 applicantName: data.donationApplicant.name,
                                 requestItems: data.requestItems,
@@ -90,13 +96,13 @@ const AlokasiBantuan = (props) => {
                             )
                         })
                         const filteredData = temp.filter(tmp => tmp.requestItems && !tmp.isFulfilled)
-                        setDataTable(filteredData)
+                        dispatch(donatorActions.setAllocationIsFetched(filteredData))
                     }
                 }
             })
         }
 
-        if (auth.token) {
+        if (auth.token && !isAllocationFetched) {
             fetchItems()
         }
     }, [auth.token, sendRequest, allocate])
@@ -106,7 +112,7 @@ const AlokasiBantuan = (props) => {
     }
 
     let content = <LoadingSpinner />
-    if(!isLoading){
+    if(!isLoading && dataTable){
         if(dataTable.length === 0){
             content = <p className="text-sm font-semibold text-gray-800">Tidak ada permohonan bantuan yang belum terpenuhi.</p>
         } else {
@@ -123,6 +129,7 @@ const AlokasiBantuan = (props) => {
 
                 <div className="p-8 pb-24 md:p-12 w-full lg:w-11/12">
                     <Title>Alokasi Bantuan</Title>
+                    <p className="text-gray-800 text-xs lg:text-sm pr-3 text-justify">Berikut ini adalah data permohonan bantuan. Jika Anda hendak berdonasi, silakan hubungi kontak yang tertera terlebih dahulu untuk memastikan barang dan kuantitas yang dibutuhkan. Data ini juga bisa dilihat pada <i>landing page.</i></p>
                     <div className="h-3"></div>
                     {content}
                 </div>

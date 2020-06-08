@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { links } from '../../../components/Dashboard/donaturLink'
 import { AuthContext } from '../../../context/auth-context'
@@ -6,6 +7,8 @@ import { useHttpClient } from '../../../hooks/http-hook'
 import { useHistory } from 'react-router-dom'
 import { Delete } from '@material-ui/icons'
 import { useMediaQuery } from '../../../hooks/medquery-hook'
+import * as itemActions from '../../../store/action/item'
+import * as donatorActions from '../../../store/action/donator'
 
 import Select3 from '../../../components/UI/Select3'
 import Sidebar from '../../../components/Dashboard/SideBar'
@@ -32,49 +35,65 @@ const UpdateDonasi = () => {
         }
     ])
 
-    const [unitList, setUnitList] = useState([])
-    const [itemList, setItemList] = useState([])
-    // const [selectedItemIndex, setSelectedItemIndex] = useState([])
-    // const [selectedUnitIndex, setSelectedUnitIndex] = useState([])
+    const unitList = useSelector(state => state.items.unit)
+    const itemList = useSelector(state => state.items.item)
     const [disable, setDisable] = useState(true)
-
+    const dispatch = useDispatch()
 
 
     useEffect(() => {
-        sendRequest(
-            `${process.env.REACT_APP_BACKEND_URL}/v1/units`,
-            'GET',
-            null,
-            { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
-        ).then(responseData => {
-            setUnitList(responseData)
-        })
-
-        sendRequest(
-            `${process.env.REACT_APP_BACKEND_URL}/v1/items`,
-            'GET',
-            null,
-            { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
-        ).then(responseData => {
-            setItemList(responseData)
-        })
-
-        sendRequest(
-            `${process.env.REACT_APP_BACKEND_URL}/v1/donations/${donationId}`,
-            'GET',
-            null,
-            { 'Accept': 'application/json', 'Content-Type': 'application/json' }
-        ).then(responseData => {
-            let donasiTemp = [...responseData.donationItems]
-            donasiTemp.forEach((item, i) => {
-                donasiTemp[i].item = donasiTemp[i].item.id
-                donasiTemp[i].unit = donasiTemp[i].unit.id
-                donasiTemp[i].touch = false
+        const fetchUnits = () => {
+            sendRequest(
+                `${process.env.REACT_APP_BACKEND_URL}/v1/units`,
+                'GET',
+                null,
+                { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
+            ).then(responseData => {
+                dispatch(itemActions.setUnits(responseData))
             })
-            setDonasi(donasiTemp)
-        })
+        }
 
-    }, [auth.token, sendRequest, donationId])
+        const fetchItems = () => {
+            sendRequest(
+                `${process.env.REACT_APP_BACKEND_URL}/v1/items`,
+                'GET',
+                null,
+                { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
+            ).then(responseData => {
+                dispatch(itemActions.setItems(responseData))
+            })
+        }
+
+        const fetchDonation = () => {
+            sendRequest(
+                `${process.env.REACT_APP_BACKEND_URL}/v1/donations/${donationId}`,
+                'GET',
+                null,
+                { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+            ).then(responseData => {
+                let donasiTemp = [...responseData.donationItems]
+                donasiTemp.forEach((item, i) => {
+                    donasiTemp[i].item = donasiTemp[i].item.id
+                    donasiTemp[i].unit = donasiTemp[i].unit.id
+                    donasiTemp[i].touch = false
+                })
+                setDonasi(donasiTemp)
+            })
+        }
+
+        if(auth.token){
+            if (itemList.length === 0) {
+                fetchItems()
+            }
+            if (unitList.length === 0) {
+                fetchUnits()
+            }
+            fetchDonation()
+        }
+
+        dispatch(donatorActions.setSubmitted(false))
+
+    }, [auth.token, sendRequest, donationId, dispatch, itemList, unitList])
 
     useEffect(() => {
         let tempDisable = false
@@ -139,10 +158,11 @@ const UpdateDonasi = () => {
             JSON.stringify(donation),
             { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
         ).then((responseData) => {
-            if(responseData.error){
+            if (responseData.error) {
                 setSubmitError(responseData.error)
             } else {
                 history.goBack()
+                dispatch(donatorActions.setSubmitted(true))
             }
         })
     }

@@ -6,7 +6,8 @@ import { useHttpClient } from '../../../hooks/http-hook'
 import { AddCircle } from '@material-ui/icons'
 import { Delete } from '@material-ui/icons'
 import { useMediaQuery } from '../../../hooks/medquery-hook'
-import * as actions from '../../../store/action/item'
+import * as itemActions from '../../../store/action/item'
+import * as donatorActions from '../../../store/action/donator'
 
 import Select3 from '../../../components/UI/Select3'
 import Sidebar from '../../../components/Dashboard/SideBar'
@@ -47,8 +48,8 @@ const InputBantuan = () => {
         setDisable(tempDisable)
     }, [donasi])
 
-    const unitList = useSelector(state => state.unit)
-    const itemList = useSelector(state => state.item)
+    const unitList = useSelector(state => state.items.unit)
+    const itemList = useSelector(state => state.items.item)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -59,7 +60,7 @@ const InputBantuan = () => {
                 null,
                 { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
             ).then(responseData => {
-                dispatch(actions.setUnits(responseData))
+                dispatch(itemActions.setUnits(responseData))
                 let donasiTemp = [...donasi]
                 donasiTemp[0].unit_id = responseData[0].id
                 setDonasi(donasiTemp)
@@ -73,7 +74,7 @@ const InputBantuan = () => {
                 null,
                 { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
             ).then(responseData => {
-                dispatch(actions.setItems(responseData))
+                dispatch(itemActions.setItems(responseData))
                 let donasiTemp = [...donasi]
                 donasiTemp[0].item_id = responseData[0].id
                 setDonasi(donasiTemp)
@@ -89,6 +90,9 @@ const InputBantuan = () => {
                 fetchUnits()
             }
         }
+        
+        dispatch(donatorActions.setSubmitted(false))
+
     }, [auth.token, sendRequest, dispatch, itemList, unitList])
 
     const changeItem = (item_id, index) => {
@@ -164,6 +168,7 @@ const InputBantuan = () => {
                 setSubmit(true)
                 setCheck(true)
                 flashMessage()
+                dispatch(donatorActions.setSubmitted(true))
             }
             else {
                 setSubmit(true)
