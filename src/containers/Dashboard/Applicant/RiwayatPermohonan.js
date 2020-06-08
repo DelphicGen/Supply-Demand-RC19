@@ -5,7 +5,6 @@ import { AuthContext } from '../../../context/auth-context'
 import { useHttpClient } from '../../../hooks/http-hook'
 import { Update, Delete } from '@material-ui/icons'
 import { useHistory } from 'react-router-dom'
-import ReactTooltip from 'react-tooltip'
 
 import * as applicantActions from '../../../store/action/applicant'
 
@@ -76,6 +75,7 @@ const RiwayatPermohonan = () => {
             if (!text.length) {
                 const filteredData = dataTable.filter(data => data.id !== id)
                 dispatch(applicantActions.setDemandIsFetched(filteredData))
+                dispatch(applicantActions.setSubmitted(true))
             } else {
                 setDeleteError('Maaf, donasi untuk barang ini sudah dialokasikan sehingga tidak bisa dihapus.')
             }
@@ -106,16 +106,10 @@ const RiwayatPermohonan = () => {
                                     <div data-tip data-for="update" className="inline py-1 pb-2 md:pb-1 px-3 mr-2 rounded-lg bg-blue-800 cursor-pointer" onClick={() => update(data.requestId)}>
                                         <Update fontSize="small" className="text-gray-100" style={{ transform: 'scale(0.95)' }} />
                                     </div>
-                                    <ReactTooltip id="update">
-                                        <span className="text-xs md:text-sm">Update</span>
-                                    </ReactTooltip>
 
                                     <div data-tip data-for="delete" className="inline py-1 pb-2 md:pb-1 px-3 rounded-lg bg-blue-800 cursor-pointer" onClick={() => deleteRequest(data.requestId)}>
                                         <Delete fontSize="small" className="text-gray-100" style={{ transform: 'scale(0.95)' }} />
                                     </div>
-                                    <ReactTooltip id="delete">
-                                        <span className="text-xs md:text-sm">Hapus</span>
-                                    </ReactTooltip>
                                 </div>
                             )
                         })
@@ -131,10 +125,6 @@ const RiwayatPermohonan = () => {
         }
 
     }, [auth.token, sendRequest, auth.id, update, deleteRequest, dispatch, isDemandFetched, isSubmit])
-
-    useEffect(() => {
-        console.log(isSubmit, isDemandFetched)
-    },[isSubmit, isDemandFetched])
 
     let content = <LoadingSpinner />
     if (!isLoading && dataTable) {

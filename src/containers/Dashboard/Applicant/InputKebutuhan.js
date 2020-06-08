@@ -83,9 +83,18 @@ const InputKebutuhan = (props) => {
         if (auth.token) {
             if (itemList.length === 0) {
                 fetchItems()
+            } else {
+                let kebutuhanTemp = [...kebutuhan]
+                kebutuhanTemp[0].item_id = itemList[0].id
+                setKebutuhan(kebutuhanTemp)
             }
+
             if (unitList.length === 0) {
                 fetchUnits()
+            } else {
+                let kebutuhanTemp = [...kebutuhan]
+                kebutuhanTemp[0].unit_id = unitList[0].id
+                setKebutuhan(kebutuhanTemp)
             }
         }
 
@@ -174,7 +183,7 @@ const InputKebutuhan = (props) => {
                 <h2 className="font-semibold text-lg text-white">{auth.name}</h2>
             </div>
             <div className="flex flex-row h-full w-full">
-                <Sidebar role="" name="PEMOHON" links={links} />
+                <Sidebar role="Pemohon" name={auth.name} links={links} />
                 <div>
                     <div className="flex w-full flex-col p-8 pb-4 md:p-10 md:pb-8">
                         <Title>Informasi Kebutuhan</Title>

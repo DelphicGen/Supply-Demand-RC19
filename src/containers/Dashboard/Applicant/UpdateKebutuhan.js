@@ -166,7 +166,7 @@ const UpdateRiwayat = (props) => {
             <ErrorModal error={error} onClear={clearError} />
             <ErrorModal error={updateError} onClear={clearUpdateError} />
             <div className="flex flex-row h-full w-full">
-                <Sidebar role="" name="PEMOHON" links={links} />
+                <Sidebar role="Pemohon" name={auth.name} links={links} />
                 <div>
                     <div className="flex w-full flex-col p-8 md:p-10 md:pb-0">
                         <Title>Informasi Kebutuhan</Title>

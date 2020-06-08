@@ -85,9 +85,18 @@ const InputBantuan = () => {
         if (auth.token) {
             if (itemList.length === 0) {
                 fetchItems()
+            } else {
+                let donasiTemp = [...donasi]
+                donasiTemp[0].item_id = itemList[0].id
+                setDonasi(donasiTemp)
             }
+
             if (unitList.length === 0) {
                 fetchUnits()
+            } else {
+                let donasiTemp = [...donasi]
+                donasiTemp[0].unit_id = unitList[0].id
+                setDonasi(donasiTemp)
             }
         }
         

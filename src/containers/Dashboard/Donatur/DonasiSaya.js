@@ -4,7 +4,6 @@ import { links } from '../../../components/Dashboard/donaturLink'
 import { AuthContext } from '../../../context/auth-context'
 import { useHttpClient } from '../../../hooks/http-hook'
 import { Update, Delete } from '@material-ui/icons'
-import ReactTooltip from 'react-tooltip'
 
 import * as donatorActions from '../../../store/action/donator'
 
@@ -79,6 +78,7 @@ const DonasiSaya = (props) => {
             if (!text.length) {
                 const filteredData = dataTable.filter(data => data.donation_id !== id)
                 dispatch(donatorActions.setDonationIsFetched(filteredData))
+                dispatch(donatorActions.setSubmitted(true))
             } else {
                 setDeleteError('Maaf, barang ini sudah dikonfirmasi admin sehingga tidak bisa dihapus.')
             }
@@ -127,16 +127,10 @@ const DonasiSaya = (props) => {
                                     <div data-tip data-for="update" className="inline py-1 pb-2 md:pb-1 px-3 mr-2 rounded-lg bg-blue-800 cursor-pointer" onClick={() => update(data.donation_id)}>
                                         <Update fontSize="small" className="text-gray-100" style={{ transform: 'scale(0.95)' }} />
                                     </div>
-                                    <ReactTooltip id="update">
-                                        <span className="text-xs md:text-sm">Update</span>
-                                    </ReactTooltip>
 
                                     <div data-tip data-for="delete" className="inline py-1 pb-2 md:pb-1 px-3 rounded-lg bg-blue-800 cursor-pointer" onClick={() => deleteDonation(data.donation_id)}>
                                         <Delete fontSize="small" className="text-gray-100" style={{ transform: 'scale(0.95)' }} />
                                     </div>
-                                    <ReactTooltip id="delete">
-                                        <span className="text-xs md:text-sm">Hapus</span>
-                                    </ReactTooltip>
                                 </div>
                             )
                         })

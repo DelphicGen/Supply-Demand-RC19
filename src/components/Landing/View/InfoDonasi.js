@@ -19,8 +19,17 @@ const InfoDonasi = () => (
                 Silakan <Link to="/login" className="font-semibold text-blue-800 hover:underline">login</Link> ke dashboard.
                 Jika belum memiliki akun, silakan <Link to="/daftar" className="font-semibold text-blue-800 hover:underline">daftar</Link> sebagai ‘Donatur’ terlebih dahulu
             </BigCardList>
+
             <BigCardList number="2">
                 Setelah masuk ke dashboard, pilih menu <span className="font-semibold">‘Input Bantuan’</span> untuk menginputkan informasi barang yang akan didonasikan
+            </BigCardList>
+
+            <BigCardList number="3">
+                Jika hendak mengalokasikan donasi yang sudah diinputkan, pastikan donasi tersebut sudah memiliki keterangan 'Ready' sebagai tanda bahwa donasi tersebut sudah dikonfirmasi oleh admin sistem
+            </BigCardList>
+
+            <BigCardList number="4">
+                Pilih menu <span className="font-semibold">‘Alokasi Bantuan’</span>, kemudian pilih permohonan bantuan yang akan dibantu. Setelah memilih, alokasikan donasi berupa barang yang sudah berlabel 'Ready'
             </BigCardList>
         </BigCard>
 
