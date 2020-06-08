@@ -105,7 +105,7 @@ const AlokasiBantuan = (props) => {
         if (auth.token && !isAllocationFetched) {
             fetchItems()
         }
-    }, [auth.token, sendRequest, allocate])
+    }, [auth.token, sendRequest, allocate, dispatch, isAllocationFetched])
 
     const clearAcceptError = () => {
         setAcceptError(null)

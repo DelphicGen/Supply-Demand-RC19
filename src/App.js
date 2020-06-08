@@ -6,8 +6,10 @@ import { Provider } from 'react-redux'
 import { AuthContext } from './context/auth-context'
 import './tailwind.css'
 
+//reducer redux
 import itemReducer from './store/reducer/item'
 import donatorReducer from './store/reducer/donator'
+import applicantReducer from './store/reducer/applicant'
 
 import LoadingSpinner from './components/UI/LoadingSpinner'
 const LandingPage = React.lazy(() => import('./containers/Landing/LandingPage'))
@@ -32,7 +34,8 @@ const AlokasiBantuan = React.lazy(() => import('./containers/Dashboard/Donatur/A
 
 const rootReducer = combineReducers({
   items: itemReducer,
-  donator: donatorReducer
+  donator: donatorReducer,
+  applicant: applicantReducer
 })
 
 const store = createStore(rootReducer)

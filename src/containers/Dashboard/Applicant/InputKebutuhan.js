@@ -6,7 +6,9 @@ import { useHttpClient } from '../../../hooks/http-hook'
 import { AddCircle } from '@material-ui/icons'
 import { Delete } from '@material-ui/icons'
 import { useMediaQuery } from '../../../hooks/medquery-hook'
+
 import * as actions from '../../../store/action/item'
+import * as applicantActions from '../../../store/action/applicant'
 
 import Select3 from '../../../components/UI/Select3'
 import Sidebar from '../../../components/Dashboard/SideBar'
@@ -47,7 +49,7 @@ const InputKebutuhan = (props) => {
             }
         }
         setDisable(tempDisable)
-    }, [kebutuhan])
+    }, [kebutuhan, dispatch])
 
     useEffect(() => {
         const fetchUnits = () => {
@@ -86,6 +88,8 @@ const InputKebutuhan = (props) => {
                 fetchUnits()
             }
         }
+
+        dispatch(applicantActions.setSubmitted(false))
 
     }, [auth.token, sendRequest, dispatch, itemList, unitList])
 
@@ -148,6 +152,7 @@ const InputKebutuhan = (props) => {
         ).then(responseData => {
             if (responseData.date != null) {
                 props.history.push('/dashboard/riwayat-kebutuhan')
+                dispatch(applicantActions.setSubmitted(true))
             }
             else {
                 setSubmitError('Gagal menginput kebutuhan. Mohon coba lagi.')

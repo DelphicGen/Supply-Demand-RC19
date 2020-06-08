@@ -1,9 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react'
-import {useParams} from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { useParams } from 'react-router-dom'
 import { links } from '../../../components/Dashboard/pemohonLink'
 import { AuthContext } from '../../../context/auth-context'
 import { useHttpClient } from '../../../hooks/http-hook'
 import { useHistory } from 'react-router-dom'
+
+import * as actions from '../../../store/action/item'
+import * as applicantActions from '../../../store/action/applicant'
 
 import Select3 from '../../../components/UI/Select3'
 import Sidebar from '../../../components/Dashboard/SideBar'
@@ -28,44 +32,65 @@ const UpdateRiwayat = (props) => {
         }
     ])
 
-    const [unitList, setUnitList] = useState([])
-    const [itemList, setItemList] = useState([])
+    const unitList = useSelector(state => state.items.unit)
+    const itemList = useSelector(state => state.items.item)
     const [disable, setDisable] = useState(true)
     const [updateError, setUpdateError] = useState()
+    const dispatch = useDispatch()
+
     useEffect(() => {
-        sendRequest(
-            `${process.env.REACT_APP_BACKEND_URL}/v1/units`,
-            'GET',
-            null,
-            { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
-        ).then(responseData => {
-            setUnitList(responseData)
-        })
-
-        sendRequest(
-            `${process.env.REACT_APP_BACKEND_URL}/v1/items`,
-            'GET',
-            null,
-            { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
-        ).then(responseData => {
-            setItemList(responseData)
-        })
-
-        sendRequest(
-            `${process.env.REACT_APP_BACKEND_URL}/v1/requests/${requestId}`,
-            'GET',
-            null,
-            { 'Accept': 'application/json', 'Content-Type': 'application/json' }
-        ).then(responseData => {
-            let kebutuhanTemp = [...responseData.requestItems]
-            kebutuhanTemp.forEach((item, i) => {
-                kebutuhanTemp[i].item = kebutuhanTemp[i].item.id
-                kebutuhanTemp[i].unit = kebutuhanTemp[i].unit.id
-                kebutuhanTemp[i].touch = false
+        const fetchUnits = () => {
+            sendRequest(
+                `${process.env.REACT_APP_BACKEND_URL}/v1/units`,
+                'GET',
+                null,
+                { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
+            ).then(responseData => {
+                dispatch(actions.setUnits(responseData))
             })
-            setKebutuhan(kebutuhanTemp)
-        })
-    }, [auth.token, sendRequest, requestId])
+        }
+
+        const fetchItems = () => {
+            sendRequest(
+                `${process.env.REACT_APP_BACKEND_URL}/v1/items`,
+                'GET',
+                null,
+                { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
+            ).then(responseData => {
+                dispatch(actions.setItems(responseData))
+            })
+        }
+
+        const fetchRequest = () => {
+            sendRequest(
+                `${process.env.REACT_APP_BACKEND_URL}/v1/requests/${requestId}`,
+                'GET',
+                null,
+                { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+            ).then(responseData => {
+                let kebutuhanTemp = [...responseData.requestItems]
+                kebutuhanTemp.forEach((item, i) => {
+                    kebutuhanTemp[i].item = kebutuhanTemp[i].item.id
+                    kebutuhanTemp[i].unit = kebutuhanTemp[i].unit.id
+                    kebutuhanTemp[i].touch = false
+                })
+                setKebutuhan(kebutuhanTemp)
+            })
+        }
+
+        if(auth.token){
+            if (itemList.length === 0) {
+                fetchItems()
+            }
+            if (unitList.length === 0) {
+                fetchUnits()
+            }
+            fetchRequest()
+        }
+
+        dispatch(applicantActions.setSubmitted(false))
+
+    }, [auth.token, sendRequest, requestId, dispatch, itemList, unitList])
 
     useEffect(() => {
         let tempDisable = false
@@ -123,9 +148,10 @@ const UpdateRiwayat = (props) => {
             JSON.stringify(needs),
             { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
         ).then(responseData => {
-            if(responseData.error){
+            if (responseData.error) {
                 setUpdateError('Maaf, kebutuhan yang sudah dimasukkan ke dalam sistem tidak dapat dihapus.')
             } else {
+                dispatch(applicantActions.setSubmitted(true))
                 history.goBack()
             }
         })

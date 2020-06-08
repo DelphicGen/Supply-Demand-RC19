@@ -1,10 +1,13 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { links } from '../../../components/Dashboard/pemohonLink'
 import { AuthContext } from '../../../context/auth-context'
 import { useHttpClient } from '../../../hooks/http-hook'
 import { Update, Delete } from '@material-ui/icons'
 import { useHistory } from 'react-router-dom'
 import ReactTooltip from 'react-tooltip'
+
+import * as applicantActions from '../../../store/action/applicant'
 
 import ErrorModal from '../../../components/UI/ErrorModal'
 import Sidebar from '../../../components/Dashboard/SideBar'
@@ -49,7 +52,10 @@ const RiwayatPermohonan = () => {
         }
     ]
 
-    const [dataTable, setDataTable] = useState([])
+    const dataTable = useSelector(state => state.applicant.demandItems)
+    const isSubmit = useSelector(state => state.applicant.isSubmit)
+    const isDemandFetched = useSelector(state => state.applicant.isDemandFetched)
+    const dispatch = useDispatch()
 
     const update = useCallback((id) => {
         history.push(`/dashboard/update-kebutuhan/${id}`)
@@ -68,13 +74,14 @@ const RiwayatPermohonan = () => {
             return res.text()
         }).then(text => {
             if (!text.length) {
-                setDataTable(prevData => prevData.filter(data => data.id !== id))
+                const filteredData = dataTable.filter(data => data.id !== id)
+                dispatch(applicantActions.setDemandIsFetched(filteredData))
             } else {
                 setDeleteError('Maaf, donasi untuk barang ini sudah dialokasikan sehingga tidak bisa dihapus.')
             }
             setDeleteLoading(false)
         })
-    }, [auth.token])
+    }, [auth.token, dispatch])
 
     useEffect(() => {
         const fetchItems = () => {
@@ -112,19 +119,25 @@ const RiwayatPermohonan = () => {
                                 </div>
                             )
                         })
-                        setDataTable(temp)
+                        dispatch(applicantActions.setDemandIsFetched(temp))
+                        dispatch(applicantActions.setSubmitted(false))
                     }
                 }
             })
         }
 
-        if (auth.token) {
+        if (auth.token && (isSubmit || !isDemandFetched)) {
             fetchItems()
         }
-    }, [auth.token, sendRequest, auth.id, update, deleteRequest])
+
+    }, [auth.token, sendRequest, auth.id, update, deleteRequest, dispatch, isDemandFetched, isSubmit])
+
+    useEffect(() => {
+        console.log(isSubmit, isDemandFetched)
+    },[isSubmit, isDemandFetched])
 
     let content = <LoadingSpinner />
-    if (!isLoading) {
+    if (!isLoading && dataTable) {
         if (dataTable.length > 0) {
             content = <Table columns={columns} data={dataTable} />
         } else {
