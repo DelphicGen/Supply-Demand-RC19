@@ -1,8 +1,12 @@
-import React, {Suspense, useContext} from 'react'
-import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom'
+import React, { Suspense, useContext } from 'react'
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
 
-import {AuthContext} from './context/auth-context'
+import { AuthContext } from './context/auth-context'
 import './tailwind.css'
+
+import itemReducer from './store/reducer/item'
 
 import LoadingSpinner from './components/UI/LoadingSpinner'
 const LandingPage = React.lazy(() => import('./containers/Landing/LandingPage'))
@@ -25,6 +29,8 @@ const UpdateDonasi = React.lazy(() => import('./containers/Dashboard/Donatur/Upd
 const InputAlokasi = React.lazy(() => import('./containers/Dashboard/Donatur/InputAlokasi'))
 const AlokasiBantuan = React.lazy(() => import('./containers/Dashboard/Donatur/AlokasiBantuan'))
 
+const store = createStore(itemReducer)
+
 const App = () => {
   const auth = useContext(AuthContext)
 
@@ -39,7 +45,7 @@ const App = () => {
     </Switch>
   )
 
-  if(auth.role === 'DONATOR'){
+  if (auth.role === 'DONATOR') {
     routes = (
       <Switch>
         <Route path="/" component={LandingPage} exact />
@@ -52,7 +58,7 @@ const App = () => {
       </Switch>
     )
   }
-  else if(auth.role === 'APPLICANT'){
+  else if (auth.role === 'APPLICANT') {
     routes = (
       <Switch>
         <Route path="/" component={LandingPage} exact />
@@ -63,7 +69,7 @@ const App = () => {
       </Switch>
     )
   }
-  else if(auth.role === 'ADMIN'){
+  else if (auth.role === 'ADMIN') {
     routes = (
       <Switch>
         <Route path="/" component={LandingPage} exact />
@@ -75,37 +81,15 @@ const App = () => {
     )
   }
 
-  return(
+  return (
+    <Provider store={store}>
       <BrowserRouter>
         <div className="bg-gray-100 w-full h-full min-h-screen lg:relative">
-          <Suspense fallback={<LoadingSpinner style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }} />}>{routes}</Suspense>
+          <Suspense fallback={<LoadingSpinner style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }} />}>{routes}</Suspense>
         </div>
       </BrowserRouter>
+    </Provider>
   )
 }
 
 export default App
-
-// admin user buat test
-// email: admin@admin.com
-// pass: admin-supply-demand-covid19
-
-// donatur buat test
-// email: donatur@donatur.com
-// pass: donatur-supply-demand-covid19
-
-// email: donatur2@donatur.com
-// pass: donatur-supply-demand-covid19
-
-// email: donatur3@donatur.com
-// pass: donatur-supply-demand-covid19
-
-// email: donatur4@donatur.com
-// pass: donatur-supply-demand-covid19
-
-// email: applicant@applicant.com
-// pass: applicant-supply-demand-covid19
-
-// Pake akun ini aja kalo debug
-// Donatur : levi@ackerman.com, pass: leviackerman
-// Applicant : mikasa@ackerman.com, pass: mikasaackerman

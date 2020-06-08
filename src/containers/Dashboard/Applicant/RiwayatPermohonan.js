@@ -84,7 +84,6 @@ const RiwayatPermohonan = () => {
                 null,
                 { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
             ).then(responseData => {
-                console.log(responseData)
                 if (responseData) {
                     let temp = []
                     if (responseData.data) {

@@ -49,10 +49,7 @@ const InputAlokasi = (props) => {
         setRequestInfo(responseData)
         setItems(prev => ({
           ...prev,
-          item_id: responseData.requestItems[0].item.id
-        }))
-        setItems(prev => ({
-          ...prev,
+          item_id: responseData.requestItems[0].item.id,
           unit_id: responseData.requestItems[0].unit.id
         }))
         let newItemList = []

@@ -53,7 +53,6 @@ const Riwayat = (props) => {
                 { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
             ).then(responseData => {
                 if (responseData) {
-                    console.log(responseData)
                     let temp = []
                     if (responseData.data) {
                         responseData.data.forEach(data => {
@@ -69,8 +68,6 @@ const Riwayat = (props) => {
                             let newDate = `${parsedDate.getDate()}/${('0' + (parsedDate.getMonth() + 1)).slice(-2)}/${parsedDate.getFullYear()}`
                             data.date = newDate
                         })
-
-                        console.log(temp)
                         setDataTable(temp)
                     }
                 }

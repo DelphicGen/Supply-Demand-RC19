@@ -1,10 +1,12 @@
 import React, { useState, useContext, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { links } from '../../../components/Dashboard/pemohonLink'
 import { AuthContext } from '../../../context/auth-context'
 import { useHttpClient } from '../../../hooks/http-hook'
 import { AddCircle } from '@material-ui/icons'
 import { Delete } from '@material-ui/icons'
 import { useMediaQuery } from '../../../hooks/medquery-hook'
+import * as actions from '../../../store/action/item'
 
 import Select3 from '../../../components/UI/Select3'
 import Sidebar from '../../../components/Dashboard/SideBar'
@@ -18,12 +20,14 @@ import Select2 from '../../../components/UI/Select2'
 
 const InputKebutuhan = (props) => {
     const mediaQuery = useMediaQuery('(max-width: 600px)')
-    const [unitList, setUnitList] = useState([])
-    const [itemList, setItemList] = useState([])
     const { isLoading, error, sendRequest, clearError } = useHttpClient()
     const [submitError, setSubmitError] = useState()
     const auth = useContext(AuthContext)
     const [disable, setDisable] = useState(true)
+
+    const unitList = useSelector(state => state.unit)
+    const itemList = useSelector(state => state.item)
+    const dispatch = useDispatch()
 
     const [kebutuhan, setKebutuhan] = useState([
         {
@@ -46,31 +50,44 @@ const InputKebutuhan = (props) => {
     }, [kebutuhan])
 
     useEffect(() => {
-        sendRequest(
-            `${process.env.REACT_APP_BACKEND_URL}/v1/units`,
-            'GET',
-            null,
-            { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
-        ).then(responseData => {
-            setUnitList(responseData)
-            let kebutuhanTemp = [...kebutuhan]
-            kebutuhanTemp[0].unit_id = responseData[0].id
-            setKebutuhan(kebutuhanTemp)
-        })
+        const fetchUnits = () => {
+            sendRequest(
+                `${process.env.REACT_APP_BACKEND_URL}/v1/units`,
+                'GET',
+                null,
+                { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
+            ).then(responseData => {
+                dispatch(actions.setUnits(responseData))
+                let kebutuhanTemp = [...kebutuhan]
+                kebutuhanTemp[0].unit_id = responseData[0].id
+                setKebutuhan(kebutuhanTemp)
+            })
+        }
 
-        sendRequest(
-            `${process.env.REACT_APP_BACKEND_URL}/v1/items`,
-            'GET',
-            null,
-            { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
-        ).then(responseData => {
-            setItemList(responseData)
-            let kebutuhanTemp = [...kebutuhan]
-            kebutuhanTemp[0].item_id = responseData[0].id
-            setKebutuhan(kebutuhanTemp)
+        const fetchItems = () => {
+            sendRequest(
+                `${process.env.REACT_APP_BACKEND_URL}/v1/items`,
+                'GET',
+                null,
+                { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
+            ).then(responseData => {
+                dispatch(actions.setItems(responseData))
+                let kebutuhanTemp = [...kebutuhan]
+                kebutuhanTemp[0].item_id = responseData[0].id
+                setKebutuhan(kebutuhanTemp)
+            })
+        }
 
-        })
-    }, [auth.token, sendRequest])
+        if (auth.token) {
+            if (itemList.length === 0) {
+                fetchItems()
+            }
+            if (unitList.length === 0) {
+                fetchUnits()
+            }
+        }
+
+    }, [auth.token, sendRequest, dispatch, itemList, unitList])
 
     const changeItem = (item_id, index) => {
         let kebutuhanTemp = [...kebutuhan]

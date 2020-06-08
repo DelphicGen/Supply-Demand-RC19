@@ -66,7 +66,6 @@ const DonasiSaya = (props) => {
     }, [props.history])
 
     const deleteDonation = useCallback((id) => {
-        // console.log(donationId, id)
         setDeleteLoading(true)
         return fetch(`${process.env.REACT_APP_BACKEND_URL}/v1/donations/${id}`, {
             method: 'DELETE',
@@ -95,7 +94,6 @@ const DonasiSaya = (props) => {
                 null,
                 { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
             ).then(responseData => {
-                console.log(responseData)
                 if (responseData) {
                     let temp = []
                     if (responseData.data) {
@@ -197,7 +195,6 @@ const DonasiSaya = (props) => {
                                 </div>
                             )
                         })
-                        console.log(temp)
                         setDataTable(temp)
                     }
                 }

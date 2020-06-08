@@ -1,10 +1,12 @@
 import React, { useState, useContext, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { links } from '../../../components/Dashboard/donaturLink'
 import { AuthContext } from '../../../context/auth-context'
-import {useHttpClient} from '../../../hooks/http-hook'
+import { useHttpClient } from '../../../hooks/http-hook'
 import { AddCircle } from '@material-ui/icons'
 import { Delete } from '@material-ui/icons'
 import { useMediaQuery } from '../../../hooks/medquery-hook'
+import * as actions from '../../../store/action/item'
 
 import Select3 from '../../../components/UI/Select3'
 import Sidebar from '../../../components/Dashboard/SideBar'
@@ -18,7 +20,7 @@ import Select2 from '../../../components/UI/Select2'
 const InputBantuan = () => {
     const mediaQuery = useMediaQuery('(max-width: 600px)')
     const auth = useContext(AuthContext)
-    const {isLoading, error, sendRequest, clearError} = useHttpClient()
+    const { isLoading, error, sendRequest, clearError } = useHttpClient()
 
     const [check, setCheck] = useState(false)
     const [submit, setSubmit] = useState(false)
@@ -36,8 +38,8 @@ const InputBantuan = () => {
 
     useEffect(() => {
         let tempDisable = false
-        for(let i = 0; i < donasi.length; i++){
-            if(donasi[i].quantity.length === 0){
+        for (let i = 0; i < donasi.length; i++) {
+            if (donasi[i].quantity.length === 0) {
                 tempDisable = true
                 break
             }
@@ -45,35 +47,49 @@ const InputBantuan = () => {
         setDisable(tempDisable)
     }, [donasi])
 
-    const [unitList, setUnitList] = useState([])
-    const [itemList, setItemList] = useState([])
+    const unitList = useSelector(state => state.unit)
+    const itemList = useSelector(state => state.item)
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        sendRequest(
-            `${process.env.REACT_APP_BACKEND_URL}/v1/units`,
-            'GET',
-            null,
-            {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
-        ).then(responseData => {
-            setUnitList(responseData)
-            let donasiTemp = [...donasi]
-            donasiTemp[0].unit_id = responseData[0].id
-            setDonasi(donasiTemp)
-        })
+        const fetchUnits = () => {
+            sendRequest(
+                `${process.env.REACT_APP_BACKEND_URL}/v1/units`,
+                'GET',
+                null,
+                { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
+            ).then(responseData => {
+                dispatch(actions.setUnits(responseData))
+                let donasiTemp = [...donasi]
+                donasiTemp[0].unit_id = responseData[0].id
+                setDonasi(donasiTemp)
+            })
+        }
 
-        sendRequest(
-            `${process.env.REACT_APP_BACKEND_URL}/v1/items`,
-            'GET',
-            null,
-            {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
-        ).then(responseData => {
-            setItemList(responseData)
-            let donasiTemp = [...donasi]
-            donasiTemp[0].item_id = responseData[0].id
-            setDonasi(donasiTemp)
+        const fetchItems = () => {
+            sendRequest(
+                `${process.env.REACT_APP_BACKEND_URL}/v1/items`,
+                'GET',
+                null,
+                { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
+            ).then(responseData => {
+                dispatch(actions.setItems(responseData))
+                let donasiTemp = [...donasi]
+                donasiTemp[0].item_id = responseData[0].id
+                setDonasi(donasiTemp)
 
-        })
-    }, [auth.token, sendRequest])
+            })
+        }
+
+        if (auth.token) {
+            if (itemList.length === 0) {
+                fetchItems()
+            }
+            if (unitList.length === 0) {
+                fetchUnits()
+            }
+        }
+    }, [auth.token, sendRequest, dispatch, itemList, unitList])
 
     const changeItem = (item_id, index) => {
         let donasiTemp = [...donasi]
@@ -100,7 +116,7 @@ const InputBantuan = () => {
     }
 
     const moreDonation = () => {
-        let donationAdd ={
+        let donationAdd = {
             item_id: itemList[0].id,
             quantity: '',
             unit_id: unitList[0].id,
@@ -135,9 +151,9 @@ const InputBantuan = () => {
             JSON.stringify(
                 donation
             ),
-            {'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}`}
+            { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.token}` }
         ).then(responseData => {
-            if(responseData.id.length > 0){
+            if (responseData.id.length > 0) {
                 // inputHandler("quantity", '', false)
                 setDonasi([{
                     item_id: itemList[0].id,
@@ -149,7 +165,7 @@ const InputBantuan = () => {
                 setCheck(true)
                 flashMessage()
             }
-            else{
+            else {
                 setSubmit(true)
                 setCheck(false)
                 flashMessage()
@@ -163,7 +179,7 @@ const InputBantuan = () => {
         }, 2000);
     }
 
-    return(
+    return (
         <React.Fragment>
             <ErrorModal error={error} onClear={clearError} />
             <div className={`absolute right-0 p-2 rounded-bl-lg ${submit ? 'inline-block' : 'hidden'} ${check ? 'bg-green-200 text-green-500' : 'bg-red-200 text-red-800'}`}>
@@ -182,40 +198,40 @@ const InputBantuan = () => {
                         <form className="mt-4">
                             {
                                 donasi.map((item, index) => {
-                                    return(
+                                    return (
                                         <div key={index} className="flex flex-col lg:flex-row w-full mb-5 lg:border-none lg:shadow-none border-gray-700 rounded-md shadow-xl lg:p-0 p-4 relative">
                                             <Select2
                                                 label="Jenis Barang"
                                                 divClassName="mr-3 lg:w-6/12 w-full mt-2 lg:mt-0"
-                                                list={ itemList }
-                                                changeItem={ changeItem }
-                                                value={ item.item_id }
-                                                index={ index }
+                                                list={itemList}
+                                                changeItem={changeItem}
+                                                value={item.item_id}
+                                                index={index}
                                             />
                                             <div className={`flex flex-col lg:w-1/2 w-full`}>
                                                 <label className="text-gray-700 tracking-wide font-medium text-sm md:text-base my-1">Kuantitas</label>
                                                 <div className="flex">
                                                     <div className="w-1/2">
                                                         <input
-                                                            className={`mb-3 inline-block w-full bg-gray-400 text-gray-700 p-2 rounded-md tex-sm font-semibold tracking-wide outline-none focus:shadow-outline focus:text-blue-800`} 
+                                                            className={`mb-3 inline-block w-full bg-gray-400 text-gray-700 p-2 rounded-md tex-sm font-semibold tracking-wide outline-none focus:shadow-outline focus:text-blue-800`}
                                                             id={'quantity'}
                                                             type={'text'}
-                                                            value={ item.quantity }
+                                                            value={item.quantity}
                                                             onChange={(event) => inputHandler(event, index)}
-                                                            onBlur={() => handleBlur(index)} 
+                                                            onBlur={() => handleBlur(index)}
                                                         />
 
                                                         {item.quantity.length === 0 && item.touch === true && <p className="text-xs text-red-800 font-medium tracking-wider mb-3">Mohon masukkan kuantitas barang.</p>}
                                                     </div>
                                                     <Select3
                                                         divClassName="ml-2 w-1/2 inline-block"
-                                                        list={ unitList }
-                                                        changeUnit={ changeUnit } 
-                                                        value={ item.unit_id }
-                                                        index={ index }
+                                                        list={unitList}
+                                                        changeUnit={changeUnit}
+                                                        value={item.unit_id}
+                                                        index={index}
                                                     />
                                                     <Delete className="text-gray-700 mr-2 ml-5 mt-2 text-sm lg:relative absolute top-0 right-0" style={styles.container(mediaQuery)} onClick={() => deleteItem(index)} />
-                                                    
+
                                                 </div>
                                             </div>
                                         </div>
@@ -236,12 +252,12 @@ const InputBantuan = () => {
                             disabled={disable}
                         >
                             {
-                                isLoading ? <LoadingSpinner color="white" style={{transform: 'translateY(-3px)'}} /> : 'SUBMIT'
-                            } 
+                                isLoading ? <LoadingSpinner color="white" style={{ transform: 'translateY(-3px)' }} /> : 'SUBMIT'
+                            }
                         </Button>
                     </div>
                 </div>
-            </div>  
+            </div>
         </React.Fragment>
     )
 }

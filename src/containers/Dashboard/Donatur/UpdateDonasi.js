@@ -65,7 +65,6 @@ const UpdateDonasi = () => {
             null,
             { 'Accept': 'application/json', 'Content-Type': 'application/json' }
         ).then(responseData => {
-            // console.log(responseData)
             let donasiTemp = [...responseData.donationItems]
             donasiTemp.forEach((item, i) => {
                 donasiTemp[i].item = donasiTemp[i].item.id
@@ -78,7 +77,6 @@ const UpdateDonasi = () => {
     }, [auth.token, sendRequest, donationId])
 
     useEffect(() => {
-        // console.log(donasi)
         let tempDisable = false
         for (let i = 0; i < donasi.length; i++) {
             if (donasi[i].quantity.length === 0) {
@@ -135,7 +133,6 @@ const UpdateDonasi = () => {
             delete tempItem['unit']
             donation.donationItems.push(tempItem)
         })
-        // console.log(donation)
         sendRequest(
             `${process.env.REACT_APP_BACKEND_URL}/v1/donations/${donationId}`,
             'PUT',
