@@ -76,15 +76,14 @@ const DonasiSaya = (props) => {
             return res.text()
         }).then(text => {
             if (!text.length) {
-                const filteredData = dataTable.filter(data => data.donation_id !== id)
+                const filteredData = dataTable && dataTable.filter(data => data.donation_id !== id)
                 dispatch(donatorActions.setDonationIsFetched(filteredData))
-                dispatch(donatorActions.setSubmitted(true))
             } else {
                 setDeleteError('Maaf, barang ini sudah dikonfirmasi admin sehingga tidak bisa dihapus.')
             }
             setDeleteLoading(false)
         })
-    }, [auth.token, dispatch])
+    }, [auth.token, dispatch, dataTable])
 
     useEffect(() => {
         const fetchItems = () => {
@@ -144,7 +143,7 @@ const DonasiSaya = (props) => {
         if (auth.token && (isSubmit || !isDonationFetched)) {
             fetchItems()
         }
-    }, [auth.token, sendRequest, auth.id, update, deleteDonation, dispatch, isSubmit, isDonationFetched])
+    }, [auth.token, sendRequest, auth.id, update, dispatch, isSubmit, isDonationFetched, deleteDonation])
 
     let content = <LoadingSpinner />
     if (!isLoading && dataTable) {

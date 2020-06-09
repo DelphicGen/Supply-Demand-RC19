@@ -30,7 +30,7 @@ const Table = ({ columns, data, isLandingPage, pageToGo, donasi }) => {
     return (
         <div className="flex-auto">
             <div className={`${!isLandingPage ? 'w-full' : 'w-10/12 md:w-8/12 lg:w-7/12'} overflow-y-hidden h-full ${isLandingPage && 'mx-auto'}`}>
-                <div className="w-full overflow-y-auto">
+                <div className="w-full overflow-y-auto" style={isLandingPage && {maxHeight: 480}}>
                     <table {...getTableProps()} className={`${donasi && 'md:text-base text-sm'} ${donasi ? 'w-full md:w-11/12' : 'w-full'}`}>
                         <thead>
                         {

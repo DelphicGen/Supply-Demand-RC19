@@ -73,15 +73,14 @@ const RiwayatPermohonan = () => {
             return res.text()
         }).then(text => {
             if (!text.length) {
-                const filteredData = dataTable.filter(data => data.id !== id)
+                const filteredData = dataTable && dataTable.filter(data => data.requestId !== id)
                 dispatch(applicantActions.setDemandIsFetched(filteredData))
-                dispatch(applicantActions.setSubmitted(true))
             } else {
                 setDeleteError('Maaf, donasi untuk barang ini sudah dialokasikan sehingga tidak bisa dihapus.')
             }
             setDeleteLoading(false)
         })
-    }, [auth.token, dispatch])
+    }, [auth.token, dispatch, dataTable])
 
     useEffect(() => {
         const fetchItems = () => {
