@@ -266,7 +266,7 @@ const LandingPage = () => {
             </Element>
 
             <Element id='data' name='data'>
-                <p className="text-blue-800 md:mt-0 mt-8 md:mt-16 lg:mt-20 font-bold text-xl md:text-2xl text-center">Data Kebutuhan dan Bantuan</p>
+                <p className="text-blue-800 mt-8 md:mt-16 lg:mt-20 font-bold text-xl md:text-2xl text-center">Data Kebutuhan dan Bantuan</p>
                 <div className="flex flex-row items-center justify-center mt-2 mb-4">
                     <RadioTextInput
                         changed={radioChangeHandler}
@@ -307,7 +307,7 @@ const LandingPage = () => {
             <Credit />
 
             <div className="bg-gray-200 py-2">
-                <h5 className="text-sm text-center text-blue-800 font-semibold">Icon by JustIcon</h5>
+                <h5 className="text-xs text-center text-blue-800 font-semibold">Icon by JustIcon</h5>
             </div>
         </React.Fragment>
     )

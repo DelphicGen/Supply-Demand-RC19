@@ -9,17 +9,17 @@ const InfoDonasi = () => (
     <div className="bg-gray-200 py-16">
         <h3 className="text-center text-blue-800 text-xl md:text-2xl font-bold mb-4">Info Donasi</h3>
         <p className="text-center text-gray-800 text-xs md:text-sm leading-relaxed max-w-xs sm:max-w-sm md:max-w-xl lg:max-w-2xl px-4 mx-auto mb-8">
-            SONJO Husada adalah program kerjasama antara Sambatan Jogja (SONJO) dan Tim Relawan Covid 19. 
-            Program ini bertujuan untuk menyalurkan bantuan logistik ke rumah sakit, puskesmas, klinik 
-            (fasilitas layanan kesehatan)  di Daerah Istimewa Yogyakarta dalam menghadapi Covid-19. 
-            Pemenuhan logistik ditujukan untuk semua yg berjuang di garda depan para Tenaga Kesehatan, 
+            SONJO Husada adalah program kerjasama antara Sambatan Jogja (SONJO) dan Tim Relawan Covid 19.
+            Program ini bertujuan untuk menyalurkan bantuan logistik ke rumah sakit, puskesmas, klinik
+            (fasilitas layanan kesehatan)  di Daerah Istimewa Yogyakarta dalam menghadapi Covid-19.
+            Pemenuhan logistik ditujukan untuk semua yg berjuang di garda depan para Tenaga Kesehatan,
             Pasien dan Keluarga.
         </p>
 
         <p className="text-center text-gray-800 text-xs md:text-sm leading-relaxed max-w-xs sm:max-w-sm md:max-w-xl lg:max-w-2xl px-4 mx-auto mb-8">
-            Untuk mendukung program SONJO Husada, 
-            situs <b>Peduli Corona</b> dibangun untuk mempermudah donatur/masyarakat yang peduli 
-            untuk meringankan dengan memenuhi kebutuhan logistik medis dan non-medis. 
+            Untuk mendukung program SONJO Husada,
+            situs <b>Peduli Corona</b> dibangun untuk mempermudah donatur/masyarakat yang peduli
+            untuk meringankan dengan memenuhi kebutuhan logistik medis dan non-medis.
             Situs ini dikembangkan oleh Tim Relawan Covid 19 dan gerakan Sambatan Jogja (SONJO).
         </p>
 
@@ -40,12 +40,6 @@ const InfoDonasi = () => (
             <BigCardList number="4">
                 Pilih menu <span className="font-semibold">‘Alokasi Bantuan’</span>, kemudian pilih permohonan bantuan yang akan dibantu. Setelah memilih, alokasikan donasi berupa barang yang sudah berlabel 'Ready'
             </BigCardList>
-
-            <BigCardList number="5">
-                Jika membutuhkan dokumen bukti penyerahan bisa didownload di link berikut <a href="shorturl.at/uxCWY"><strong>shorturl.at/uxCWY. </strong></a>
-                Dokumen yang sudah diisi dan foto bukti donasi kemudian bisa diunggah melalui <a href="shorturl.at/hyFVW"><strong>shorturl.at/hyFVW</strong></a> atau dikirimkan ke e-mail 
-                <strong> sonjo.supply.demand@gmail.com</strong>
-            </BigCardList>
         </BigCard>
 
         <BigCard title="Langkah Donasi Dana">
@@ -57,10 +51,21 @@ const InfoDonasi = () => (
                 kegiatan ini ditambahkan angka 123. Misal Anda ingin mendonasikan Rp50.000, tambahkan 123 di akhir
                 sehingga menjadi Rp50.123
             </BigCardList>
+        </BigCard>
+
+        <BigCard title="Info Tambahan">
+            <BigCardList number="1">
+                Jika membutuhkan, dokumen bukti penyerahan bisa didownload di link berikut <a href="https://shorturl.at/uxCWY" className="font-semibold text-blue-800 hover:underline">shorturl.at/uxCWY. </a>
+                Dokumen yang sudah diisi dan foto bukti donasi kemudian bisa diunggah melalui <a href="https://shorturl.at/hyFVW" className="font-semibold text-blue-800 hover:underline">shorturl.at/hyFVW</a> atau dikirimkan ke e-mail
+                <a href="mailto:sonjo.supply.demand@gmail.com" className="font-semibold text-blue-800 hover:underline"> sonjo.supply.demand@gmail.com</a>
+            </BigCardList>
+
+            <BigCardList number="2">
+                List produsen alkes yg berada dibawah koordinasi Sonjo Legawa bisa dilihat pada link berikut <a href="https://shorturl.at/ctI06" className="font-semibold text-blue-800 hover:underline">shorturl.at/ctI06</a>
+            </BigCardList>
+
             <BigCardList number="3">
-                Jika membutuhkan dokumen bukti penyerahan bisa didownload di link berikut <a href="shorturl.at/uxCWY"><strong>shorturl.at/uxCWY. </strong></a>
-                Dokumen yang sudah diisi dan foto bukti donasi kemudian bisa diunggah melalui <a href="shorturl.at/hyFVW"><strong>shorturl.at/hyFVW</strong></a> atau dikirimkan ke e-mail 
-                <strong> sonjo.supply.demand@gmail.com</strong>
+                Penjelasan konfirmasi penguruman dana bisa ke CP dari masing-masing lembaga penerima.
             </BigCardList>
         </BigCard>
 
