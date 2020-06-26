@@ -214,7 +214,7 @@ const LandingPage = () => {
             }
         } else {
             if (filteredDataDemand.length === 0) {
-                content = <p className="text-center text-sm md:text-base font-semibold">Saat ini tidak ada data kebutuhan.</p>
+                content = <p className="text-center text-gray-800 text-sm md:text-base font-semibold">Saat ini tidak ada data kebutuhan.</p>
             } else {
                 content = <Table columns={demandColumns} data={filteredDataDemand} isLandingPage={true} />
             }

@@ -9,9 +9,18 @@ const InfoDonasi = () => (
     <div className="bg-gray-200 py-16">
         <h3 className="text-center text-blue-800 text-xl md:text-2xl font-bold mb-4">Info Donasi</h3>
         <p className="text-center text-gray-800 text-xs md:text-sm leading-relaxed max-w-xs sm:max-w-sm md:max-w-xl lg:max-w-2xl px-4 mx-auto mb-8">
-            SONJO Husada membantu pengadaan logistik medis dan non medis. Donasi yang terkumpul melalui gerakan ini di
-            lembaga-lembaga kemanusiaan di bawah akan disalurkan langsung ke RS dan Puskesmas untuk logistik Fasyankes
-            di DIY. SONJO Husada juga menerima sumbangan dalam bentuk barang yang bisa dikoordinasikan bersama.
+            SONJO Husada adalah program kerjasama antara Sambatan Jogja (SONJO) dan Tim Relawan Covid 19. 
+            Program ini bertujuan untuk menyalurkan bantuan logistik ke rumah sakit, puskesmas, klinik 
+            (fasilitas layanan kesehatan)  di Daerah Istimewa Yogyakarta dalam menghadapi Covid-19. 
+            Pemenuhan logistik ditujukan untuk semua yg berjuang di garda depan para Tenaga Kesehatan, 
+            Pasien dan Keluarga.
+        </p>
+
+        <p className="text-center text-gray-800 text-xs md:text-sm leading-relaxed max-w-xs sm:max-w-sm md:max-w-xl lg:max-w-2xl px-4 mx-auto mb-8">
+            Untuk mendukung program SONJO Husada, 
+            situs <b>Peduli Corona</b> dibangun untuk mempermudah donatur/masyarakat yang peduli 
+            untuk meringankan dengan memenuhi kebutuhan logistik medis dan non-medis. 
+            Situs ini dikembangkan oleh Tim Relawan Covid 19 dan gerakan Sambatan Jogja (SONJO).
         </p>
 
         <BigCard title="Langkah Donasi Barang dan Alat Kesehatan">

@@ -18,12 +18,11 @@ const Select = (props) => {
         className={`${props.landingPage ? 'w-auto mb-2' : 'w-full mb-3'} bg-gray-400 bg-gray-400 text-gray-700 p-2 rounded-md w-20 text-center font-semibold text-sm capitalize cursor-pointer outline-none focus:shadow-outline`}
         style={{ width: props.width, maxWidth: props.maxWidth, height: 40 }}
         onChange={handleChange}>
-        if(props.arrayList) {
-          props.arrayList.map((item, index) => (
-            <option key={props.landingPage ? item.name : item.id} value={item.name} className="text-gray-700 font-semibold text-xs md:text-sm outline-none border-none capitalize cursor-pointer" >
-              {item.name}
-            </option>
-          ))
+        {props.arrayList && props.arrayList.map((item, index) => (
+          <option key={props.landingPage ? item.name : item.id} value={item.name} className="bg-gray-100 text-gray-800 text-xs outline-none border-none capitalize cursor-pointer" >
+            {item.name}
+          </option>
+        ))
         }
       </select>
     </div>
