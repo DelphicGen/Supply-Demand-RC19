@@ -47,13 +47,13 @@ const InfoDonasi = () => (
 
         <BigCard title="Info Tambahan">
             <BigCardList number="1">
-                Jika membutuhkan, dokumen bukti penyerahan bisa didownload di link berikut <a href="https://shorturl.at/uxCWY" className="font-semibold text-blue-800 hover:underline">shorturl.at/uxCWY. </a>
-                Dokumen yang sudah diisi dan foto bukti donasi kemudian bisa diunggah melalui <a href="https://shorturl.at/hyFVW" className="font-semibold text-blue-800 hover:underline">shorturl.at/hyFVW</a> atau dikirimkan ke e-mail
+                Jika membutuhkan, dokumen bukti penyerahan bisa didownload di link berikut <a href="https://shorturl.at/uxCWY" className="font-semibold text-blue-800 hover:underline">shorturl.at/uxCWY</a>. 
+                Dokumen yang sudah diisi dan foto bukti donasi kemudian bisa diunggah melalui <a href="https://shorturl.at/mxAJU" className="font-semibold text-blue-800 hover:underline">shorturl.at/mxAJU</a> atau dikirimkan ke e-mail
                 <a href="mailto:sonjo.supply.demand@gmail.com" className="font-semibold text-blue-800 hover:underline"> sonjo.supply.demand@gmail.com</a>
             </BigCardList>
 
             <BigCardList number="2">
-                List produsen alkes yg berada dibawah koordinasi Sonjo Legawa bisa dilihat pada link berikut <a href="https://shorturl.at/ctI06" className="font-semibold text-blue-800 hover:underline">shorturl.at/ctI06</a>
+                List produsen alkes yg berada dibawah koordinasi Sonjo Legawa bisa dilihat pada link berikut <a href="https://shorturl.at/amtNQ" className="font-semibold text-blue-800 hover:underline">shorturl.at/amtNQ</a>
             </BigCardList>
 
             <BigCardList number="3">
